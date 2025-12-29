@@ -5,10 +5,12 @@ import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
+import { placeHolderImages } from "@/lib/placeholder-images";
 
 export function AboutSection() {
   const { language } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations : enTranslations;
+  const aboutImage = placeHolderImages.find(p => p.id === 'about-portrait');
   
   return (
     <section id="about" className="py-20 sm:py-32 animate-fade-in-up">
@@ -26,14 +28,16 @@ export function AboutSection() {
             </div>
           </div>
           <div className="flex justify-center">
-            <Image
-              src="/my-photo.jpg"
-              alt={translations.about.imageAlt}
-              width={400}
-              height={500}
-              data-ai-hint="professional man"
-              className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"
-            />
+            {aboutImage && (
+              <Image
+                src={aboutImage.imageUrl}
+                alt={translations.about.imageAlt}
+                width={400}
+                height={500}
+                data-ai-hint={aboutImage.imageHint}
+                className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"
+              />
+            )}
           </div>
         </div>
       </div>
