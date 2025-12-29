@@ -7,6 +7,8 @@ import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
+import { useScrollSpy } from "@/hooks/use-scroll-spy";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "#about", labelKey: "about" },
@@ -20,6 +22,7 @@ export function Header() {
   const { language, setLanguage } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -30,7 +33,14 @@ export function Header() {
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           {navLinks.map(({ href, labelKey }) => (
-            <Link key={labelKey} href={href} className="text-foreground/60 transition-colors hover:text-foreground/80">
+            <Link 
+              key={labelKey} 
+              href={href} 
+              className={cn(
+                "transition-colors hover:text-foreground/80",
+                `#${activeId}` === href ? "text-foreground" : "text-foreground/60"
+              )}
+            >
               {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
             </Link>
           ))}
