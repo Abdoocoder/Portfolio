@@ -16,7 +16,7 @@ const contactMethods = [
   {
     nameKey: "linkedin",
     icon: Linkedin,
-    href: "https://www.linkedin.com/in/abdullah-abu-sghaira/",
+    href: "https://www.linkedin.com/me?trk=p_mwlite_profile_self-secondary_nav",
   },
   {
     nameKey: "github",
