@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
-import { Figtree, Playfair_Display } from 'next/font/google';
+import { Figtree } from 'next/font/google';
 import { LanguageProvider } from './context/language-context';
 
 const figtree = Figtree({
@@ -9,12 +9,6 @@ const figtree = Figtree({
   display: 'swap',
   variable: '--font-figtree',
 });
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-playfair-display',
-});
-
 
 export const metadata: Metadata = {
   title: 'PortfolioFlow | Abdullah Abu Sghaira',
@@ -28,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <html lang="en" className={`scroll-smooth ${figtree.variable} ${playfair.variable}`} data-theme="light">
+      <html lang="en" className={`scroll-smooth ${figtree.variable}`} data-theme="light">
         <head>
         </head>
         <body className="font-body antialiased">

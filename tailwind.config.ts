@@ -18,7 +18,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['var(--font-figtree)', 'sans-serif'],
-        headline: ['var(--font-playfair-display)', 'serif'],
+        headline: ['var(--font-figtree)', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
