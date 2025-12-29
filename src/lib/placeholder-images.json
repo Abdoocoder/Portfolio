@@ -15,7 +15,7 @@
     {
       "id": "project-colors-of-madaba",
       "description": "A preview of the Colors of Madaba website",
-      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/colors-of-madaba/main/public/placeholder-hero.jpg",
+      "imageUrl": "/colorofmadaba.jpg",
       "imageHint": "Madaba Jordan"
     }
   ]
