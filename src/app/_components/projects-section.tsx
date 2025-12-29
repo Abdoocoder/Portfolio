@@ -48,43 +48,41 @@ export function ProjectsSection() {
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-1">
           {projects.map((project, index) => (
-            <Card key={project.titleKey} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
-              <div className={cn("grid grid-cols-1 md:grid-cols-2")}>
-                <div className={cn("p-6 flex flex-col justify-center", index % 2 !== 0 ? "md:order-2" : "", language === 'ar' ? "text-right" : "")}>
-                  <CardHeader className="p-0">
-                    <CardTitle className="font-headline text-2xl text-primary">{translations[project.titleKey as keyof typeof translations]}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-0 mt-4 flex-grow space-y-4">
-                    <p className="text-muted-foreground">{translations[project.descriptionKey as keyof typeof translations]}</p>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {project.techStack.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-0 mt-6 gap-4">
-                    <Button asChild>
-                      <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-4 w-4" /> {translations.liveDemo}
-                      </a>
-                    </Button>
-                    <Button asChild variant="outline">
-                      <a href={project.githubRepoUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" /> {translations.github}
-                      </a>
-                    </Button>
-                  </CardFooter>
-                </div>
-                {project.image && (
-                  <div className={cn("relative min-h-[250px] md:min-h-[400px]", index % 2 !== 0 ? "md:order-1" : "")}>
-                    <Image
-                      src={project.image.imageUrl}
-                      alt={project.image.description}
-                      fill
-                      data-ai-hint={project.image.imageHint}
-                      className="object-contain transition-transform duration-300 hover:scale-105"
-                    />
+            <Card key={project.titleKey} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl grid grid-cols-1 md:grid-cols-2">
+              <div className={cn("p-6 flex flex-col justify-center", language === 'ar' ? "md:order-1 text-right" : "md:order-2")}>
+                <CardHeader className="p-0">
+                  <CardTitle className="font-headline text-2xl text-primary">{translations[project.titleKey as keyof typeof translations]}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0 mt-4 flex-grow space-y-4">
+                  <p className="text-muted-foreground">{translations[project.descriptionKey as keyof typeof translations]}</p>
+                  <div className="flex flex-wrap gap-2 pt-2" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+                    {project.techStack.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
                   </div>
-                )}
+                </CardContent>
+                <CardFooter className="p-0 mt-6 gap-4">
+                  <Button asChild>
+                    <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="mr-2 h-4 w-4" /> {translations.liveDemo}
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <a href={project.githubRepoUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-4 w-4" /> {translations.github}
+                    </a>
+                  </Button>
+                </CardFooter>
               </div>
+              {project.image && (
+                <div className={cn("relative min-h-[250px] md:min-h-[400px]", language === 'ar' ? "md:order-2" : "md:order-1")}>
+                  <Image
+                    src={project.image.imageUrl}
+                    alt={project.image.description}
+                    fill
+                    data-ai-hint={project.image.imageHint}
+                    className="object-contain transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+              )}
             </Card>
           ))}
         </div>
