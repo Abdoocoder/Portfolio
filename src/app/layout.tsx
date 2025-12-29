@@ -1,7 +1,8 @@
-import type {Metadata} from 'next';
-import { Toaster } from "@/components/ui/toaster"
+import type { Metadata } from 'next';
+import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 import { Figtree, Playfair_Display } from 'next/font/google';
+import { LanguageProvider } from './context/language-context';
 
 const figtree = Figtree({
   subsets: ['latin'],
@@ -26,13 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${figtree.variable} ${playfair.variable}`}>
-      <head>
-      </head>
-      <body className="font-body antialiased">
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <LanguageProvider>
+      <html lang="en" className={`scroll-smooth ${figtree.variable} ${playfair.variable}`}>
+        <head>
+        </head>
+        <body className="font-body antialiased">
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </LanguageProvider>
   );
 }

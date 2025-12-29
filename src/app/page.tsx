@@ -1,3 +1,5 @@
+'use client';
+import { useContext } from 'react';
 import { Header } from './_components/header';
 import { HeroSection } from './_components/hero-section';
 import { AboutSection } from './_components/about-section';
@@ -8,8 +10,17 @@ import { EducationSection } from './_components/education-section';
 import { InterestsSection } from './_components/interests-section';
 import { ContactSection } from './_components/contact-section';
 import { Footer } from './_components/footer';
+import { LanguageContext } from './context/language-context';
+import { useEffect } from 'react';
 
 export default function Home() {
+  const { language } = useContext(LanguageContext);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+  }, [language]);
+
   return (
     <div className="flex min-h-dvh flex-col bg-background text-foreground">
       <Header />

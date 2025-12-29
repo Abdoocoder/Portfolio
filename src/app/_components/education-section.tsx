@@ -1,25 +1,33 @@
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SectionHeading } from "./section-heading";
 import { GraduationCap } from "lucide-react";
+import { useContext } from "react";
+import { LanguageContext } from "../context/language-context";
+import arTranslations from '../../translations/ar.json';
+import enTranslations from '../../translations/en.json';
 
 const education = [
   {
-    degree: "Bachelor’s Degree in Business Administration",
-    institution: "University of the People",
-    duration: "Ongoing (Distance Learning)",
+    degreeKey: "bba.degree",
+    institutionKey: "bba.institution",
+    durationKey: "bba.duration",
   },
   {
-    degree: "Diploma in Information Technology",
-    institution: "Al-Balqa Applied University",
-    duration: "Graduated 2013",
+    degreeKey: "itDiploma.degree",
+    institutionKey: "itDiploma.institution",
+    durationKey: "itDiploma.duration",
   },
 ];
 
 export function EducationSection() {
+  const { language } = useContext(LanguageContext);
+  const translations = language === 'ar' ? arTranslations.education : enTranslations.education;
+
   return (
     <section id="education" className="py-20 sm:py-32 animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading className="text-center">Education</SectionHeading>
+        <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           {education.map((edu, index) => (
             <Card 
@@ -30,12 +38,12 @@ export function EducationSection() {
               <CardHeader className="flex flex-row items-center gap-4">
                 <GraduationCap className="h-10 w-10 text-accent" />
                 <div>
-                  <CardTitle className="text-lg font-bold font-headline">{edu.degree}</CardTitle>
+                  <CardTitle className="text-lg font-bold font-headline">{translations[edu.degreeKey as keyof typeof translations]}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="font-semibold text-primary">{edu.institution}</p>
-                <p className="text-sm text-muted-foreground">{edu.duration}</p>
+                <p className="font-semibold text-primary">{translations[edu.institutionKey as keyof typeof translations]}</p>
+                <p className="text-sm text-muted-foreground">{translations[edu.durationKey as keyof typeof translations]}</p>
               </CardContent>
             </Card>
           ))}
