@@ -17,12 +17,16 @@ const education = [
 
 export function EducationSection() {
   return (
-    <section id="education" className="py-20 sm:py-32">
+    <section id="education" className="py-20 sm:py-32 animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">Education</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
           {education.map((edu, index) => (
-            <Card key={index} className="transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+            <Card 
+              key={index} 
+              className="transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+              style={{ animationDelay: `${200 + index * 100}ms` }}
+            >
               <CardHeader className="flex flex-row items-center gap-4">
                 <GraduationCap className="h-10 w-10 text-accent" />
                 <div>

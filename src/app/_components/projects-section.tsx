@@ -26,12 +26,12 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="py-20 sm:py-32">
+    <section id="projects" className="py-20 sm:py-32 animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">Featured Project</SectionHeading>
         <div className="mt-12 max-w-4xl mx-auto">
           {projects.map((project) => (
-            <Card key={project.title} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
+            <Card key={project.title} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="p-6 flex flex-col">
                   <CardHeader className="p-0">

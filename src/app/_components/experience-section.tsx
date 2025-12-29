@@ -18,17 +18,17 @@ const experiences = [
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-20 sm:py-32 bg-secondary">
+    <section id="experience" className="py-20 sm:py-32 bg-secondary animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">Professional Experience</SectionHeading>
         <div className="mt-12 max-w-3xl mx-auto">
           <div className="relative border-l-2 border-primary/20">
             {experiences.map((exp, index) => (
-              <div key={index} className="mb-10 ml-8">
+              <div key={index} className="mb-10 ml-8 transition-all duration-300 hover:ml-9">
                 <span className="absolute -left-[11px] flex h-6 w-6 items-center justify-center rounded-full bg-primary ring-8 ring-secondary">
                   <Briefcase className="h-4 w-4 text-primary-foreground" />
                 </span>
-                <div className="p-4 bg-background rounded-lg shadow-sm">
+                <div className="p-4 bg-background rounded-lg shadow-sm transition-shadow hover:shadow-md">
                   <h3 className="text-xl font-bold font-headline text-primary">{exp.role}</h3>
                   <p className="font-semibold text-accent">{exp.company}</p>
                   <time className="block mb-2 text-sm font-normal leading-none text-muted-foreground">{exp.duration}</time>

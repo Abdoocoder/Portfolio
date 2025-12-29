@@ -3,7 +3,7 @@ import { SectionHeading } from "./section-heading";
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-20 sm:py-32">
+    <section id="about" className="py-20 sm:py-32 animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-6">
@@ -24,7 +24,7 @@ export function AboutSection() {
               width={400}
               height={500}
               data-ai-hint="professional man"
-              className="rounded-lg object-cover shadow-lg"
+              className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"
             />
           </div>
         </div>
