@@ -44,14 +44,14 @@ export function Header() {
           <Code2 className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline text-lg">{translations.header.name}</span>
         </Link>
-        <nav ref={navRef} className="hidden md:flex relative items-center space-x-6 text-sm font-medium">
+        <nav ref={navRef} className="hidden md:flex relative items-center space-x-1 text-sm font-medium">
           {navLinks.map(({ href, labelKey }) => (
             <Link 
               key={labelKey} 
               href={href}
               data-active={`#${activeId}` === href}
               className={cn(
-                "transition-colors hover:text-foreground/80 z-10 px-2 py-1",
+                "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5",
                 `#${activeId}` === href ? "text-primary-foreground" : "text-foreground/60"
               )}
             >
@@ -59,7 +59,7 @@ export function Header() {
             </Link>
           ))}
           <div 
-            className="absolute bottom-[-2px] h-[32px] bg-primary rounded-md transition-all duration-300 ease-in-out"
+            className="absolute h-full bg-primary rounded-md transition-all duration-300 ease-in-out"
             style={indicatorStyle}
           />
         </nav>
