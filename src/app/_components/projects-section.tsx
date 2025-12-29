@@ -74,7 +74,7 @@ export function ProjectsSection() {
                       alt={project.image.description}
                       fill
                       data-ai-hint={project.image.imageHint}
-                      className="object-cover"
+                      className="object-contain"
                     />
                   )}
                 </div>
