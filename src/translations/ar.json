@@ -37,7 +37,7 @@
     }
   },
   "projects": {
-    "title": "مشروع مميز",
+    "title": "المشاريع",
     "liveDemo": "عرض مباشر",
     "github": "GitHub",
     "smartAttendance.title": "نظام الموافقة الذكية على الدوام",
@@ -46,7 +46,9 @@
     "smartAttendance.features.feature2": "التحكم في الوصول القائم على الأدوار (موظف، مشرف، مسؤول).",
     "smartAttendance.features.feature3": "سير عمل سهل لتقديم الحضور والموافقة عليه.",
     "smartAttendance.features.feature4": "لوحة تحكم إدارية للإشراف والإدارة.",
-    "smartAttendance.features.feature5": "قاعدة بيانات مركزية مع سجل تدقيق كامل."
+    "smartAttendance.features.feature5": "قاعدة بيانات مركزية مع سجل تدقيق كامل.",
+    "colorsOfMadaba.title": "ألوان مادبا",
+    "colorsOfMadaba.description": "تطبيق ويب غني بصريًا مخصص لعرض الفن والثقافة والتاريخ النابض بالحياة في مدينة مادبا، الأردن."
   },
   "experience": {
     "title": "الخبرة المهنية",

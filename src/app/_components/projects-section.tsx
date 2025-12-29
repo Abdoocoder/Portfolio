@@ -27,6 +27,14 @@ const projects = [
     liveDemoUrl: "https://tayid-aldawam.vercel.app/dashboard",
     githubRepoUrl: "https://github.com/Abdoocoder/tayid-aldawam",
     image: placeHolderImages.find(p => p.id === 'project-smart-attendance'),
+  },
+  {
+    titleKey: "colorsOfMadaba.title",
+    descriptionKey: "colorsOfMadaba.description",
+    techStack: ["Next.js", "Tailwind CSS", "ShadCN UI", "TypeScript"],
+    liveDemoUrl: "https://colorsofmadaba.vercel.app/",
+    githubRepoUrl: "https://github.com/Abdoocoder/colors-of-madaba",
+    image: placeHolderImages.find(p => p.id === 'project-colors-of-madaba'),
   }
 ];
 
@@ -39,10 +47,10 @@ export function ProjectsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-1">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <Card key={project.titleKey} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">
-              <div className={cn("grid grid-cols-1 md:grid-cols-2", language === 'ar' ? "md:direction-rtl" : "")}>
-                <div className={cn("p-6 flex flex-col justify-center", language === 'ar' ? "md:order-2 text-right" : "")}>
+              <div className={cn("grid grid-cols-1 md:grid-cols-2", (language === 'ar' && index % 2 !== 0) || (language === 'en' && index % 2 !== 0) ? "md:direction-rtl" : "")}>
+                <div className={cn("p-6 flex flex-col justify-center", (language === 'ar' && index % 2 === 0) || (language === 'en' && index % 2 !== 0) ? "md:order-2 text-right" : "")}>
                   <CardHeader className="p-0">
                     <CardTitle className="font-headline text-2xl text-primary">{translations[project.titleKey as keyof typeof translations]}</CardTitle>
                   </CardHeader>
@@ -66,7 +74,7 @@ export function ProjectsSection() {
                   </CardFooter>
                 </div>
                 {project.image && (
-                  <div className={cn("relative min-h-[250px] md:min-h-[400px]", language === 'ar' ? "md:order-1" : "")}>
+                  <div className={cn("relative min-h-[250px] md:min-h-[400px]", (language === 'ar' && index % 2 === 0) || (language === 'en' && index % 2 !== 0) ? "md:order-1" : "")}>
                     <Image
                       src={project.image.imageUrl}
                       alt={project.image.description}

@@ -37,7 +37,7 @@
     }
   },
   "projects": {
-    "title": "Featured Project",
+    "title": "Projects",
     "liveDemo": "Live Demo",
     "github": "GitHub",
     "smartAttendance.title": "Smart Attendance Approval System",
@@ -46,7 +46,9 @@
     "smartAttendance.features.feature2": "Role-based access control (Employee, Supervisor, Admin).",
     "smartAttendance.features.feature3": "Intuitive workflow for attendance submission and approval.",
     "smartAttendance.features.feature4": "Administrative dashboard for oversight and management.",
-    "smartAttendance.features.feature5": "Centralized database with a complete audit trail."
+    "smartAttendance.features.feature5": "Centralized database with a complete audit trail.",
+    "colorsOfMadaba.title": "Colors of Madaba",
+    "colorsOfMadaba.description": "A visually rich web application dedicated to showcasing the vibrant art, culture, and history of Madaba, Jordan."
   },
   "experience": {
     "title": "Professional Experience",
