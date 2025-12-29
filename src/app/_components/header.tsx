@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { Code2, Menu } from "lucide-react";
+import { Code2, Menu, Download } from "lucide-react";
 import { useContext, useState } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
@@ -67,6 +67,16 @@ export function Header() {
                           </Link>
                         </SheetClose>
                       ))}
+                      <SheetClose asChild>
+                        <a 
+                          href="/CV.pdf" 
+                          download="Abdullah_Abu_Sghaira_CV.pdf"
+                          className="inline-flex items-center justify-center text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                        >
+                          <Download className="me-2 h-5 w-5" />
+                          {translations.header.downloadCvButton}
+                        </a>
+                      </SheetClose>
                     </nav>
                     <div className="mt-auto flex items-center gap-2">
                         <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>

@@ -7,15 +7,15 @@
       "projects": "Projects",
       "experience": "Experience",
       "contact": "Contact"
-    }
+    },
+    "downloadCvButton": "Download CV"
   },
   "hero": {
     "name": "Abdullah Abu Sghaira",
     "title": "IT Specialist & Web Systems Developer",
     "subtitle": "From Jordan, specializing in digital transformation and workflow automation. I build modern, efficient web systems for public-sector administration.",
     "contactButton": "Contact Me",
-    "workButton": "View My Work",
-    "downloadCvButton": "Download CV"
+    "workButton": "View My Work"
   },
   "about": {
     "title": "About Me",

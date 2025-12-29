@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowDown, Download } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
@@ -33,12 +33,6 @@ export function HeroSection() {
                 {translations.hero.workButton}
                 <ArrowDown className="ms-2 h-4 w-4 animate-bounce" />
               </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="bg-background">
-              <a href="/CV.pdf" download="Abdullah_Abu_Sghaira_CV.pdf">
-                {translations.hero.downloadCvButton}
-                <Download className="ms-2 h-4 w-4" />
-              </a>
             </Button>
           </div>
         </div>
