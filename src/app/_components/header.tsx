@@ -1,7 +1,7 @@
 'use client';
 import Link from "next/link";
 import { Code2, Menu, Download } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
@@ -24,6 +24,19 @@ export function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
 
+  const navRef = useRef<HTMLElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({});
+
+  useEffect(() => {
+    const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
+    if (activeLink) {
+      setIndicatorStyle({
+        left: activeLink.offsetLeft,
+        width: activeLink.offsetWidth,
+      });
+    }
+  }, [activeId, language]);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -31,19 +44,24 @@ export function Header() {
           <Code2 className="h-6 w-6 text-primary" />
           <span className="font-bold font-headline text-lg">{translations.header.name}</span>
         </Link>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <nav ref={navRef} className="hidden md:flex relative items-center space-x-6 text-sm font-medium">
           {navLinks.map(({ href, labelKey }) => (
             <Link 
               key={labelKey} 
-              href={href} 
+              href={href}
+              data-active={`#${activeId}` === href}
               className={cn(
-                "transition-colors hover:text-foreground/80",
-                `#${activeId}` === href ? "text-foreground" : "text-foreground/60"
+                "transition-colors hover:text-foreground/80 z-10 px-2 py-1",
+                `#${activeId}` === href ? "text-primary-foreground" : "text-foreground/60"
               )}
             >
               {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
             </Link>
           ))}
+          <div 
+            className="absolute bottom-[-2px] h-[32px] bg-primary rounded-md transition-all duration-300 ease-in-out"
+            style={indicatorStyle}
+          />
         </nav>
         <div className="flex items-center gap-2">
           <div className="hidden sm:flex items-center gap-2">
