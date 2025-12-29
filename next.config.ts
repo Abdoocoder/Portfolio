@@ -42,6 +42,14 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  experimental: {
+    allowedDevOrigins: [
+      '*.cloudworkstations.dev',
+    ]
+  },
+  devIndicators: {
+    buildActivity: false
+  }
 };
 
 export default nextConfig;
