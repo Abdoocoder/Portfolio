@@ -1,10 +1,7 @@
 import Image from "next/image";
 import { SectionHeading } from "./section-heading";
-import { placeHolderImages } from "@/lib/placeholder-images";
 
 export function AboutSection() {
-  const aboutImage = placeHolderImages.find(p => p.id === 'about-portrait');
-
   return (
     <section id="about" className="py-20 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,16 +18,14 @@ export function AboutSection() {
             </div>
           </div>
           <div className="flex justify-center">
-            {aboutImage && (
-              <Image
-                src={aboutImage.imageUrl}
-                alt={aboutImage.description}
-                width={400}
-                height={500}
-                data-ai-hint={aboutImage.imageHint}
-                className="rounded-lg object-cover shadow-lg"
-              />
-            )}
+            <Image
+              src="/my-photo.jpg"
+              alt="Professional portrait of Abdullah Abu Sghaira"
+              width={400}
+              height={500}
+              data-ai-hint="professional man"
+              className="rounded-lg object-cover shadow-lg"
+            />
           </div>
         </div>
       </div>
