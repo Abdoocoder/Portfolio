@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "./section-heading";
-import { Github, Linkedin, Mail, Facebook } from "lucide-react";
+import { Github, Linkedin, Mail, Facebook, MessageSquare } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
@@ -28,6 +28,11 @@ const contactMethods = [
     icon: Facebook,
     href: "https://www.facebook.com/AbdoRaf3",
   },
+  {
+    nameKey: "whatsapp",
+    icon: MessageSquare,
+    href: "https://wa.me/962780394700",
+  }
 ];
 
 export function ContactSection() {
@@ -41,7 +46,7 @@ export function ContactSection() {
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           {translations.subtitle}
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-6">
+        <div className="mt-10 flex flex-wrap justify-center items-center gap-6">
           {contactMethods.map((method) => (
             <Button key={method.nameKey} asChild variant="outline" size="lg" className="bg-background">
               <a href={method.href} target="_blank" rel="noopener noreferrer">
