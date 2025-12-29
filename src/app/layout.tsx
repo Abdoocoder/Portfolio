@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <html lang="en" className={`scroll-smooth ${figtree.variable} ${playfair.variable}`}>
+      <html lang="en" className={`scroll-smooth ${figtree.variable} ${playfair.variable}`} data-theme="light">
         <head>
         </head>
         <body className="font-body antialiased">
