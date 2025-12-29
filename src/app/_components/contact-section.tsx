@@ -11,7 +11,7 @@ const contactMethods = [
   {
     nameKey: "email",
     icon: Mail,
-    href: "mailto:abosghaira.dev@gmail.com",
+    href: "mailto:abdoocoder@gmail.com",
   },
   {
     nameKey: "linkedin",
