@@ -6,7 +6,7 @@ import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 
 const navLinks = [
   { href: "#about", labelKey: "about" },
@@ -49,6 +49,7 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side={language === 'ar' ? 'right' : 'left'}>
+                <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="flex flex-col h-full py-6">
                     <Link href="/" className="flex items-center gap-2 mb-8">
                       <Code2 className="h-6 w-6 text-primary" />
