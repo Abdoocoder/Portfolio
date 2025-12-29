@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "./section-heading";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Facebook } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
@@ -22,6 +22,11 @@ const contactMethods = [
     nameKey: "github",
     icon: Github,
     href: "https://github.com/Abdoocoder",
+  },
+  {
+    nameKey: "facebook",
+    icon: Facebook,
+    href: "https://www.facebook.com/AbdoRaf3",
   },
 ];
 

@@ -83,7 +83,8 @@
     "methods": {
       "email": "البريد الإلكتروني",
       "linkedin": "لينكد إن",
-      "github": "جيت هب"
+      "github": "جيت هب",
+      "facebook": "فيسبوك"
     }
   },
   "footer": {

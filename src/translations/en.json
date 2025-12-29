@@ -83,7 +83,8 @@
     "methods": {
       "email": "Email",
       "linkedin": "LinkedIn",
-      "github": "GitHub"
+      "github": "GitHub",
+      "facebook": "Facebook"
     }
   },
   "footer": {
