@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "project-madaba-women-market",
+      "description": "A preview of the Madaba Women Market website",
+      "imageUrl": "https://images.unsplash.com/photo-1655574225549-5508efa3e8c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxqb3JkYW4lMjBtYXJrZXR8ZW58MHx8fHwxNzY3MDQ1MzgzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "jordan market"
+    },
+    {
       "id": "project-smart-attendance",
       "description": "Dashboard for the Smart Attendance Approval System",
       "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/tayid-aldawam/main/public/dashboard-mockup.png",

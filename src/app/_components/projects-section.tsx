@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { SectionHeading } from "./section-heading";
 import { placeHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
@@ -14,15 +14,16 @@ import { cn } from "@/lib/utils";
 
 const projects = [
   {
+    titleKey: "madabaWomenMarket.title",
+    descriptionKey: "madabaWomenMarket.description",
+    techStack: ["Next.js", "Firebase", "Tailwind CSS"],
+    liveDemoUrl: "https://madaba-women-market.vercel.app/",
+    githubRepoUrl: "https://github.com/Abdoocoder/madaba-women-market",
+    image: placeHolderImages.find(p => p.id === 'project-madaba-women-market'),
+  },
+  {
     titleKey: "smartAttendance.title",
     descriptionKey: "smartAttendance.description",
-    featuresKeys: [
-      "smartAttendance.features.feature1",
-      "smartAttendance.features.feature2",
-      "smartAttendance.features.feature3",
-      "smartAttendance.features.feature4",
-      "smartAttendance.features.feature5",
-    ],
     techStack: ["React.js", "Firebase", "Vercel"],
     liveDemoUrl: "https://tayid-aldawam.vercel.app/dashboard",
     githubRepoUrl: "https://github.com/Abdoocoder/tayid-aldawam",
@@ -43,23 +44,23 @@ export function ProjectsSection() {
   const translations = language === 'ar' ? arTranslations.projects : enTranslations.projects;
 
   return (
-    <section id="projects" className="py-20 sm:py-32 animate-fade-in-up">
+    <section id="projects" className="py-20 sm:py-32 bg-secondary animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-1">
           {projects.map((project, index) => (
             <Card key={project.titleKey} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl grid grid-cols-1 md:grid-cols-2">
-              <div className={cn("p-6 flex flex-col justify-center", language === 'ar' ? "md:order-1 text-right" : "md:order-2")}>
-                <CardHeader className="p-0">
-                  <CardTitle className="font-headline text-2xl text-primary">{translations[project.titleKey as keyof typeof translations]}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 mt-4 flex-grow space-y-4">
+              <div className={cn("p-6 flex flex-col", language === 'ar' ? "md:order-1 text-right" : "")}>
+                <header>
+                  <h3 className="font-headline text-2xl font-bold text-primary">{translations[project.titleKey as keyof typeof translations]}</h3>
+                </header>
+                <div className="mt-4 flex-grow space-y-4">
                   <p className="text-muted-foreground">{translations[project.descriptionKey as keyof typeof translations]}</p>
-                  <div className="flex flex-wrap gap-2 pt-2" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+                  <div className={cn("flex flex-wrap gap-2 pt-2", language === 'ar' ? "justify-end" : "")}>
                     {project.techStack.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
                   </div>
-                </CardContent>
-                <CardFooter className="p-0 mt-6 gap-4">
+                </div>
+                <footer className="mt-6 flex items-center gap-4">
                   <Button asChild>
                     <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" /> {translations.liveDemo}
@@ -70,10 +71,10 @@ export function ProjectsSection() {
                       <Github className="mr-2 h-4 w-4" /> {translations.github}
                     </a>
                   </Button>
-                </CardFooter>
+                </footer>
               </div>
-              {project.image && (
-                <div className={cn("relative min-h-[250px] md:min-h-[400px]", language === 'ar' ? "md:order-2" : "md:order-1")}>
+              <div className={cn("relative min-h-[250px] md:min-h-full", language === 'ar' ? "md:order-2" : "")}>
+                {project.image && (
                   <Image
                     src={project.image.imageUrl}
                     alt={project.image.description}
@@ -81,8 +82,8 @@ export function ProjectsSection() {
                     data-ai-hint={project.image.imageHint}
                     className="object-contain transition-transform duration-300 hover:scale-105"
                   />
-                </div>
-              )}
+                )}
+              </div>
             </Card>
           ))}
         </div>
