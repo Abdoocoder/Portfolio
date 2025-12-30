@@ -3,7 +3,7 @@
     {
       "id": "project-madaba-women-market",
       "description": "A preview of the Madaba Women Market website",
-      "imageUrl": "/public/madaba-women-market.png",
+      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/Portfolio/main/public/madaba-women-market.png",
       "imageHint": "jordan market"
     },
     {
@@ -21,7 +21,7 @@
     {
       "id": "project-colors-of-madaba",
       "description": "A preview of the Colors of Madaba website",
-      "imageUrl": "/public/colorofmadaba.png",
+      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/Portfolio/main/public/colorofmadaba.png",
       "imageHint": "Madaba Jordan"
     }
   ]
