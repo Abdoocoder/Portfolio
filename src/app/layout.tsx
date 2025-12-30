@@ -1,19 +1,23 @@
 import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
-import { Figtree } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import { LanguageProvider } from './context/language-context';
 import { ThemeProvider } from './context/theme-context';
 import { defaultMetadata, generateStructuredData } from '@/lib/metadata';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const figtree = Figtree({
-  subsets: ['latin', 'latin-ext'],
+const inter = Inter({
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--font-figtree',
-  preload: true,
-  fallback: ['system-ui', 'arial'],
+  variable: '--font-inter',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
 });
 
 export const metadata: Metadata = defaultMetadata;
@@ -26,7 +30,7 @@ export default function RootLayout({
   const structuredData = generateStructuredData();
 
   return (
-    <html lang="en" className={`scroll-smooth ${figtree.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
