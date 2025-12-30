@@ -1,8 +1,9 @@
 'use client';
 import Link from "next/link";
-import { Code2, Menu, Download } from "lucide-react";
+import { Code2, Menu, Download, Moon, Sun } from "lucide-react";
 import { useContext, useState, useRef, useEffect } from "react";
 import { LanguageContext } from "../context/language-context";
+import { useTheme } from "../context/theme-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ const navLinks = [
 
 export function Header() {
   const { language, setLanguage } = useContext(LanguageContext);
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
@@ -39,11 +41,15 @@ export function Header() {
     }
   }, [activeId, language]);
 
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <Code2 className="h-6 w-6 text-primary" />
+        <Link href="/" className="flex items-center gap-2 group">
+          <Code2 className="h-6 w-6 text-primary transition-transform group-hover:scale-110" />
           <span className="font-bold font-headline text-lg">{translations.header.name}</span>
         </Link>
         <nav ref={navRef} className="hidden md:flex relative items-center space-x-1 text-sm font-medium">
@@ -53,7 +59,7 @@ export function Header() {
               href={href}
               data-active={`#${activeId}` === href}
               className={cn(
-                "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5",
+                "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5 rounded-md",
                 `#${activeId}` === href ? "text-primary-foreground" : "text-foreground/60"
               )}
             >
@@ -66,6 +72,19 @@ export function Header() {
           />
         </nav>
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="hidden sm:inline-flex"
+            aria-label="Toggle theme"
+          >
+            {resolvedTheme === 'dark' ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
           <div className="hidden sm:flex items-center gap-2">
             <Button variant={language === 'en' ? 'default' : 'outline'} size="sm" onClick={() => setLanguage('en')}>EN</Button>
             <Button variant={language === 'ar' ? 'default' : 'outline'} size="sm" onClick={() => setLanguage('ar')}>AR</Button>
@@ -73,7 +92,7 @@ export function Header() {
           <div className="md:hidden">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open navigation menu</span>
                 </Button>
@@ -108,9 +127,28 @@ export function Header() {
                       </a>
                     </SheetClose>
                   </nav>
-                  <div className="mt-auto flex items-center gap-2">
-                    <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>
-                    <SheetClose asChild><Button className="flex-1" variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')}>العربية</Button></SheetClose>
+                  <div className="mt-auto space-y-3">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={toggleTheme}
+                    >
+                      {resolvedTheme === 'dark' ? (
+                        <>
+                          <Sun className="me-2 h-4 w-4" />
+                          Light Mode
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="me-2 h-4 w-4" />
+                          Dark Mode
+                        </>
+                      )}
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>
+                      <SheetClose asChild><Button className="flex-1" variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')}>العربية</Button></SheetClose>
+                    </div>
                   </div>
                 </div>
               </SheetContent>
