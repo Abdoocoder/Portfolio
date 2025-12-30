@@ -1,0 +1,25 @@
+import { MetadataRoute } from 'next';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+    const baseUrl = 'https://abdullahsghaira.com'; // Update with your actual domain
+
+    const routes = [
+        '',
+        '/blog',
+    ];
+
+    const staticPages = routes.map((route) => ({
+        url: `${baseUrl}${route}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: route === '' ? 1 : 0.8,
+        alternates: {
+            languages: {
+                en: `${baseUrl}/en${route}`,
+                ar: `${baseUrl}/ar${route}`,
+            },
+        },
+    }));
+
+    return staticPages;
+}

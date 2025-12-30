@@ -1,0 +1,94 @@
+{
+  "header": {
+    "name": "Abdullah Abu Sghaira",
+    "nav": {
+      "about": "About",
+      "skills": "Skills",
+      "projects": "Projects",
+      "experience": "Experience",
+      "contact": "Contact"
+    },
+    "downloadCvButton": "Download CV"
+  },
+  "hero": {
+    "name": "Abdullah Abu Sghaira",
+    "title": "IT Specialist & Web Systems Developer",
+    "subtitle": "From Jordan, specializing in digital transformation and workflow automation. I build modern, efficient web systems for public-sector administration.",
+    "contactButton": "Contact Me",
+    "workButton": "View My Work"
+  },
+  "about": {
+    "title": "About Me",
+    "paragraph1": "I am an Information Technology specialist from Jordan with a passion for developing web systems that drive digital transformation. With a solid foundation in IT and ongoing studies in Business Administration, I bring a unique blend of technical expertise and strategic thinking to every project.",
+    "paragraph2": "My professional experience is rooted in the public sector, where I've focused on automating workflows and modernizing administrative systems. I thrive on analyzing complex processes and re-engineering them into efficient, user-centric digital solutions. My goal is to leverage technology to enhance organizational effectiveness and create seamless user experiences.",
+    "imageAlt": "Professional portrait of Abdullah Abu Sghaira"
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "items": {
+      "htmlCssJs": "HTML, CSS, JS",
+      "reactNext": "React.js / Next.js",
+      "firebase": "Firebase",
+      "supabase": "Supabase",
+      "gitGithub": "Git & GitHub",
+      "vercel": "Vercel Deployment",
+      "systemAnalysis": "System Analysis",
+      "accessControl": "Access Control"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "liveDemo": "Live Demo",
+    "github": "GitHub",
+    "madabaWomenMarket.title": "Madaba Women Market",
+    "madabaWomenMarket.description": "An e-commerce platform designed to empower local women artisans in Madaba by providing them a digital space to sell their handmade products.",
+    "smartAttendance.title": "Smart Attendance Approval System",
+    "smartAttendance.description": "A web-based system that digitizes the daily employee attendance approval process, replacing inefficient paper-based workflows. It provides a centralized, secure, and auditable platform for attendance management.",
+    "colorsOfMadaba.title": "Colors of Madaba",
+    "colorsOfMadaba.description": "A visually rich web application dedicated to showcasing the vibrant art, culture, and history of Madaba, Jordan."
+  },
+  "experience": {
+    "title": "Professional Experience",
+    "itSpecialist.role": "IT Specialist & Systems Developer",
+    "itSpecialist.company": "Public Sector / Municipal Administration",
+    "itSpecialist.duration": "2014 - Present",
+    "itSpecialist.description.item1": "Led digital transformation initiatives, converting manual paper-based workflows into efficient, automated web systems.",
+    "itSpecialist.description.item2": "Developed and maintained administrative applications to improve operational efficiency and data management.",
+    "itSpecialist.description.item3": "Conducted system analysis and documentation to identify bottlenecks and propose technological solutions.",
+    "itSpecialist.description.item4": "Implemented role-based access control (RBAC) to ensure data security and integrity across all developed systems.",
+    "itSpecialist.description.item5": "Provided technical support and training to staff, ensuring smooth adoption of new digital tools and processes."
+  },
+  "education": {
+    "title": "Education",
+    "bba.degree": "Bachelor’s Degree in Business Administration",
+    "bba.institution": "University of the People",
+    "bba.duration": "Ongoing (Distance Learning)",
+    "itDiploma.degree": "Diploma in Information Technology",
+    "itDiploma.institution": "Al-Balqa Applied University",
+    "itDiploma.duration": "Graduated 2013"
+  },
+  "interests": {
+    "title": "Career Interests",
+    "subtitle": "I am actively looking for roles where I can apply my skills in system development and process automation to make a tangible impact.",
+    "systemDev.title": "System Development Roles",
+    "systemDev.description": "Seeking opportunities to design, develop, and deploy full-stack web applications that solve real-world administrative challenges.",
+    "digitalTransformation.title": "Digital Transformation Projects",
+    "digitalTransformation.description": "Interested in positions focused on modernizing organizational processes, improving efficiency, and driving technological adoption.",
+    "innovativeEnvironments.title": "Innovative Environments",
+    "innovativeEnvironments.description": "Eager to join a forward-thinking team where I can contribute to innovative solutions and continuously grow my technical skills."
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious team.",
+    "methods": {
+      "email": "Email",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "facebook": "Facebook",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Abdullah Abu Sghaira. All Rights Reserved."
+  }
+}
