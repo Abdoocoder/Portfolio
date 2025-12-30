@@ -30,6 +30,8 @@ export function Header() {
   useEffect(() => {
     const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
     if (activeLink) {
+
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIndicatorStyle({
         left: activeLink.offsetLeft,
         width: activeLink.offsetWidth,
@@ -46,8 +48,8 @@ export function Header() {
         </Link>
         <nav ref={navRef} className="hidden md:flex relative items-center space-x-1 text-sm font-medium">
           {navLinks.map(({ href, labelKey }) => (
-            <Link 
-              key={labelKey} 
+            <Link
+              key={labelKey}
               href={href}
               data-active={`#${activeId}` === href}
               className={cn(
@@ -58,7 +60,7 @@ export function Header() {
               {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
             </Link>
           ))}
-          <div 
+          <div
             className="absolute h-full bg-primary rounded-md transition-all duration-300 ease-in-out"
             style={indicatorStyle}
           />
@@ -79,37 +81,37 @@ export function Header() {
               <SheetContent side={language === 'ar' ? 'right' : 'left'}>
                 <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="flex flex-col h-full py-6">
-                    <Link href="/" className="flex items-center gap-2 mb-8">
-                      <Code2 className="h-6 w-6 text-primary" />
-                      <span className="font-bold font-headline text-lg">{translations.header.name}</span>
-                    </Link>
-                    <nav className="flex flex-col gap-4">
-                      {navLinks.map(({ href, labelKey }) => (
-                        <SheetClose key={labelKey} asChild>
-                          <Link
-                            href={href}
-                            className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
-                            onClick={() => setIsSheetOpen(false)}
-                          >
-                            {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                      <SheetClose asChild>
-                        <a 
-                          href="/CV.pdf" 
-                          download="Abdullah_Abu_Sghaira_CV.pdf"
-                          className="inline-flex items-center justify-center text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                  <Link href="/" className="flex items-center gap-2 mb-8">
+                    <Code2 className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline text-lg">{translations.header.name}</span>
+                  </Link>
+                  <nav className="flex flex-col gap-4">
+                    {navLinks.map(({ href, labelKey }) => (
+                      <SheetClose key={labelKey} asChild>
+                        <Link
+                          href={href}
+                          className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                          onClick={() => setIsSheetOpen(false)}
                         >
-                          <Download className="me-2 h-5 w-5" />
-                          {translations.header.downloadCvButton}
-                        </a>
+                          {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
+                        </Link>
                       </SheetClose>
-                    </nav>
-                    <div className="mt-auto flex items-center gap-2">
-                        <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>
-                        <SheetClose asChild><Button className="flex-1" variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')}>العربية</Button></SheetClose>
-                    </div>
+                    ))}
+                    <SheetClose asChild>
+                      <a
+                        href="/CV.pdf"
+                        download="Abdullah_Abu_Sghaira_CV.pdf"
+                        className="inline-flex items-center justify-center text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                      >
+                        <Download className="me-2 h-5 w-5" />
+                        {translations.header.downloadCvButton}
+                      </a>
+                    </SheetClose>
+                  </nav>
+                  <div className="mt-auto flex items-center gap-2">
+                    <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>
+                    <SheetClose asChild><Button className="flex-1" variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')}>العربية</Button></SheetClose>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

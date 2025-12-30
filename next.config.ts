@@ -1,4 +1,4 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -42,14 +42,8 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  experimental: {
-    allowedDevOrigins: [
-      '*.cloudworkstations.dev',
-    ]
-  },
-  devIndicators: {
-    buildActivity: false
-  }
+
+
 };
 
 export default nextConfig;
