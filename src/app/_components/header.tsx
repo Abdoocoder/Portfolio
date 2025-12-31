@@ -42,13 +42,7 @@ export function Header() {
   }, []);
   
   useEffect(() => {
-    const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
-    if (activeLink) {
-      updateIndicator();
-    } else {
-        // Hide indicator if no link is active
-        setIndicatorStyle({ width: 0 });
-    }
+    updateIndicator();
     window.addEventListener('resize', updateIndicator);
     return () => window.removeEventListener('resize', updateIndicator);
   }, [activeId, language, updateIndicator]);

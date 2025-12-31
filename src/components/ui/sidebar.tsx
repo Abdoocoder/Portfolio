@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -651,12 +652,16 @@ const SidebarMenuSkeleton = React.forwardRef<
   }
 >(({ className, showIcon = false, ...props }, ref) => {
   // Random width between 50 to 90%.
-  const [width, setWidth] = React.useState("50%")
+  const [width, setWidth] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     setWidth(`${Math.floor(Math.random() * 40) + 50}%`)
   }, [])
 
+  if (width === null) {
+    return null;
+  }
+  
   return (
     <div
       ref={ref}
