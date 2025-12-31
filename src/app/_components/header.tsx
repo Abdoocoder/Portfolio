@@ -16,6 +16,7 @@ const navLinks = [
   { href: "#skills", labelKey: "skills" },
   { href: "#projects", labelKey: "projects" },
   { href: "#experience", labelKey: "experience" },
+  { href: "/blog", labelKey: "blog" },
   { href: "#contact", labelKey: "contact" },
 ];
 
@@ -24,7 +25,7 @@ export function Header() {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
+  const activeId = useScrollSpy(navLinks.filter(l => l.href.startsWith('#')).map(l => l.href.substring(1)), 100);
 
   const navRef = useRef<HTMLElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({});
@@ -32,12 +33,18 @@ export function Header() {
   useEffect(() => {
     const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
     if (activeLink) {
-
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setIndicatorStyle({
-        left: activeLink.offsetLeft,
-        width: activeLink.offsetWidth,
-      });
+      const updateIndicator = () => {
+        setIndicatorStyle({
+          left: activeLink.offsetLeft,
+          width: activeLink.offsetWidth,
+        });
+      };
+      
+      // Use requestAnimationFrame to avoid layout thrashing and ensure the DOM is ready.
+      requestAnimationFrame(updateIndicator);
+    } else {
+        // Hide indicator if no link is active
+        setIndicatorStyle({ width: 0 });
     }
   }, [activeId, language]);
 
@@ -57,7 +64,7 @@ export function Header() {
             <Link
               key={labelKey}
               href={href}
-              data-active={`#${activeId}` === href}
+              data-active={href.startsWith('#') ? `#${activeId}` === href : false}
               className={cn(
                 "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5 rounded-md",
                 `#${activeId}` === href ? "text-primary-foreground" : "text-foreground/60"

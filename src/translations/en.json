@@ -6,6 +6,7 @@
       "skills": "Skills",
       "projects": "Projects",
       "experience": "Experience",
+      "blog": "Blog",
       "contact": "Contact"
     },
     "downloadCvButton": "Download CV"
@@ -90,5 +91,22 @@
   },
   "footer": {
     "copyright": "© {year} Abdullah Abu Sghaira. All Rights Reserved."
+  },
+  "blog": {
+    "post1": {
+      "title": "Building a Modern Portfolio with Next.js & Tailwind CSS",
+      "description": "A step-by-step guide to building a responsive, SEO-friendly personal portfolio.",
+      "content": ""
+    },
+    "post2": {
+      "title": "A Deep Dive into Firebase Authentication for React Apps",
+      "description": "Learn how to secure your applications with Firebase Auth, including social logins and custom roles.",
+      "content": ""
+    },
+    "post3": {
+      "title": "Tailwind CSS Best Practices for 2025",
+      "description": "Tips and tricks for keeping your Tailwind CSS codebase maintainable, scalable, and organized.",
+      "content": ""
+    }
   }
 }
