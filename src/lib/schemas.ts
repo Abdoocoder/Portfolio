@@ -16,16 +16,3 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormSchema = z.infer<typeof contactFormSchema>;
-
-// Blog post schema
-export const blogPostSchema = z.object({
-    slug: z.string().min(1),
-    title: z.string().min(1),
-    description: z.string().min(1),
-    content: z.string().min(1),
-    category: z.enum(['tutorial', 'article', 'news', 'case-study']),
-    tags: z.array(z.string()),
-    publishDate: z.string().datetime(),
-});
-
-export type BlogPostSchema = z.infer<typeof blogPostSchema>;

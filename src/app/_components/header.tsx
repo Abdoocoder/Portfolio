@@ -1,7 +1,7 @@
 'use client';
 import Link from "next/link";
 import { Code2, Menu, Download, Moon, Sun } from "lucide-react";
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useRef, useEffect, useCallback } from "react";
 import { LanguageContext } from "../context/language-context";
 import { useTheme } from "../context/theme-context";
 import arTranslations from '../../translations/ar.json';
@@ -16,7 +16,6 @@ const navLinks = [
   { href: "#skills", labelKey: "skills" },
   { href: "#projects", labelKey: "projects" },
   { href: "#experience", labelKey: "experience" },
-  { href: "/blog", labelKey: "blog" },
   { href: "#contact", labelKey: "contact" },
 ];
 
@@ -25,28 +24,34 @@ export function Header() {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const activeId = useScrollSpy(navLinks.filter(l => l.href.startsWith('#')).map(l => l.href.substring(1)), 100);
+  const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
 
   const navRef = useRef<HTMLElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({});
 
+  const updateIndicator = useCallback(() => {
+    const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
+    if (activeLink) {
+        setIndicatorStyle({
+            left: activeLink.offsetLeft,
+            width: activeLink.offsetWidth,
+        });
+    } else {
+        setIndicatorStyle({ width: 0 });
+    }
+  }, []);
+  
   useEffect(() => {
     const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
     if (activeLink) {
-      const updateIndicator = () => {
-        setIndicatorStyle({
-          left: activeLink.offsetLeft,
-          width: activeLink.offsetWidth,
-        });
-      };
-      
-      // Use requestAnimationFrame to avoid layout thrashing and ensure the DOM is ready.
-      requestAnimationFrame(updateIndicator);
+      updateIndicator();
     } else {
         // Hide indicator if no link is active
         setIndicatorStyle({ width: 0 });
     }
-  }, [activeId, language]);
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [activeId, language, updateIndicator]);
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
@@ -64,10 +69,10 @@ export function Header() {
             <Link
               key={labelKey}
               href={href}
-              data-active={href.startsWith('#') ? `#${activeId}` === href : false}
+              data-active={activeId === href.substring(1)}
               className={cn(
                 "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5 rounded-md",
-                `#${activeId}` === href ? "text-primary-foreground" : "text-foreground/60"
+                activeId === href.substring(1) ? "text-primary-foreground" : "text-foreground/60"
               )}
             >
               {translations.header.nav[labelKey as keyof typeof translations.header.nav]}

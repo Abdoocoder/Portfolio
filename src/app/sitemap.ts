@@ -5,7 +5,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     const routes = [
         '',
-        '/blog',
     ];
 
     const staticPages = routes.map((route) => ({

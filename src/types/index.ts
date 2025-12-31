@@ -55,24 +55,6 @@ export interface Education {
     gpa?: string;
 }
 
-export interface BlogPost {
-    id: string;
-    slug: string;
-    titleKey: string;
-    descriptionKey: string;
-    contentKey: string;
-    author: string;
-    publishDate: string;
-    updatedDate?: string;
-    category: BlogCategory;
-    tags: string[];
-    coverImage?: string;
-    readingTime?: number;
-    featured?: boolean;
-}
-
-export type BlogCategory = 'tutorial' | 'article' | 'news' | 'case-study';
-
 export interface Testimonial {
     id: string;
     nameKey: string;
