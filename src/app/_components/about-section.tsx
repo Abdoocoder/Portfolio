@@ -11,7 +11,7 @@ export function AboutSection() {
   const { language } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const aboutImage = placeHolderImages.find(p => p.id === 'about-portrait');
-  
+
   return (
     <section id="about" className="py-20 sm:py-32 animate-fade-in-up">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,6 +35,7 @@ export function AboutSection() {
                 width={400}
                 height={500}
                 data-ai-hint={aboutImage.imageHint}
+                style={{ height: 'auto', width: 'auto' }}
                 className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"
               />
             )}
