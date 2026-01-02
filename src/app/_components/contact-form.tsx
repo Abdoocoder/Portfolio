@@ -29,8 +29,11 @@ export function ContactForm() {
         setIsSubmitting(true);
 
         try {
-            // Simulate API call - replace with actual implementation
-            const response = await fetch('/api/contact', {
+            // NOTE: Next.js API routes do not work in static exports (output: 'export').
+            // To make this form work on GitHub Pages, use a service like Formspree.
+            // Replace the URL below with your actual Formspree endpoint.
+
+            const response = await fetch('https://formspree.io/f/YOUR_ID_HERE', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,10 +54,10 @@ export function ContactForm() {
 
             // Reset success state after 3 seconds
             setTimeout(() => setIsSuccess(false), 3000);
-        } catch {
+        } catch (_error) {
             toast({
                 title: 'Error',
-                description: 'Failed to send message. Please try again.',
+                description: 'Failed to send message. Please use a service like Formspree for static hosting.',
                 variant: 'destructive',
             });
         } finally {

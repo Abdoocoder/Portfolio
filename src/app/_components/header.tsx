@@ -19,7 +19,11 @@ const navLinks = [
   { href: "#contact", labelKey: "contact" },
 ];
 
+const isGithubActions = process.env.NEXT_PUBLIC_GITHUB_ACTIONS === 'true';
+const basePath = isGithubActions ? '/Portfolio' : '';
+
 export function Header() {
+
   const { language, setLanguage } = useContext(LanguageContext);
   const { setTheme, resolvedTheme } = useTheme();
   const translations = language === 'ar' ? arTranslations : enTranslations;
@@ -124,7 +128,7 @@ export function Header() {
                     ))}
                     <SheetClose asChild>
                       <a
-                        href="/CV.pdf"
+                        href={`${basePath}/CV.pdf`}
                         download="Abdullah_Abu_Sghaira_CV.pdf"
                         className="inline-flex items-center justify-center text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
                       >
@@ -132,6 +136,7 @@ export function Header() {
                         {translations.header.downloadCvButton}
                       </a>
                     </SheetClose>
+
                   </nav>
                   <div className="mt-auto space-y-3">
                     <Button
