@@ -17,7 +17,7 @@ const contactMethods = [
   {
     nameKey: "linkedin",
     icon: Linkedin,
-    href: "https://www.linkedin.com/in/abdullah-abosagherah-64b37357",
+    href: "https://www.linkedin.com/in/abdullah-abosagherah-64b37357/",
   },
   {
     nameKey: "github",

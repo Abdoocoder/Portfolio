@@ -54,7 +54,7 @@ export function ContactForm() {
 
             // Reset success state after 3 seconds
             setTimeout(() => setIsSuccess(false), 3000);
-        } catch (_error) {
+        } catch {
             toast({
                 title: 'Error',
                 description: 'Failed to send message. Please use a service like Formspree for static hosting.',

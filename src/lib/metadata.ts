@@ -80,7 +80,7 @@ export function generateStructuredData() {
         image: `${baseUrl}/profile.jpg`,
         sameAs: [
             'https://github.com/Abdoocoder',
-            'https://linkedin.com/in/abdullah-abu-sghaira', // Update with your LinkedIn
+            'https://www.linkedin.com/in/abdullah-abosagherah-64b37357/', // Update with your LinkedIn
             'https://twitter.com/abdoocoder', // Update with your Twitter
         ],
         jobTitle: 'Full Stack Developer',
