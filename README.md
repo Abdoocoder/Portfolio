@@ -11,6 +11,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Responsive Design:** Optimized for all devices from mobile to desktop
 - **SEO Optimized:** Comprehensive metadata, structured data (JSON-LD), sitemap, and robots.txt
 - **Performance:** Vercel Analytics, Speed Insights, and optimized loading
+- **AI Integration:** Powered by Genkit and Google AI (Gemini) for enhanced capabilities
 
 ### Sections
 
@@ -22,37 +23,43 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Education:** Academic background
 - **Testimonials:** Client reviews in an interactive carousel
 - **Interests:** Personal interests and hobbies
-- **Contact:** Integrated contact form with social media links
+- **Contact:** Integrated contact form with social media links and Firebase integration
 - **Blog:** Dynamic blog system with categories and tags
 
 ### Advanced Features
 
+- **AI Capabilities:** Built-in AI features using [Genkit](https://github.com/firebase/genkit)
+- **Firebase Integration:** Real-time capabilities and analytics
 - **Contact Form:** Validated form with Zod schema, loading states, and API integration
 - **Blog System:** Full blog with listing page, individual post pages, and dynamic routing
 - **Scroll Progress:** Visual reading progress indicator
 - **Error Handling:** Custom error boundaries and 404 page
 - **Loading States:** Skeleton screens and loading indicators
-- **Smooth Animations:** Custom keyframe animations and transitions
+- **Smooth Animations:** Custom keyframe animations and transitions using Tailwind CSS Animate
 
 ## 🚀 Tech Stack
 
 ### Frontend
 
-- **Framework:** [Next.js 15](https://nextjs.org/) with App Router
+- **Framework:** [Next.js 15](https://nextjs.org/) with App Router and Turbopack
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 - **Icons:** [Lucide React](https://lucide.dev/)
+- **Animations:** [Tailwindcss-animate](https://github.com/jamiebuilds/tailwindcss-animate)
 
 ### Backend & Services
 
+- **AI Framework:** [Genkit](https://firebase.google.com/docs/genkit)
+- **AI Models:** Google AI (Gemini 2.5 Flash)
+- **Backend:** [Firebase](https://firebase.google.com/) (App, Analytics)
 - **Deployment:** [Vercel](https://vercel.com/)
-- **Analytics:** Vercel Analytics & Speed Insights
 - **Form Validation:** [Zod](https://zod.dev/)
 - **Form Handling:** [React Hook Form](https://react-hook-form.com/)
 
 ### Development Tools
 
+- **Build Tool:** Turbopack (Next.js 15)
 - **Package Manager:** npm
 - **Linting:** ESLint
 - **Type Checking:** TypeScript
@@ -62,19 +69,18 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 ```text
 Portfolio/
 ├── src/
+│   ├── ai/               # Genkit & AI configurations
 │   ├── app/
 │   │   ├── _components/      # Reusable components
 │   │   ├── api/              # API routes
 │   │   ├── blog/             # Blog pages
 │   │   ├── context/          # React contexts
 │   │   ├── error.tsx         # Error boundary
-│   │   ├── loading.tsx       # Loading state
-│   │   ├── not-found.tsx     # 404 page
 │   │   ├── layout.tsx        # Root layout
 │   │   └── page.tsx          # Home page
-│   ├── components/ui/        # UI components
+│   ├── components/ui/        # ShadCN UI components
 │   ├── hooks/                # Custom hooks
-│   ├── lib/                  # Utilities and data
+│   ├── lib/                  # Utilities, Firebase config, and data
 │   ├── translations/         # i18n files
 │   └── types/                # TypeScript types
 ├── public/                   # Static assets
@@ -87,6 +93,8 @@ Portfolio/
 
 - Node.js (v18 or later)
 - npm or your preferred package manager
+- Firebase project (optional for local dev)
+- Google AI API Key (for Genkit features)
 
 ### Installation
 
@@ -108,17 +116,31 @@ Portfolio/
     npm install
     ```
 
-4. Run the development server
+4. Set up environment variables
+   Create a `.env.local` file with:
+
+    ```env
+    NEXT_PUBLIC_FIREBASE_API_KEY=your_key
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_id
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_bucket
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_id
+    NEXT_PUBLIC_FIREBASE_APP_ID=your_id
+    GOOGLE_GENAI_API_KEY=your_google_ai_key
+    ```
+
+5. Run the development server
 
     ```bash
     npm run dev
     ```
 
-5. Open [http://localhost:9002](http://localhost:9002) in your browser
+6. Open [http://localhost:9002](http://localhost:9002) in your browser
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with Turbopack
+- `npm run dev` - Start development server with Turbopack (Port 9002)
+- `npm run genkit:dev` - Start Genkit developer UI
 - `npm run build` - Build for production
 - `npm start` - Start production server
 - `npm run lint` - Run ESLint
@@ -140,20 +162,13 @@ Edit `src/app/globals.css` and `tailwind.config.ts` to customize colors, fonts, 
 
 ## 🔧 Configuration
 
-### Email Integration
+### Firebase Integration
 
-To enable contact form email sending, update `src/app/api/contact/route.ts` with your preferred email service:
+Configure your Firebase project in `src/lib/firebase.ts`. Ensure environment variables are set in your deployment platform (Vercel/Firebase).
 
-- [Resend](https://resend.com)
-- [SendGrid](https://sendgrid.com)
-- [Nodemailer](https://nodemailer.com)
+### AI (Genkit) Integration
 
-### Analytics
-
-Vercel Analytics is pre-configured. For other analytics:
-
-1. Add your tracking code to `src/app/layout.tsx`
-2. Update verification codes in `src/lib/metadata.ts`
+The project uses Genkit for AI features. Configuration can be found in `src/ai/genkit.ts`. You need a `GOOGLE_GENAI_API_KEY` to use Gemini models.
 
 ## 📊 Performance
 
@@ -168,16 +183,13 @@ Vercel Analytics is pre-configured. For other analytics:
 
 1. Push your code to GitHub
 2. Import project in [Vercel](https://vercel.com)
-3. Deploy with one click
+3. Configure environment variables
+4. Deploy with one click
 
-### Other Platforms
+### Firebase Hosting
 
-The project can be deployed to any platform supporting Next.js:
-
-- Netlify
-- AWS Amplify
-- Google Cloud
-- Self-hosted
+1. Build the project: `npm run build`
+2. Deploy to Firebase: `firebase deploy`
 
 ## 📝 License
 
