@@ -33,7 +33,7 @@ export function ContactForm() {
             // To make this form work on GitHub Pages, use a service like Formspree.
             // Replace the URL below with your actual Formspree endpoint.
 
-            const response = await fetch('https://formspree.io/f/YOUR_ID_HERE', {
+            const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_URL || 'https://formspree.io/f/YOUR_ID_HERE', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
