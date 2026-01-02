@@ -5,8 +5,11 @@ import { Inter, Space_Grotesk } from 'next/font/google';
 import { LanguageProvider } from './context/language-context';
 import { ThemeProvider } from './context/theme-context';
 import { defaultMetadata, generateStructuredData } from '@/lib/metadata';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { FirebaseAnalytics } from './_components/firebase-analytics';
+
+
+
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,8 +45,7 @@ export default function RootLayout({
           <ThemeProvider>
             {children}
             <Toaster />
-            <Analytics />
-            <SpeedInsights />
+            <FirebaseAnalytics />
           </ThemeProvider>
         </LanguageProvider>
       </body>

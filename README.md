@@ -5,6 +5,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 ## ✨ Features
 
 ### Core Features
+
 - **Bilingual Support:** Seamless switching between English and Arabic with full RTL support
 - **Dark/Light Mode:** System-aware theme with smooth transitions and localStorage persistence
 - **Responsive Design:** Optimized for all devices from mobile to desktop
@@ -12,6 +13,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Performance:** Vercel Analytics, Speed Insights, and optimized loading
 
 ### Sections
+
 - **Hero:** Eye-catching introduction with call-to-action buttons
 - **About:** Professional summary and background
 - **Skills:** Categorized technical and soft skills
@@ -24,6 +26,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Blog:** Dynamic blog system with categories and tags
 
 ### Advanced Features
+
 - **Contact Form:** Validated form with Zod schema, loading states, and API integration
 - **Blog System:** Full blog with listing page, individual post pages, and dynamic routing
 - **Scroll Progress:** Visual reading progress indicator
@@ -34,6 +37,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **Framework:** [Next.js 15](https://nextjs.org/) with App Router
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
@@ -41,19 +45,21 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Icons:** [Lucide React](https://lucide.dev/)
 
 ### Backend & Services
+
 - **Deployment:** [Vercel](https://vercel.com/)
 - **Analytics:** Vercel Analytics & Speed Insights
 - **Form Validation:** [Zod](https://zod.dev/)
 - **Form Handling:** [React Hook Form](https://react-hook-form.com/)
 
 ### Development Tools
+
 - **Package Manager:** npm
 - **Linting:** ESLint
 - **Type Checking:** TypeScript
 
 ## 📁 Project Structure
 
-```
+```text
 Portfolio/
 ├── src/
 │   ├── app/
@@ -85,24 +91,28 @@ Portfolio/
 ### Installation
 
 1. Clone the repository
-   ```bash
-   git clone https://github.com/Abdoocoder/Portfolio.git
-   ```
+
+    ```bash
+    git clone https://github.com/Abdoocoder/Portfolio.git
+    ```
 
 2. Navigate to the project directory
-   ```bash
-   cd Portfolio
-   ```
+
+    ```bash
+    cd Portfolio
+    ```
 
 3. Install dependencies
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 4. Run the development server
-   ```bash
-   npm run dev
-   ```
+
+    ```bash
+    npm run dev
+    ```
 
 5. Open [http://localhost:9002](http://localhost:9002) in your browser
 
@@ -133,6 +143,7 @@ Edit `src/app/globals.css` and `tailwind.config.ts` to customize colors, fonts, 
 ### Email Integration
 
 To enable contact form email sending, update `src/app/api/contact/route.ts` with your preferred email service:
+
 - [Resend](https://resend.com)
 - [SendGrid](https://sendgrid.com)
 - [Nodemailer](https://nodemailer.com)
@@ -140,6 +151,7 @@ To enable contact form email sending, update `src/app/api/contact/route.ts` with
 ### Analytics
 
 Vercel Analytics is pre-configured. For other analytics:
+
 1. Add your tracking code to `src/app/layout.tsx`
 2. Update verification codes in `src/lib/metadata.ts`
 
@@ -161,6 +173,7 @@ Vercel Analytics is pre-configured. For other analytics:
 ### Other Platforms
 
 The project can be deployed to any platform supporting Next.js:
+
 - Netlify
 - AWS Amplify
 - Google Cloud
@@ -177,7 +190,8 @@ Contributions, issues, and feature requests are welcome!
 ## 📧 Contact
 
 Abdullah Abu Sghaira
-- Email: abdoocoder@gmail.com
+
+- Email: [abdoocoder@gmail.com](mailto:abdoocoder@gmail.com)
 - GitHub: [@Abdoocoder](https://github.com/Abdoocoder)
 - LinkedIn: [Abdullah Abu Sghaira](https://linkedin.com/in/abdullah-abu-sghaira)
 
