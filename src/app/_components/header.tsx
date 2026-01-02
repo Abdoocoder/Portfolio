@@ -21,7 +21,7 @@ const navLinks = [
 
 export function Header() {
   const { language, setLanguage } = useContext(LanguageContext);
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const activeId = useScrollSpy(navLinks.map(l => l.href.substring(1)), 100);
@@ -32,15 +32,15 @@ export function Header() {
   const updateIndicator = useCallback(() => {
     const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
     if (activeLink) {
-        setIndicatorStyle({
-            left: activeLink.offsetLeft,
-            width: activeLink.offsetWidth,
-        });
+      setIndicatorStyle({
+        left: activeLink.offsetLeft,
+        width: activeLink.offsetWidth,
+      });
     } else {
-        setIndicatorStyle({ width: 0 });
+      setIndicatorStyle({ width: 0 });
     }
   }, []);
-  
+
   useEffect(() => {
     updateIndicator();
     window.addEventListener('resize', updateIndicator);

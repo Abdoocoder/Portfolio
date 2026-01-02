@@ -19,15 +19,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Handle mount state
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
+
 
     // Load saved theme on mount
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme | null;
         if (savedTheme) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setTheme(savedTheme);
         }
     }, []);

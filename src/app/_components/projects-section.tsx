@@ -48,7 +48,7 @@ export function ProjectsSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-1">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <Card key={project.titleKey} className="overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl grid grid-cols-1 md:grid-cols-2">
               <div className={cn("p-6 flex flex-col", language === 'ar' ? "md:order-1 text-right" : "")}>
                 <header>
