@@ -8,9 +8,6 @@ const nextConfig: NextConfig = {
   assetPrefix: isGithubActions ? '/Portfolio/' : '',
 
   /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
 
     unoptimized: true,

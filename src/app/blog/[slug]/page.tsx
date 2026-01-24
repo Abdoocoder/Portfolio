@@ -8,9 +8,9 @@ import { Calendar, Clock, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface BlogPostPageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 export async function generateStaticParams() {
@@ -21,7 +21,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-    const post = getBlogPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = getBlogPostBySlug(slug);
 
     if (!post) {
         return {
@@ -35,8 +36,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-    const post = getBlogPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+    const { slug } = await params;
+    const post = getBlogPostBySlug(slug);
 
     if (!post) {
         notFound();
@@ -56,7 +58,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     <article>
                         <header className="mb-8">
                             <div className="flex flex-wrap gap-2 mb-4">
-                                {post.tags.map((tag) => (
+                                {post.tags.map((tag: string) => (
                                     <Badge key={tag} variant="secondary">
                                         {tag}
                                     </Badge>

@@ -29,7 +29,7 @@ export default function BlogPage() {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-12">
-                        {allTags.map((tag) => (
+                        {allTags.map((tag: string) => (
                             <Badge key={tag} variant="secondary">
                                 {tag}
                             </Badge>
@@ -64,7 +64,7 @@ export default function BlogPage() {
                                     </div>
 
                                     <div className="flex flex-wrap gap-2">
-                                        {post.tags.map((tag) => (
+                                        {post.tags.map((tag: string) => (
                                             <Badge key={tag} variant="outline">
                                                 {tag}
                                             </Badge>

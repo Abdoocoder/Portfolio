@@ -12,6 +12,7 @@ import { InterestsSection } from './_components/interests-section';
 import { ContactSection } from './_components/contact-section';
 import { Footer } from './_components/footer';
 import { ScrollProgress } from './_components/scroll-progress';
+import { BackToTop } from './_components/back-to-top';
 import { LanguageContext } from './context/language-context';
 import { useEffect } from 'react';
 
@@ -39,6 +40,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 }

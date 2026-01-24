@@ -84,3 +84,17 @@ export type Language = 'en' | 'ar';
 export interface TranslationKeys {
     [key: string]: string | TranslationKeys;
 }
+
+export interface BlogPost {
+    id: string;
+    slug: string;
+    titleKey: string;
+    descriptionKey: string;
+    contentKey: string;
+    author: string;
+    publishDate: string;
+    category: string;
+    tags: string[];
+    featured?: boolean;
+    readingTime?: number;
+}
