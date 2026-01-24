@@ -12,29 +12,46 @@ export function HeroSection() {
   const translations = language === 'ar' ? arTranslations : enTranslations;
 
   return (
-    <section id="hero" className="relative h-[80dvh] min-h-[500px] flex items-center justify-center text-center bg-secondary">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="hero" className="relative h-[80dvh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        poster="/hero-video-poster.jpg" // Fallback image while loading
+      >
+        <source src="/hero-video.mp4" type="video/mp4" />
+        {/* Fallback to background color if video fails */}
+        <div className="absolute inset-0 bg-secondary" />
+      </video>
+
+      {/* Dark Overlay for Readability */}
+      <div className="absolute inset-0 bg-black/50 z-0" />
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold font-headline tracking-tight text-primary sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-bold font-headline tracking-tight text-white sm:text-5xl md:text-6xl drop-shadow-md">
             {translations.hero.name}
           </h1>
-          <p className="mt-4 text-xl sm:text-2xl font-semibold text-accent font-headline">
+          <p className="mt-4 text-xl sm:text-2xl font-semibold text-accent font-headline drop-shadow-sm">
             {translations.hero.title}
           </p>
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
+          <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-200 drop-shadow-sm">
             {translations.hero.subtitle}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="shadow-lg">
               <Link href="#contact">{translations.hero.contactButton}</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="bg-background">
+            <Button asChild variant="outline" size="lg" className="bg-background/20 text-white border-white/30 hover:bg-background/40 backdrop-blur-sm">
               <a href="/CV.pdf" download="Abdullah_Abu_Sghaira_CV.pdf">
                 <Download className="me-2 h-4 w-4" />
                 {translations.header.downloadCvButton}
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="bg-background">
+            <Button asChild variant="outline" size="lg" className="bg-background/20 text-white border-white/30 hover:bg-background/40 backdrop-blur-sm">
               <Link href="#projects">
                 {translations.hero.workButton}
                 <ArrowDown className="ms-2 h-4 w-4 animate-bounce" />
