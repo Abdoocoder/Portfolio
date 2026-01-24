@@ -20,12 +20,16 @@ export function HeroSection() {
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        poster="/hero-video-poster.jpg" // Fallback image while loading
+        poster="/hero-video-poster.jpg"
       >
         <source src="/hero-video.mp4" type="video/mp4" />
-        {/* Fallback to background color if video fails */}
-        <div className="absolute inset-0 bg-secondary" />
       </video>
+
+      {/* Fallback background image */}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center -z-10"
+        style={{ backgroundImage: 'url(/hero-bg-fallback.png)' }}
+      />
 
       {/* Dark Overlay for Readability */}
       <div className="absolute inset-0 bg-black/50 z-0" />
