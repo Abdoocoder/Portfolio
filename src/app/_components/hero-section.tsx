@@ -23,7 +23,7 @@ export function HeroSection() {
         poster="/hero-video-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/hero-section-bg-video.mp4" type="video/mp4" />
+        <source src="/Reboot Hero Section.mp4" type="video/mp4" />
       </video>
 
       {/* Fallback background image */}
