@@ -4,25 +4,29 @@
       "id": "project-madaba-women-market",
       "description": "A preview of the Madaba Women Market website",
       "imageUrl": "/madaba-women-market.webp",
-      "imageHint": "jordan market"
+      "imageHint": "jordan market",
+      "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoBAAEAAUAmJaQAA3AA/uxYAAA="
     },
     {
       "id": "project-smart-attendance",
       "description": "Dashboard for the Smart Attendance Approval System",
       "imageUrl": "/dashboard-tayid-aldawam.webp",
-      "imageHint": "dashboard chart"
+      "imageHint": "dashboard chart",
+      "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoBAAEAAUAmJaQAA3AA/uxYAAA="
     },
     {
       "id": "about-portrait",
       "description": "Professional portrait of Abdullah Abu Sghaira",
       "imageUrl": "/abdullah-photo.webp",
-      "imageHint": "professional man"
+      "imageHint": "professional man",
+      "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoBAAEAAUAmJaQAA3AA/uxYAAA="
     },
     {
       "id": "project-colors-of-madaba",
       "description": "A preview of the Colors of Madaba website",
       "imageUrl": "/colorofmadaba.webp",
-      "imageHint": "Madaba Jordan"
+      "imageHint": "Madaba Jordan",
+      "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoBAAEAAUAmJaQAA3AA/uxYAAA="
     }
   ]
 }

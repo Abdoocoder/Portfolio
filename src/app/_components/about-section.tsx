@@ -35,6 +35,8 @@ export function AboutSection() {
                 width={400}
                 height={500}
                 priority
+                placeholder="blur"
+                blurDataURL={aboutImage.blurDataURL}
                 data-ai-hint={aboutImage.imageHint}
                 style={{ height: 'auto', width: 'auto' }}
                 className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"

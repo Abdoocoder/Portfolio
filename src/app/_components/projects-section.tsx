@@ -80,6 +80,8 @@ export function ProjectsSection() {
                     alt={project.image.description}
                     fill
                     priority={project.titleKey === projects[0].titleKey}
+                    placeholder="blur"
+                    blurDataURL={project.image.blurDataURL}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     data-ai-hint={project.image.imageHint}
                     className="object-contain transition-transform duration-300 hover:scale-105"
