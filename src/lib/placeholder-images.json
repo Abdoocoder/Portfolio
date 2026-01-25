@@ -3,25 +3,25 @@
     {
       "id": "project-madaba-women-market",
       "description": "A preview of the Madaba Women Market website",
-      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/Portfolio/main/public/madaba-women-market.png",
+      "imageUrl": "/madaba-women-market.png",
       "imageHint": "jordan market"
     },
     {
       "id": "project-smart-attendance",
       "description": "Dashboard for the Smart Attendance Approval System",
-      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/tayid-aldawam/main/public/dashboard-mockup.png",
+      "imageUrl": "/dashboard-tayid-aldawam.png",
       "imageHint": "dashboard chart"
     },
     {
       "id": "about-portrait",
       "description": "Professional portrait of Abdullah Abu Sghaira",
-      "imageUrl": "/my-photo.jpg",
+      "imageUrl": "/abdullah-photo.webp",
       "imageHint": "professional man"
     },
     {
       "id": "project-colors-of-madaba",
       "description": "A preview of the Colors of Madaba website",
-      "imageUrl": "https://raw.githubusercontent.com/Abdoocoder/Portfolio/main/public/colorofmadaba.png",
+      "imageUrl": "/colorofmadaba.webp",
       "imageHint": "Madaba Jordan"
     }
   ]
