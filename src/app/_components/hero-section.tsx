@@ -28,7 +28,7 @@ export function HeroSection() {
 
       {/* Fallback background image */}
       <Image
-        src="/hero-bg-fallback.png"
+        src="/hero-bg-fallback.webp"
         alt=""
         fill
         priority
