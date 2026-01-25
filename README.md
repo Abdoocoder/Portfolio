@@ -10,7 +10,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Dark/Light Mode:** System-aware theme with smooth transitions and localStorage persistence
 - **Responsive Design:** Optimized for all devices from mobile to desktop
 - **SEO Optimized:** Comprehensive metadata, structured data (JSON-LD), sitemap, and robots.txt
-- **Performance:** Vercel Analytics, Speed Insights, and optimized loading
+- **Performance:** Vercel Analytics, Speed Insights, and optimized loading with tree-shaken components
 - **AI Integration:** Powered by Genkit and Google AI (Gemini) for enhanced capabilities
 
 ### Sections
@@ -44,7 +44,7 @@ A modern, feature-rich personal portfolio website showcasing my skills, projects
 - **Framework:** [Next.js 15](https://nextjs.org/) with App Router and Turbopack
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
+- **UI Components:** [ShadCN UI](https://ui.shadcn.com/) (Optimized & Custom Selection)
 - **Icons:** [Lucide React](https://lucide.dev/)
 - **Animations:** [Tailwindcss-animate](https://github.com/jamiebuilds/tailwindcss-animate)
 
