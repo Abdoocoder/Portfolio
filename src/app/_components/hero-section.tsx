@@ -21,6 +21,7 @@ export function HeroSection() {
         loop
         playsInline
         poster="/hero-video-poster.jpg"
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Reboot Hero Section.mp4" type="video/mp4" />

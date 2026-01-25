@@ -79,7 +79,7 @@ export function ProjectsSection() {
                     src={project.image.imageUrl}
                     alt={project.image.description}
                     fill
-                    priority={project.titleKey === projects[0].titleKey}
+                    priority={true}
                     placeholder="blur"
                     blurDataURL={project.image.blurDataURL}
                     sizes="(max-width: 768px) 100vw, 50vw"
