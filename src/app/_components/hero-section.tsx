@@ -1,6 +1,7 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowDown, Download } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
@@ -19,15 +20,20 @@ export function HeroSection() {
         muted
         loop
         playsInline
+        poster="/hero-video-poster.jpg"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/hero-section-bg-video.mp4" type="video/mp4" />
       </video>
 
       {/* Fallback background image */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center -z-10"
-        style={{ backgroundImage: 'url(/hero-bg-fallback.png)' }}
+      <Image
+        src="/hero-bg-fallback.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover -z-10"
       />
 
       {/* Dark Overlay for Readability */}

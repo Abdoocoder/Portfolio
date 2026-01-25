@@ -34,6 +34,7 @@ export function AboutSection() {
                 alt={translations.about.imageAlt}
                 width={400}
                 height={500}
+                priority
                 data-ai-hint={aboutImage.imageHint}
                 style={{ height: 'auto', width: 'auto' }}
                 className="rounded-lg object-cover shadow-lg transition-transform duration-300 hover:scale-105"

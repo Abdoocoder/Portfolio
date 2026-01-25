@@ -79,6 +79,7 @@ export function ProjectsSection() {
                     src={project.image.imageUrl}
                     alt={project.image.description}
                     fill
+                    priority={project.titleKey === projects[0].titleKey || project.titleKey === projects[1].titleKey}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     data-ai-hint={project.image.imageHint}
                     className="object-contain transition-transform duration-300 hover:scale-105"
