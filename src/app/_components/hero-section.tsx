@@ -10,8 +10,8 @@ import enTranslations from '../../translations/en.json';
 export function HeroSection() {
   const { language } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations : enTranslations;
-
   return (
+    // Hero section with video background
     <section id="hero" className="relative h-[80dvh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
       {/* Video Background */}
       <video
@@ -20,9 +20,8 @@ export function HeroSection() {
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        poster="/hero-video-poster.jpg"
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src="/hero-section-bg-video.mp4" type="video/mp4" />
       </video>
 
       {/* Fallback background image */}
