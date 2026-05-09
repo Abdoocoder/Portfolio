@@ -3,7 +3,9 @@ import type { NextConfig } from 'next';
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // output: 'export' is only set for GitHub Pages (static site).
+  // Firebase App Hosting and local dev run a full Next.js server.
+  ...(isGithubActions ? { output: 'export' } : {}),
   basePath: isGithubActions ? '/Portfolio' : '',
   assetPrefix: isGithubActions ? '/Portfolio/' : '',
 

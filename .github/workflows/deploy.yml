@@ -47,6 +47,9 @@ jobs:
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
           NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
           NEXT_PUBLIC_FORMSPREE_URL: ${{ secrets.NEXT_PUBLIC_FORMSPREE_URL }}
+          # Vault vars — not needed for GitHub Pages but avoids build errors if
+          # the route ever gains a GET handler in the future.
+          NEXT_PUBLIC_GIST_ID: ${{ secrets.NEXT_PUBLIC_GIST_ID }}
           NEXT_PUBLIC_GITHUB_ACTIONS: "true"
 
           GITHUB_ACTIONS: "true"

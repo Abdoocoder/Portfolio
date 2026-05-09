@@ -1,17 +1,4 @@
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp,
-  query,
-  orderBy,
-  Timestamp,
-} from 'firebase/firestore';
-import { app } from './firebase';
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface ProjectLink {
   label: string;
@@ -23,7 +10,13 @@ export interface ProjectCredential {
   value: string;
 }
 
-export type ProjectStatus = 'idea' | 'active' | 'testing' | 'production' | 'paused' | 'completed';
+export type ProjectStatus =
+  | 'idea'
+  | 'active'
+  | 'testing'
+  | 'production'
+  | 'paused'
+  | 'completed';
 
 export interface VaultProject {
   id?: string;
@@ -40,53 +33,59 @@ export interface VaultProject {
   notes: string;
   links: ProjectLink[];
   credentials: ProjectCredential[];
-  createdAt?: Timestamp | null;
+  createdAt?: string | null;
 }
 
-const db = getFirestore(app);
-const COLLECTION = 'vault_projects';
+// ─── API helpers ──────────────────────────────────────────────────────────────
+
+async function vaultPost<T = unknown>(body: Record<string, unknown>): Promise<T> {
+  const res = await fetch('/api/vault', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const json = await res.json().catch(() => ({}));
+    throw new Error(json.error ?? `Request failed: ${res.status}`);
+  }
+  return res.json() as T;
+}
+
+// ─── CRUD ─────────────────────────────────────────────────────────────────────
 
 export async function getProjects(): Promise<VaultProject[]> {
-  try {
-    const q = query(collection(db, COLLECTION), orderBy('createdAt', 'desc'));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as VaultProject));
-  } catch {
-    const snap = await getDocs(collection(db, COLLECTION));
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as VaultProject));
-  }
+  return vaultPost<VaultProject[]>({ action: 'get' });
 }
 
-export async function addProject(data: Omit<VaultProject, 'id' | 'createdAt'>): Promise<string> {
-  const ref = await addDoc(collection(db, COLLECTION), {
-    ...data,
-    createdAt: serverTimestamp(),
-  });
-  return ref.id;
+export async function addProject(
+  data: Omit<VaultProject, 'id' | 'createdAt'>
+): Promise<string> {
+  const project = await vaultPost<VaultProject>({ action: 'add', data });
+  return project.id!;
 }
 
 export async function updateProject(
   id: string,
   data: Partial<Omit<VaultProject, 'id' | 'createdAt'>>
 ): Promise<void> {
-  await updateDoc(doc(db, COLLECTION, id), data);
+  await vaultPost({ action: 'update', id, data });
 }
 
 export async function deleteProject(id: string): Promise<void> {
-  await deleteDoc(doc(db, COLLECTION, id));
+  await vaultPost({ action: 'delete', id });
 }
 
 export async function seedIfEmpty(): Promise<void> {
-  const snap = await getDocs(collection(db, COLLECTION));
-  if (!snap.empty) return;
+  const existing = await getProjects();
+  if (existing.length > 0) return;
   const today = new Date().toISOString().split('T')[0];
   for (const project of buildSeedProjects(today)) {
-    await addDoc(collection(db, COLLECTION), {
-      ...project,
-      createdAt: serverTimestamp(),
-    });
+    await addProject(project);
   }
 }
+
+// ─── Seed data ────────────────────────────────────────────────────────────────
 
 function buildSeedProjects(today: string): Omit<VaultProject, 'id' | 'createdAt'>[] {
   return [
