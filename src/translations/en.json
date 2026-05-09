@@ -45,7 +45,19 @@
     "smartAttendance.title": "Smart Attendance Approval System",
     "smartAttendance.description": "A web-based system that digitizes the daily employee attendance approval process, replacing inefficient paper-based workflows. It provides a centralized, secure, and auditable platform for attendance management.",
     "colorsOfMadaba.title": "Colors of Madaba",
-    "colorsOfMadaba.description": "A visually rich web application dedicated to showcasing the vibrant art, culture, and history of Madaba, Jordan."
+    "colorsOfMadaba.description": "A visually rich web application dedicated to showcasing the vibrant art, culture, and history of Madaba, Jordan.",
+    "sheikhYoussef.title": "Sheikh Youssef Website",
+    "sheikhYoussef.description": "Islamic website for Sheikh Youssef featuring fatwas, lessons, and religious articles with a full CMS dashboard.",
+    "fajrak.title": "Fajrak — Personal Finance",
+    "fajrak.description": "Arabic personal finance SaaS app with Islamic identity — Quranic verses, hadiths, daily lessons, salary tracking, debts, savings goals. Web + Flutter mobile app.",
+    "nizamNazafati.title": "Nizam Nazafati — Cleaning System",
+    "nizamNazafati.description": "Municipal cleaning staff management dashboard for Madaba Municipality — attendance tracking, reports, and Google Maps integration.",
+    "madabaHalls.title": "Madaba Halls",
+    "madabaHalls.description": "Wedding and event hall booking management system for Madaba, Jordan.",
+    "enlyten2.title": "Enlyten2 Laser Center",
+    "enlyten2.description": "Professional website for Enlyten2 laser and beauty center featuring services, appointments, and clinic information.",
+    "flexJob.title": "FlexJob Platform",
+    "flexJob.description": "Freelance job platform connecting workers with employers in Jordan. Built as a university entrepreneurship project."
   },
   "experience": {
     "title": "Professional Experience",
