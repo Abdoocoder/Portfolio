@@ -1,53 +1,73 @@
 'use client';
-import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import { SectionHeading } from "./section-heading";
-import { 
-  Laptop, 
-  Database, 
-  GitBranch, 
-  Cloud, 
-  Search, 
-  Lock,
-  Code
-} from "lucide-react";
+import { Laptop, Database, GitBranch, Cloud, Search, Lock, Code } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 
 const skills = [
-  { nameKey: "htmlCssJs", icon: Code },
-  { nameKey: "reactNext", icon: Laptop },
-  { nameKey: "firebase", icon: Database },
-  { nameKey: "supabase", icon: Database },
-  { nameKey: "gitGithub", icon: GitBranch },
-  { nameKey: "vercel", icon: Cloud },
-  { nameKey: "systemAnalysis", icon: Search },
-  { nameKey: "accessControl", icon: Lock },
+  { nameKey: "htmlCssJs",       icon: Code      },
+  { nameKey: "reactNext",       icon: Laptop    },
+  { nameKey: "firebase",        icon: Database  },
+  { nameKey: "supabase",        icon: Database  },
+  { nameKey: "gitGithub",       icon: GitBranch },
+  { nameKey: "vercel",          icon: Cloud     },
+  { nameKey: "systemAnalysis",  icon: Search    },
+  { nameKey: "accessControl",   icon: Lock      },
 ];
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+};
+
+const pill = {
+  hidden: { opacity: 0, scale: 0.72, y: 18 },
+  visible: {
+    opacity: 1, scale: 1, y: 0,
+    transition: { type: "spring" as const, stiffness: 220, damping: 16 },
+  },
+};
 
 export function SkillsSection() {
   const { language } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations : enTranslations;
 
   return (
-    <section id="skills" className="py-20 sm:py-32 bg-secondary animate-fade-in-up">
+    <section id="skills" className="py-20 sm:py-32 bg-secondary overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.skills.title}</SectionHeading>
-        <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-4">
-          {skills.map((skill, index) => (
-            <Card 
-              key={skill.nameKey} 
-              className="group text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:bg-card/90"
-              style={{ animationDelay: `${index * 100}ms` }}
+
+        <motion.div
+          className="mt-14 flex flex-wrap justify-center gap-3"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+        >
+          {skills.map((skill) => (
+            <motion.div
+              key={skill.nameKey}
+              variants={pill}
+              whileHover={{ y: -5, scale: 1.06 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 350, damping: 22 }}
+              className="group flex items-center gap-2.5 px-5 py-3 rounded-full bg-background border border-border
+                         text-foreground cursor-default select-none
+                         hover:bg-primary hover:border-primary hover:text-primary-foreground"
             >
-              <CardContent className="p-6 flex flex-col items-center justify-center gap-4">
-                <skill.icon className="h-12 w-12 text-accent transition-colors duration-300 group-hover:text-primary" />
-                <p className="font-semibold text-base sm:text-lg">{translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}</p>
-              </CardContent>
-            </Card>
+              <skill.icon
+                className="h-5 w-5 flex-shrink-0 text-accent group-hover:text-primary-foreground"
+                aria-hidden="true"
+              />
+              <span className="font-medium text-sm sm:text-base whitespace-nowrap">
+                {translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}
+              </span>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
