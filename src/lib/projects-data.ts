@@ -96,7 +96,7 @@ export const projects: Project[] = [
         image: undefined,
         category: 'fullstack',
         tags: ['Booking', 'Web App', 'Dashboard', 'Next.js'],
-        featured: false,
+        featured: true,
         startDate: '2026-04',
         endDate: '2026-04',
     },

@@ -1,48 +1,26 @@
 'use client';
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "./section-heading";
-import { placeHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { useContext } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 import { cn } from "@/lib/utils";
+import { getFeaturedProjects } from "@/lib/projects-data";
+import type { ImagePlaceholder } from "@/lib/placeholder-images";
 
-const projects = [
-  {
-    titleKey: "madabaWomenMarket.title",
-    descriptionKey: "madabaWomenMarket.description",
-    techStack: ["Next.js", "Firebase", "Tailwind CSS"],
-    liveDemoUrl: "https://madaba-women-market.vercel.app/",
-    githubRepoUrl: "https://github.com/Abdoocoder/madaba-women-market",
-    image: placeHolderImages.find(p => p.id === 'project-madaba-women-market'),
-  },
-  {
-    titleKey: "smartAttendance.title",
-    descriptionKey: "smartAttendance.description",
-    techStack: ["React.js", "Firebase", "Vercel"],
-    liveDemoUrl: "https://tayid-aldawam.vercel.app/dashboard",
-    githubRepoUrl: "https://github.com/Abdoocoder/tayid-aldawam",
-    image: placeHolderImages.find(p => p.id === 'project-smart-attendance'),
-  },
-  {
-    titleKey: "colorsOfMadaba.title",
-    descriptionKey: "colorsOfMadaba.description",
-    techStack: ["Next.js", "Tailwind CSS", "ShadCN UI", "TypeScript"],
-    liveDemoUrl: "https://colorsofmadaba.vercel.app/",
-    githubRepoUrl: "https://github.com/Abdoocoder/colors-of-madaba",
-    image: placeHolderImages.find(p => p.id === 'project-colors-of-madaba'),
-  }
-];
+const featuredProjects = getFeaturedProjects();
 
 export function ProjectsSection() {
   const { language } = useContext(LanguageContext);
   const translations = language === 'ar' ? arTranslations.projects : enTranslations.projects;
+  const allProjectsT = language === 'ar' ? arTranslations.allProjects : enTranslations.allProjects;
 
   return (
     <section id="projects" className="py-20 sm:py-32 bg-secondary overflow-hidden">
@@ -50,7 +28,7 @@ export function ProjectsSection() {
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
 
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-1">
-          {projects.map((project, index) => {
+          {featuredProjects.map((project, index) => {
             const fromLeft = index % 2 === 0;
             return (
               <motion.div
@@ -93,20 +71,24 @@ export function ProjectsSection() {
                         </motion.div>
                       </div>
                       <footer className="mt-6 flex items-center gap-4">
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
-                          <Button asChild>
-                            <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="mr-2 h-4 w-4" /> {translations.liveDemo}
-                            </a>
-                          </Button>
-                        </motion.div>
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
-                          <Button asChild variant="outline">
-                            <a href={project.githubRepoUrl} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-2 h-4 w-4" /> {translations.github}
-                            </a>
-                          </Button>
-                        </motion.div>
+                        {project.liveDemoUrl && (
+                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
+                            <Button asChild>
+                              <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="mr-2 h-4 w-4" /> {translations.liveDemo}
+                              </a>
+                            </Button>
+                          </motion.div>
+                        )}
+                        {project.githubRepoUrl && (
+                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
+                            <Button asChild variant="outline">
+                              <a href={project.githubRepoUrl} target="_blank" rel="noopener noreferrer">
+                                <Github className="mr-2 h-4 w-4" /> {translations.github}
+                              </a>
+                            </Button>
+                          </motion.div>
+                        )}
                       </footer>
                     </div>
 
@@ -123,7 +105,7 @@ export function ProjectsSection() {
                             fill
                             priority
                             placeholder="blur"
-                            blurDataURL={project.image.blurDataURL}
+                            blurDataURL={(project.image as ImagePlaceholder).blurDataURL}
                             sizes="(max-width: 768px) 100vw, 50vw"
                             data-ai-hint={project.image.imageHint}
                             className="object-contain"
@@ -137,6 +119,21 @@ export function ProjectsSection() {
             );
           })}
         </div>
+
+        <motion.div
+          className="mt-12 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Button asChild size="lg" variant="outline">
+            <Link href="/projects">
+              {allProjectsT.viewAll}
+              <ArrowRight className={cn("h-4 w-4", language === 'ar' ? "mr-2 rotate-180" : "ml-2")} />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

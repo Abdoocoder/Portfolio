@@ -100,6 +100,11 @@
       "whatsapp": "واتساب"
     }
   },
+  "allProjects": {
+    "title": "جميع المشاريع",
+    "viewAll": "عرض جميع المشاريع",
+    "filterAll": "الكل"
+  },
   "footer": {
     "copyright": "© {year} عبدالله أبو صغيرة. جميع الحقوق محفوظة."
   }

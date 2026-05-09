@@ -100,6 +100,11 @@
       "whatsapp": "WhatsApp"
     }
   },
+  "allProjects": {
+    "title": "All Projects",
+    "viewAll": "View All Projects",
+    "filterAll": "All"
+  },
   "footer": {
     "copyright": "© {year} Abdullah Abu Sghaira. All Rights Reserved."
   }
