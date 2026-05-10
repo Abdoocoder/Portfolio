@@ -120,6 +120,14 @@ export default function VaultPage() {
         </div>
         <div className="flex items-center gap-2">
           <button
+            onClick={() => router.push('/dashboard/portfolio')}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-colors"
+            style={{ color: '#34d399', background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)' }}
+          >
+            <span>🌐</span>
+            <span>البورتفوليو</span>
+          </button>
+          <button
             onClick={loadProjects}
             className="p-2 rounded-lg transition-colors"
             style={{ color: '#6b7280' }}

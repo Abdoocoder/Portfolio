@@ -20,7 +20,7 @@ export function AboutSection() {
 
           <motion.div
             className="space-y-6"
-            initial={{ opacity: 0, x: -60 }}
+            initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -48,7 +48,7 @@ export function AboutSection() {
 
           <motion.div
             className="flex justify-center"
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 0, x: 28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
@@ -83,10 +83,10 @@ export function AboutSection() {
                 {/* Top-left accent dot */}
                 <motion.div
                   className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-primary/60"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
+                  initial={{ scale: 0.4, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.7, type: "spring", stiffness: 300 }}
+                  transition={{ delay: 0.7, type: "spring", stiffness: 300, damping: 20 }}
                 />
               </div>
             )}

@@ -23,7 +23,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 45 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: "easeOut" as const } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 export function HeroSection() {
@@ -92,12 +92,12 @@ export function HeroSection() {
           </motion.p>
 
           <motion.div variants={item} className="mt-10 flex flex-wrap justify-center gap-4">
-            <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
               <Button asChild size="lg" className="shadow-lg">
                 <Link href="#contact">{translations.hero.contactButton}</Link>
               </Button>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
               <Button asChild variant="outline" size="lg" className="bg-background/20 text-white border-white/30 hover:bg-background/40 backdrop-blur-sm">
                 <a href="/CV.pdf" download="Abdullah_Abu_Sghaira_CV.pdf">
                   <Download className="me-2 h-4 w-4" />
@@ -105,7 +105,7 @@ export function HeroSection() {
                 </a>
               </Button>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400 }}>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
               <Button asChild variant="outline" size="lg" className="bg-background/20 text-white border-white/30 hover:bg-background/40 backdrop-blur-sm">
                 <Link href="#projects">
                   {translations.hero.workButton}

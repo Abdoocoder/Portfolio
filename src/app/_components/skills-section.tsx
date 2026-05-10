@@ -24,10 +24,10 @@ const container = {
 };
 
 const pill = {
-  hidden: { opacity: 0, scale: 0.72, y: 18 },
+  hidden: { opacity: 0, scale: 0.88, y: 14 },
   visible: {
     opacity: 1, scale: 1, y: 0,
-    transition: { type: "spring" as const, stiffness: 220, damping: 16 },
+    transition: { type: "spring" as const, stiffness: 260, damping: 20 },
   },
 };
 
@@ -51,9 +51,8 @@ export function SkillsSection() {
             <motion.div
               key={skill.nameKey}
               variants={pill}
-              whileHover={{ y: -5, scale: 1.06 }}
+              whileHover={{ y: -4, scale: 1.05 }}
               whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 350, damping: 22 }}
               className="group flex items-center gap-2.5 px-5 py-3 rounded-full bg-background border border-border
                          text-foreground cursor-default select-none
                          hover:bg-primary hover:border-primary hover:text-primary-foreground"
