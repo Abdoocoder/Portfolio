@@ -545,7 +545,7 @@ export default function PortfolioDashboardPage() {
           <div className="text-center py-24" style={{ color: '#4b5563' }}>
             <p className="text-5xl mb-4">📂</p>
             <p className="text-lg font-medium text-white mb-1">لا توجد مشاريع بعد</p>
-            <p className="text-sm">اضغط على "مشروع جديد" للبدء</p>
+            <p className="text-sm">اضغط على &quot;مشروع جديد&quot; للبدء</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

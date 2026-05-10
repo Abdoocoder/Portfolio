@@ -10,7 +10,7 @@ import {
   deleteProject,
   seedIfEmpty,
   type VaultProject,
-  type ProjectStatus,
+
 } from '@/lib/vault-data';
 import { StatsBar } from './components/StatsBar';
 import { ProjectCard } from './components/ProjectCard';
