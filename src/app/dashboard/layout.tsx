@@ -1,17 +1,25 @@
-import { auth, clerkClient } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+'use client';
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { userId } = await auth()
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-  if (!userId) {
-    redirect('/')
-  }
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const router = useRouter();
 
-  const user = await (await clerkClient()).users.getUser(userId)
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (!isSignedIn) { router.replace('/'); return; }
+    if (!user?.publicMetadata?.isAdmin) { router.replace('/'); }
+  }, [isLoaded, isSignedIn, user, router]);
 
-  if (!user.publicMetadata.isAdmin) {
-    redirect('/')
+  if (!isLoaded || !isSignedIn || !user?.publicMetadata?.isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-950">
+        <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
 
   return <>{children}</>
