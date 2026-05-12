@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link'
 import { UserButton } from '@clerk/nextjs'
 import { FolderKanban, Shield } from 'lucide-react'
