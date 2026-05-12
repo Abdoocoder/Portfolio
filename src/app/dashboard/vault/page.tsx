@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Plus, LogOut, RefreshCw, Filter, Lock, Globe, Trash2 } from 'lucide-react';
+import { Search, Plus, RefreshCw, Filter, Lock, Globe, Trash2 } from 'lucide-react';
 import {
   getProjects,
   addProject,
@@ -39,13 +39,8 @@ export default function VaultPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (sessionStorage.getItem('vault_auth') !== 'true') {
-      router.replace('/dashboard');
-      return;
-    }
     loadProjects();
-  }, [router]);
+  }, []);
 
   async function loadProjects() {
     setLoading(true);
@@ -58,11 +53,6 @@ export default function VaultPage() {
     } finally {
       setLoading(false);
     }
-  }
-
-  function logout() {
-    sessionStorage.removeItem('vault_auth');
-    router.push('/dashboard');
   }
 
   const filtered = useMemo(() => {
@@ -130,13 +120,7 @@ export default function VaultPage() {
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
-          <button
-            onClick={logout}
-            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg text-red-400 bg-red-400/10 border border-red-400/20 hover:bg-red-400/20 transition-colors"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>خروج</span>
-          </button>
+
         </div>
       </header>
 

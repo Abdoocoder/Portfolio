@@ -91,6 +91,7 @@ export interface BlogPost {
     titleKey: string;
     descriptionKey: string;
     contentKey: string;
+    content: string;
     author: string;
     publishDate: string;
     category: string;

@@ -184,10 +184,10 @@ export function HeroSection() {
               </MagneticButton>
               <MagneticButton>
                 <Button asChild variant="outline" size="lg" className="bg-background/20 text-gray-100 border-gray-100/30 hover:bg-background/40 backdrop-blur-sm">
-                  <a href="/CV.pdf" download="Abdullah_Abu_Sghaira_CV.pdf">
+                  <Link href="/cv">
                     <Download className="me-2 h-4 w-4" />
                     {translations.header.downloadCvButton}
-                  </a>
+                  </Link>
                 </Button>
               </MagneticButton>
               <MagneticButton>

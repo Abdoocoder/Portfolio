@@ -1,34 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contactFormSchema } from '@/lib/schemas';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        // Validate the request body (throws on invalid data)
-        contactFormSchema.parse(body);
+        const validatedData = contactFormSchema.parse(body);
 
-        // TODO: Implement email sending logic here
-        // You can use services like:
-        // - Resend (https://resend.com)
-        // - SendGrid
-        // - Nodemailer
-        // - EmailJS
+        if (!process.env.RESEND_API_KEY) {
+            console.warn('RESEND_API_KEY not configured — falling back to console log');
+            console.log('Contact form submission:', validatedData);
+            return NextResponse.json(
+                { message: 'Message received (email not configured)' },
+                { status: 200 }
+            );
+        }
 
-        // Example with Resend:
-        // const { data, error } = await resend.emails.send({
-        //   from: 'Portfolio <onboarding@resend.dev>',
-        //   to: 'your-email@example.com',
-        //   subject: `Portfolio Contact: ${validatedData.subject}`,
-        //   html: `
-        //     <h2>New Contact Form Submission</h2>
-        //     <p><strong>Name:</strong> ${validatedData.name}</p>
-        //     <p><strong>Email:</strong> ${validatedData.email}</p>
-        //     <p><strong>Subject:</strong> ${validatedData.subject}</p>
-        //     <p><strong>Message:</strong></p>
-        //     <p>${validatedData.message}</p>
-        //   `,
-        // });
+        const { error } = await resend.emails.send({
+            from: 'Portfolio <onboarding@resend.dev>',
+            to: 'abdooraf3@gmail.com',
+            subject: `Portfolio Contact: ${validatedData.subject}`,
+            html: `
+                <h2>New Contact Form Submission</h2>
+                <table style="border-collapse:collapse;width:100%;max-width:600px;">
+                    <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #ddd;">Name</td><td style="padding:8px;border-bottom:1px solid #ddd;">${validatedData.name}</td></tr>
+                    <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #ddd;">Email</td><td style="padding:8px;border-bottom:1px solid #ddd;">${validatedData.email}</td></tr>
+                    <tr><td style="padding:8px;font-weight:bold;border-bottom:1px solid #ddd;">Subject</td><td style="padding:8px;border-bottom:1px solid #ddd;">${validatedData.subject}</td></tr>
+                </table>
+                <h3>Message</h3>
+                <p style="padding:12px;background:#f5f5f5;border-radius:8px;">${validatedData.message}</p>
+            `,
+        });
+
+        if (error) {
+            console.error('Resend error:', error);
+            return NextResponse.json(
+                { error: 'Failed to send message' },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json(
             { message: 'Message sent successfully' },

@@ -8,14 +8,14 @@ import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 
 const skills = [
-  { nameKey: "htmlCssJs",       icon: Code },
-  { nameKey: "reactNext",       icon: Laptop },
-  { nameKey: "firebase",        icon: Database },
-  { nameKey: "supabase",        icon: Database },
-  { nameKey: "gitGithub",       icon: GitBranch },
-  { nameKey: "vercel",          icon: Cloud },
-  { nameKey: "systemAnalysis",  icon: Search },
-  { nameKey: "accessControl",   icon: Lock },
+  { nameKey: "htmlCssJs",       icon: Code,     proficiency: 95 },
+  { nameKey: "reactNext",       icon: Laptop,   proficiency: 92 },
+  { nameKey: "firebase",        icon: Database, proficiency: 85 },
+  { nameKey: "supabase",        icon: Database, proficiency: 80 },
+  { nameKey: "gitGithub",       icon: GitBranch, proficiency: 90 },
+  { nameKey: "vercel",          icon: Cloud,    proficiency: 85 },
+  { nameKey: "systemAnalysis",  icon: Search,   proficiency: 90 },
+  { nameKey: "accessControl",   icon: Lock,     proficiency: 85 },
 ];
 
 const container = {
@@ -57,9 +57,25 @@ export function SkillsSection() {
                 className="h-5 w-5 shrink-0 text-accent"
                 aria-hidden="true"
               />
-              <span className="font-medium text-sm sm:text-base text-foreground group-hover:text-primary transition-colors">
-                {translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}
-              </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-medium text-sm sm:text-base text-foreground group-hover:text-primary transition-colors">
+                    {translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}
+                  </span>
+                  <span className="text-xs tabular-nums text-muted-foreground/60">
+                    {skill.proficiency}%
+                  </span>
+                </div>
+                <div className="mt-1.5 h-1 rounded-full bg-border overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-accent/60"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.proficiency}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                  />
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>

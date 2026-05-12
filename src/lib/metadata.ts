@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const baseUrl = 'https://abdullahsghaira.com'; // Update with your actual domain
+const baseUrl = 'https://abdoocoder.dev';
 
 export const defaultMetadata: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -39,7 +39,7 @@ export const defaultMetadata: Metadata = {
         description: 'Full Stack Developer specializing in React, Next.js, and modern web technologies.',
         images: [
             {
-                url: `${baseUrl}/og-image.png`,
+                url: `${baseUrl}/og-image.svg`,
                 width: 1200,
                 height: 630,
                 alt: 'Abdullah Abu Sghaira - Full Stack Developer',
@@ -50,8 +50,8 @@ export const defaultMetadata: Metadata = {
         card: 'summary_large_image',
         title: 'Abdullah Abu Sghaira - Full Stack Developer',
         description: 'Full Stack Developer specializing in React, Next.js, and modern web technologies.',
-        images: [`${baseUrl}/twitter-image.png`],
-        creator: '@abdoocoder', // Update with your Twitter handle
+        images: [`${baseUrl}/twitter-image.svg`],
+        creator: '@abdoocoder',
     },
     robots: {
         index: true,
@@ -65,7 +65,7 @@ export const defaultMetadata: Metadata = {
         },
     },
     verification: {
-        google: 'your-google-verification-code', // Add your verification code
+        google: 'your-google-verification-code',
         // yandex: 'your-yandex-verification-code',
         // bing: 'your-bing-verification-code',
     },
@@ -80,8 +80,8 @@ export function generateStructuredData() {
         image: `${baseUrl}/profile.jpg`,
         sameAs: [
             'https://github.com/Abdoocoder',
-            'https://www.linkedin.com/in/abdullah-abosagherah-64b37357/', // Update with your LinkedIn
-            'https://twitter.com/abdoocoder', // Update with your Twitter
+            'https://www.linkedin.com/in/abdullah-abosagherah-64b37357/',
+            'https://twitter.com/abdoocoder',
         ],
         jobTitle: 'Full Stack Developer',
         worksFor: {

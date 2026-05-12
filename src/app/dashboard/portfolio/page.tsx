@@ -365,13 +365,6 @@ export default function PortfolioDashboardPage() {
   const [error, setError]           = useState('');
   const [seeding, setSeeding]       = useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (sessionStorage.getItem('vault_auth') !== 'true') {
-      router.replace('/dashboard');
-    }
-  }, [router]);
-
   const load = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -455,7 +448,7 @@ export default function PortfolioDashboardPage() {
             <ExternalLink className="w-3 h-3" /> عرض الموقع
           </a>
           <button
-            onClick={() => { sessionStorage.removeItem('vault_auth'); router.push('/dashboard'); }}
+            onClick={() => router.push('/dashboard')}
             className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg text-red-400 bg-red-400/10 border border-red-400/20 hover:bg-red-400/20 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />

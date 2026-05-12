@@ -21,9 +21,6 @@ const navLinks = [
   { href: "#contact", labelKey: "contact" },
 ];
 
-const isGithubActions = process.env.NEXT_PUBLIC_GITHUB_ACTIONS === 'true';
-const basePath = isGithubActions ? '/Portfolio' : '';
-
 function MagneticNavLink({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -149,13 +146,16 @@ export function Header() {
           <div className="hidden sm:flex items-center gap-1.5">
             <Show when="signed-out">
               <Button variant="ghost" size="sm" asChild>
-                <SignInButton />
+                <SignInButton forceRedirectUrl="/dashboard" />
               </Button>
               <Button variant="default" size="sm" asChild>
-                <SignUpButton />
+                <SignUpButton forceRedirectUrl="/dashboard" />
               </Button>
             </Show>
             <Show when="signed-in">
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
               <UserButton />
             </Show>
           </div>
@@ -191,14 +191,13 @@ export function Header() {
                       </SheetClose>
                     ))}
                     <SheetClose asChild>
-                      <a
-                        href={`${basePath}/CV.pdf`}
-                        download="Abdullah_Abu_Sghaira_CV.pdf"
+                      <Link
+                        href="/cv"
                         className="inline-flex items-center justify-center text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
                       >
                         <Download className="me-2 h-5 w-5" />
                         {translations.header.downloadCvButton}
-                      </a>
+                      </Link>
                     </SheetClose>
 
                   </nav>
@@ -226,10 +225,11 @@ export function Header() {
                     </div>
                     <div className="flex items-center gap-2 pt-2 border-t border-border">
                       <Show when="signed-out">
-                        <SheetClose asChild><Button variant="outline" size="sm" className="flex-1"><SignInButton /></Button></SheetClose>
-                        <SheetClose asChild><Button variant="default" size="sm" className="flex-1"><SignUpButton /></Button></SheetClose>
+                        <SheetClose asChild><Button variant="outline" size="sm" className="flex-1"><SignInButton forceRedirectUrl="/dashboard" /></Button></SheetClose>
+                        <SheetClose asChild><Button variant="default" size="sm" className="flex-1"><SignUpButton forceRedirectUrl="/dashboard" /></Button></SheetClose>
                       </Show>
                       <Show when="signed-in">
+                        <SheetClose asChild><Button variant="ghost" size="sm" className="flex-1"><Link href="/dashboard">Dashboard</Link></Button></SheetClose>
                         <div className="flex justify-center w-full"><UserButton /></div>
                       </Show>
                     </div>

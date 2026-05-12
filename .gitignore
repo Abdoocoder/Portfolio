@@ -58,6 +58,7 @@ firestore-debug.log
 .agent/
 .agents/
 .claude/
+.superpowers/
 .codebuddy/
 .codex/
 .continue/

@@ -27,6 +27,48 @@
       "imageUrl": "/colorofmadaba.webp",
       "imageHint": "Madaba Jordan",
       "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoBAAEAAUAmJaQAA3AA/uxYAAA="
+    },
+    {
+      "id": "project-sheikh-youssef",
+      "description": "A preview of the Sheikh Youssef website",
+      "imageUrl": "/placeholder-sheikh-youssef.svg",
+      "imageHint": "Islamic scholar website",
+      "blurDataURL": ""
+    },
+    {
+      "id": "project-fajrak",
+      "description": "A preview of the Fajrak finance tracker",
+      "imageUrl": "/placeholder-fajrak.svg",
+      "imageHint": "finance app",
+      "blurDataURL": ""
+    },
+    {
+      "id": "project-nizam-nazafati",
+      "description": "A preview of the Nizam Nazafati dashboard",
+      "imageUrl": "/placeholder-nizam-nazafati.svg",
+      "imageHint": "municipality dashboard",
+      "blurDataURL": ""
+    },
+    {
+      "id": "project-madaba-halls",
+      "description": "A preview of the Madaba Halls booking system",
+      "imageUrl": "/placeholder-madaba-halls.svg",
+      "imageHint": "hall booking",
+      "blurDataURL": ""
+    },
+    {
+      "id": "project-enlyten2",
+      "description": "A preview of the Enlyten2 Laser site",
+      "imageUrl": "/placeholder-enlyten2.svg",
+      "imageHint": "medical beauty",
+      "blurDataURL": ""
+    },
+    {
+      "id": "project-flexjob",
+      "description": "A preview of the FlexJob platform",
+      "imageUrl": "/placeholder-flexjob.svg",
+      "imageHint": "freelance platform",
+      "blurDataURL": ""
     }
   ]
 }

@@ -88,14 +88,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 {post.descriptionKey}
                             </p>
 
-                            <div className="bg-muted/50 rounded-lg p-8 my-8">
-                                <p className="text-center text-muted-foreground">
-                                    Blog content will be displayed here. This is a placeholder for the full article content.
-                                </p>
-                                <p className="text-center text-sm text-muted-foreground mt-4">
-                                    You can integrate with a CMS like Sanity, Contentful, or use MDX for blog content.
-                                </p>
-                            </div>
+                            <div
+                                className="blog-content"
+                                dangerouslySetInnerHTML={{ __html: post.content }}
+                            />
                         </div>
                     </article>
                 </div>
