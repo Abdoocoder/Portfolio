@@ -39,7 +39,24 @@ jobs:
       - name: Remove server-only routes for static export
         run: |
           rm -f src/middleware.ts
-          rm -rf src/app/api
+          rm -rf src/app/api src/app/dashboard
+          node -e "
+          const fs = require('fs');
+          // Layout: strip ClerkProvider
+          let l = fs.readFileSync('src/app/layout.tsx','utf8');
+          l = l.replace(/import.*Clerk.*\n/,'');
+          l = l.replace(/<ClerkProvider>/g,'').replace(/<\/ClerkProvider>/g,'');
+          fs.writeFileSync('src/app/layout.tsx',l);
+          // Header: strip Clerk import + Show blocks (desktop + mobile)
+          let h = fs.readFileSync('src/app/_components/header.tsx','utf8');
+          h = h.replace(/import.*clerk.*\n/i,'');
+          // Desktop Clerk div: remove from its opening to the language-buttons div
+          h = h.replace(/ {10}<div className=\"hidden sm:flex items-center gap-1\\.5\">\n[\s\S]*?\n {10}<div className=\"hidden sm:flex items-center gap-2\">/,
+            '\n          <div className=\"hidden sm:flex items-center gap-2\">');
+          // Mobile Clerk div: remove from its opening to parent's closing div
+          h = h.replace(/ {20}<div className=\"flex items-center gap-2 pt-2 border-t border-border\">\n[\s\S]*?\n {20}<\/div>/,'');
+          fs.writeFileSync('src/app/_components/header.tsx',h);
+          "
 
       - name: Build with Next.js
         run: npx next build
