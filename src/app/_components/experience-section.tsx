@@ -32,7 +32,7 @@ export function ExperienceSection() {
   const translations = language === 'ar' ? arTranslations.experience : enTranslations.experience;
 
   return (
-    <section id="experience" className="py-20 sm:py-32 bg-secondary overflow-hidden">
+    <section id="experience" role="region" aria-label="Experience" className="py-20 sm:py-32 bg-secondary overflow-hidden scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
 

@@ -31,7 +31,7 @@ export function InterestsSection() {
   const translations = language === 'ar' ? arTranslations.interests : enTranslations.interests;
 
   return (
-    <section id="interests" className="py-20 sm:py-32 overflow-hidden">
+    <section id="interests" role="region" aria-label="Interests" className="py-20 sm:py-32 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <motion.p

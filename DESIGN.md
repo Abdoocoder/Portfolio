@@ -30,12 +30,12 @@ typography:
     fontWeight: 600
     lineHeight: 1.3
   body:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Geist, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Geist, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 500
     lineHeight: 1.4
@@ -93,7 +93,7 @@ Energy comes from contrast and intentional color, not from noise. The primary bl
 Motion exists to serve the content. Scroll-driven entrances, spring-physics hover, a parallax hero. Nothing loops for the sake of looping. Nothing bounces where it shouldn't. The site feels alive because the interactions are considered, not because effects are stacked.
 
 **Key Characteristics:**
-- High type contrast: Space Grotesk at display weight vs. Inter body creates decisive hierarchy
+- High type contrast: Space Grotesk at display weight vs. Geist body creates decisive hierarchy
 - Accent used sparingly — teal appears on underlines, icons, and CTAs only
 - Cards lift on hover; they don't spin, flip, or glow
 - Generous section whitespace creates breathing room between ideas
@@ -124,10 +124,10 @@ A high-contrast two-accent system built on a restrained neutral base. Neither co
 ## 3. Typography
 
 **Display Font:** Space Grotesk (variable, Google Fonts)
-**Body Font:** Inter (variable, Google Fonts)
+**Body Font:** Geist (via Vercel's `geist` package, variable)
 **RTL Font:** Tajawal (Arabic only, applied via `[lang="ar"]`)
 
-**Character:** Space Grotesk's geometric structure with ink traps creates authority at large sizes. Inter's humanist spacing reads comfortably at length. The pairing is technical-editorial — not banking, not startup-casual.
+**Character:** Space Grotesk's geometric structure with ink traps creates authority at large sizes. Geist's humanist spacing reads comfortably at length. The pairing is technical-editorial — not banking, not startup-casual.
 
 ### Hierarchy
 - **Display** (700, `clamp(2.5rem, 6vw, 4.5rem)`, lh 1.05, ls -0.02em): Hero name only. One per page.
@@ -165,7 +165,7 @@ Confident and tactile. Not pill-shaped (too casual), not sharp (too cold). Gentl
 - **Ghost (hero overlay):** `bg-white/20 backdrop-blur-sm border border-white/30 text-white`. Hover: `bg-white/40`.
 
 ### Cards
-Cards are the lazy answer — used only where they are truly the best affordance. Skills grid is the weakest application; it should be reconsidered as a tag cloud or typographic list rather than eight identical icon+label cards.
+Cards are the lazy answer — used only where they are truly the best affordance. Resolved: skills section now uses a typographic list, not a card grid.
 
 - **Corner Style:** Gently curved (12px radius)
 - **Background:** Arctic White (`#F6F8FA`) or Cloud Surface (`#ECEFF4`) depending on section background
@@ -173,8 +173,8 @@ Cards are the lazy answer — used only where they are truly the best affordance
 - **Border:** `1px solid #D8DCE5` (Frost Border)
 - **Internal Padding:** 24px
 
-### Skill Cards
-Currently identical — icon grid of 8. **Anti-pattern alert:** identical card grids are the canonical AI-slop failure. Consider replacing with a horizontal scrolling tag strip or a typographic list with accent color on the technology name.
+### Skills List
+Replaced the identical-card-grid anti-pattern with a typographic list. Each skill is a single row: accent icon + skill name, separated by `divide-y` borders. Rows reveal with staggered spring entrance. Hover toggles text color from Ink Navy to Anchor Blue.
 
 ### Badges / Chips
 - **Style:** `bg-surface text-foreground border border-border` — neutral, not colored
@@ -205,7 +205,7 @@ The SectionHeading component includes an animated gradient underline (16px wide,
 - **Do** respect RTL fully: icon margins, text alignment, slide animation direction, and button icon placement must all flip for Arabic.
 
 ### Don't:
-- **Don't** make eight identical icon + label cards for the Skills section. The impeccable audit flags this as an identical-card-grid anti-pattern. Redesign as a tag cloud, horizontal scroll strip, or typographic list.
+- **Don't** return to a card-grid layout for skills. The typographic list is deliberate — cards for lists create visual noise. If the list grows, extend it vertically, never box it.
 - **Don't** use generic Bootstrap/template-style layouts — formulaic hero with centered text + two buttons below is already borderline. Push the name larger, push the subtitle smaller.
 - **Don't** use corporate SaaS blue (`#2563EB`, `#3B82F6`, or any mid-weight Tailwind blue) — the Anchor Blue is specifically calibrated to read differently.
 - **Don't** add more animations on top of existing ones. The current motion layer is at the right density. More effects = more distraction = anti-reference failure.

@@ -18,7 +18,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['var(--font-inter)', 'sans-serif'],
+        body: ['var(--font-geist-sans)', 'sans-serif'],
         headline: ['var(--font-space-grotesk)', 'sans-serif'],
       },
       colors: {

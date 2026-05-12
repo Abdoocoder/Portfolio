@@ -31,7 +31,7 @@ export function EducationSection() {
   const translations = language === 'ar' ? arTranslations.education : enTranslations.education;
 
   return (
-    <section id="education" className="py-20 sm:py-32 overflow-hidden" style={{ perspective: 1000 }}>
+    <section id="education" role="region" aria-label="Education" className="py-20 sm:py-32 overflow-hidden" style={{ perspective: 1000 }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
 

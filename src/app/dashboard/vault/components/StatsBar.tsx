@@ -9,33 +9,25 @@ const stats = [
     key: 'total',
     label: 'المجموع',
     filter: () => true,
-    color: '#60a5fa',
-    bg: 'rgba(59,130,246,0.08)',
-    border: 'rgba(59,130,246,0.2)',
+    className: 'bg-blue-500/10 border-blue-500/30 text-blue-400',
   },
   {
     key: 'production',
     label: 'في الإنتاج',
     filter: (p: VaultProject) => p.status === 'production',
-    color: '#34d399',
-    bg: 'rgba(52,211,153,0.08)',
-    border: 'rgba(52,211,153,0.2)',
+    className: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
   },
   {
     key: 'active',
     label: 'نشط',
     filter: (p: VaultProject) => p.status === 'active',
-    color: '#a78bfa',
-    bg: 'rgba(167,139,250,0.08)',
-    border: 'rgba(167,139,250,0.2)',
+    className: 'bg-violet-500/10 border-violet-500/30 text-violet-400',
   },
   {
     key: 'completed',
     label: 'مكتمل',
     filter: (p: VaultProject) => p.status === 'completed',
-    color: '#fb923c',
-    bg: 'rgba(251,146,60,0.08)',
-    border: 'rgba(251,146,60,0.2)',
+    className: 'bg-orange-500/10 border-orange-500/30 text-orange-400',
   },
 ];
 
@@ -45,13 +37,12 @@ export function StatsBar({ projects }: StatsBarProps) {
       {stats.map(s => (
         <div
           key={s.key}
-          className="rounded-xl p-4"
-          style={{ background: s.bg, border: `1px solid ${s.border}` }}
+          className={`rounded-xl p-4 border ${s.className}`}
         >
-          <p className="text-2xl font-bold" style={{ color: s.color }}>
+          <p className={`text-2xl font-bold ${s.className}`}>
             {projects.filter(s.filter).length}
           </p>
-          <p className="text-sm mt-0.5" style={{ color: '#94a3b8' }}>
+          <p className="text-sm mt-0.5 text-gray-400">
             {s.label}
           </p>
         </div>

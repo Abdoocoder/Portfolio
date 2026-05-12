@@ -1,8 +1,12 @@
 'use client';
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Star } from 'lucide-react';
 import { SectionHeading } from './section-heading';
+import { useContext } from 'react';
+import { LanguageContext } from '../context/language-context';
+import arTranslations from '../../translations/ar.json';
+import enTranslations from '../../translations/en.json';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -50,11 +54,35 @@ const testimonials: Testimonial[] = [
     },
 ];
 
-export function TestimonialsSection() {
+function FloatingCard({ children, index }: { children: React.ReactNode; index: number }) {
+    const prefersReducedMotion = useReducedMotion();
+    if (prefersReducedMotion) {
+        return <div className="h-full p-1"><div className="hover:translate-y-[-10px] hover:scale-[1.01] transition-transform duration-300">{children}</div></div>;
+    }
     return (
-        <section className="py-20 sm:py-32 bg-background overflow-hidden">
+        <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{
+                duration: 4 + index * 0.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: index * 0.3,
+            }}
+            whileHover={{ y: -10, scale: 1.01 }}
+            className="h-full p-1"
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+export function TestimonialsSection() {
+    const { language } = useContext(LanguageContext);
+    const translations = language === 'ar' ? arTranslations.testimonials : enTranslations.testimonials;
+    return (
+        <section role="region" aria-label="Testimonials" className="py-20 sm:py-32 bg-background overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <SectionHeading className="text-center">What Clients Say</SectionHeading>
+                <SectionHeading className="text-center">{translations.title}</SectionHeading>
                 <motion.p
                     className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground text-center"
                     initial={{ opacity: 0, y: 20 }}
@@ -62,7 +90,7 @@ export function TestimonialsSection() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.3, duration: 0.6 }}
                 >
-                    Testimonials from satisfied clients I&apos;ve worked with
+                    {translations.subtitle}
                 </motion.p>
 
                 <motion.div
@@ -72,15 +100,11 @@ export function TestimonialsSection() {
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                 >
-                    <Carousel opts={{ align: 'start', loop: true }} className="w-full">
+                    <Carousel opts={{ align: 'start', loop: true }} className="w-full" aria-label="Testimonials carousel">
                         <CarouselContent>
                             {testimonials.map((testimonial, index) => (
                                 <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/2">
-                                    <motion.div
-                                        whileHover={{ y: -6, boxShadow: "0 16px 32px rgba(0,0,0,0.1)" }}
-                                        transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                                        className="h-full p-1"
-                                    >
+                                    <FloatingCard index={index}>
                                         <Card className="p-6 h-full flex flex-col">
                                             <div className="flex items-center gap-4 mb-4">
                                                 <motion.div
@@ -124,7 +148,7 @@ export function TestimonialsSection() {
                                                 &ldquo;{testimonial.content}&rdquo;
                                             </p>
                                         </Card>
-                                    </motion.div>
+                                    </FloatingCard>
                                 </CarouselItem>
                             ))}
                         </CarouselContent>

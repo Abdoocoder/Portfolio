@@ -1,5 +1,6 @@
 'use client';
 import Link from "next/link";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Code2, Menu, Download, Moon, Sun } from "lucide-react";
 import { useContext, useState, useRef, useEffect, useCallback } from "react";
 import { LanguageContext } from "../context/language-context";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { cn } from "@/lib/utils";
+import { Show, UserButton, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 const navLinks = [
   { href: "#about", labelKey: "about" },
@@ -21,6 +23,56 @@ const navLinks = [
 
 const isGithubActions = process.env.NEXT_PUBLIC_GITHUB_ACTIONS === 'true';
 const basePath = isGithubActions ? '/Portfolio' : '';
+
+function MagneticNavLink({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 300, damping: 15 });
+  const springY = useSpring(y, { stiffness: 300, damping: 15 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const maxDist = 150;
+    if (dist > maxDist) return;
+    const strength = (1 - dist / maxDist);
+    x.set(dx * 0.1 * strength);
+    y.set(dy * 0.1 * strength);
+  }, [x, y]);
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      className="relative z-10"
+    >
+      <Link
+        href={href}
+        data-active={isActive}
+        className={cn(
+          "transition-colors hover:text-foreground/80 px-3 py-1.5 rounded-md block",
+          isActive ? "text-primary-foreground" : "text-foreground/60"
+        )}
+      >
+        {children}
+      </Link>
+    </motion.div>
+  );
+}
 
 export function Header() {
 
@@ -34,11 +86,14 @@ export function Header() {
   const [indicatorStyle, setIndicatorStyle] = useState({});
 
   const updateIndicator = useCallback(() => {
-    const activeLink = navRef.current?.querySelector(`[data-active="true"]`) as HTMLElement;
-    if (activeLink) {
+    const navEl = navRef.current;
+    const activeLink = navEl?.querySelector(`[data-active="true"]`) as HTMLElement | null;
+    if (activeLink && navEl) {
+      const navRect = navEl.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
       setIndicatorStyle({
-        left: activeLink.offsetLeft,
-        width: activeLink.offsetWidth,
+        left: linkRect.left - navRect.left,
+        width: linkRect.width,
       });
     } else {
       setIndicatorStyle({ width: 0 });
@@ -64,17 +119,13 @@ export function Header() {
         </Link>
         <nav ref={navRef} className="hidden md:flex relative items-center space-x-1 text-sm font-medium">
           {navLinks.map(({ href, labelKey }) => (
-            <Link
+            <MagneticNavLink
               key={labelKey}
               href={href}
-              data-active={activeId === href.substring(1)}
-              className={cn(
-                "transition-colors hover:text-foreground/80 z-10 px-3 py-1.5 rounded-md",
-                activeId === href.substring(1) ? "text-primary-foreground" : "text-foreground/60"
-              )}
+              isActive={activeId === href.substring(1)}
             >
               {translations.header.nav[labelKey as keyof typeof translations.header.nav]}
-            </Link>
+            </MagneticNavLink>
           ))}
           <div
             className="absolute h-full bg-primary rounded-md transition-all duration-300 ease-in-out"
@@ -95,6 +146,19 @@ export function Header() {
               <Moon className="h-5 w-5" />
             )}
           </Button>
+          <div className="hidden sm:flex items-center gap-1.5">
+            <Show when="signed-out">
+              <Button variant="ghost" size="sm" asChild>
+                <SignInButton />
+              </Button>
+              <Button variant="default" size="sm" asChild>
+                <SignUpButton />
+              </Button>
+            </Show>
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
+          </div>
           <div className="hidden sm:flex items-center gap-2">
             <Button variant={language === 'en' ? 'default' : 'outline'} size="sm" onClick={() => setLanguage('en')}>EN</Button>
             <Button variant={language === 'ar' ? 'default' : 'outline'} size="sm" onClick={() => setLanguage('ar')}>AR</Button>
@@ -159,6 +223,15 @@ export function Header() {
                     <div className="flex items-center gap-2">
                       <SheetClose asChild><Button className="flex-1" variant={language === 'en' ? 'default' : 'outline'} onClick={() => setLanguage('en')}>English</Button></SheetClose>
                       <SheetClose asChild><Button className="flex-1" variant={language === 'ar' ? 'default' : 'outline'} onClick={() => setLanguage('ar')}>العربية</Button></SheetClose>
+                    </div>
+                    <div className="flex items-center gap-2 pt-2 border-t border-border">
+                      <Show when="signed-out">
+                        <SheetClose asChild><Button variant="outline" size="sm" className="flex-1"><SignInButton /></Button></SheetClose>
+                        <SheetClose asChild><Button variant="default" size="sm" className="flex-1"><SignUpButton /></Button></SheetClose>
+                      </Show>
+                      <Show when="signed-in">
+                        <div className="flex justify-center w-full"><UserButton /></div>
+                      </Show>
                     </div>
                   </div>
                 </div>

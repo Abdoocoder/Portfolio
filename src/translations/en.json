@@ -39,6 +39,7 @@
   "projects": {
     "title": "Projects",
     "liveDemo": "Live Demo",
+    "moreProjects": "More Projects",
     "github": "GitHub",
     "madabaWomenMarket.title": "Madaba Women Market",
     "madabaWomenMarket.description": "An e-commerce platform designed to empower local women artisans in Madaba by providing them a digital space to sell their handmade products.",
@@ -89,6 +90,10 @@
     "innovativeEnvironments.title": "Innovative Environments",
     "innovativeEnvironments.description": "Eager to join a forward-thinking team where I can contribute to innovative solutions and continuously grow my technical skills."
   },
+  "testimonials": {
+    "title": "What Clients Say",
+    "subtitle": "Testimonials from satisfied clients I've worked with"
+  },
   "contact": {
     "title": "Get in Touch",
     "subtitle": "I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious team.",
@@ -98,7 +103,9 @@
       "github": "GitHub",
       "facebook": "Facebook",
       "whatsapp": "WhatsApp"
-    }
+    },
+    "formTitle": "Send me a message",
+    "connectTitle": "Connect with me"
   },
   "allProjects": {
     "title": "All Projects",

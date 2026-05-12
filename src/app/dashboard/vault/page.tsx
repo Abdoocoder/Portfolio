@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Plus, LogOut, RefreshCw, Filter } from 'lucide-react';
+import { Search, Plus, LogOut, RefreshCw, Filter, Lock, Globe, Trash2 } from 'lucide-react';
 import {
   getProjects,
   addProject,
@@ -105,40 +105,34 @@ export default function VaultPage() {
 
   return (
     <div
-      className="min-h-screen"
-      style={{ background: '#070d1a', fontFamily: "'Tajawal', sans-serif" }}
+      className="min-h-screen bg-gray-950"
       dir="rtl"
+      style={{ fontFamily: "'Tajawal', sans-serif" }}
     >
       {/* Header */}
-      <header
-        className="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-6 h-14"
-        style={{ background: 'rgba(7,13,26,0.95)', borderBottom: '1px solid #1f2937', backdropFilter: 'blur(8px)' }}
-      >
+      <header className="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-6 h-14 bg-gray-950/95 border-b border-gray-800 backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <span className="text-xl">🔐</span>
-          <h1 className="font-bold text-white text-lg tracking-tight">Project Vault</h1>
+          <Lock className="w-5 h-5 text-gray-400" />
+          <h1 className="font-bold text-gray-100 text-lg tracking-tight">Project Vault</h1>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => router.push('/dashboard/portfolio')}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-colors"
-            style={{ color: '#34d399', background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)' }}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 hover:bg-emerald-400/20 transition-colors"
           >
-            <span>🌐</span>
+            <Globe className="w-3.5 h-3.5" />
             <span>البورتفوليو</span>
           </button>
           <button
             onClick={loadProjects}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: '#6b7280' }}
+            className="p-2 rounded-lg text-gray-500 hover:text-gray-400 transition-colors"
             title="تحديث"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
           <button
             onClick={logout}
-            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg transition-colors"
-            style={{ color: '#f87171', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}
+            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg text-red-400 bg-red-400/10 border border-red-400/20 hover:bg-red-400/20 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>خروج</span>
@@ -154,45 +148,28 @@ export default function VaultPage() {
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
-            <Search
-              className="absolute top-1/2 -translate-y-1/2 w-4 h-4"
-              style={{ color: '#6b7280', right: '12px' }}
-            />
+            <Search className="absolute top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 right-3" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="ابحث عن مشروع..."
-              className="w-full rounded-xl py-2.5 text-sm text-white placeholder-gray-500 outline-none"
-              style={{
-                background: '#111827',
-                border: '1px solid #1f2937',
-                paddingRight: '38px',
-                paddingLeft: '12px',
-              }}
+              className="w-full rounded-xl py-2.5 pr-10 pl-3 text-sm text-gray-100 placeholder-gray-500 outline-none bg-gray-900 border border-gray-800 focus:border-gray-700"
             />
           </div>
 
           {/* Status filter */}
           <div className="flex items-center gap-2 flex-wrap">
-            <Filter className="w-4 h-4 shrink-0" style={{ color: '#6b7280' }} />
+            <Filter className="w-4 h-4 shrink-0 text-gray-500" />
             <div className="flex gap-1.5 flex-wrap">
               {Object.entries(STATUS_LABELS).map(([val, label]) => (
                 <button
                   key={val}
                   onClick={() => setStatusFilter(val)}
-                  className="text-xs px-3 py-1.5 rounded-full transition-all"
-                  style={
+                  className={`text-xs px-3 py-1.5 rounded-full transition-all ${
                     statusFilter === val
-                      ? {
-                          background: 'linear-gradient(135deg, #3b82f6, #6366f1)',
-                          color: '#fff',
-                        }
-                      : {
-                          background: '#111827',
-                          color: '#9ca3af',
-                          border: '1px solid #1f2937',
-                        }
-                  }
+                      ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white'
+                      : 'bg-gray-900 text-gray-400 border border-gray-800 hover:bg-gray-800'
+                  }`}
                 >
                   {label}
                 </button>
@@ -203,8 +180,7 @@ export default function VaultPage() {
           {/* Add button */}
           <button
             onClick={openAdd}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shrink-0"
-            style={{ background: 'linear-gradient(135deg, #3b82f6, #6366f1)', color: '#fff' }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shrink-0 bg-gradient-to-br from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600"
           >
             <Plus className="w-4 h-4" />
             مشروع جديد
@@ -215,16 +191,12 @@ export default function VaultPage() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="rounded-xl h-52 animate-pulse"
-                style={{ background: '#111827' }}
-              />
+              <div key={i} className="rounded-xl h-52 animate-pulse bg-gray-900" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-20" style={{ color: '#4b5563' }}>
-            <p className="text-4xl mb-3">🔍</p>
+          <div className="text-center py-20 text-gray-600">
+            <Search className="w-10 h-10 mx-auto mb-3 text-gray-500" />
             <p className="text-lg">لا توجد مشاريع</p>
           </div>
         ) : (
@@ -249,7 +221,7 @@ export default function VaultPage() {
 
         {/* Count */}
         {!loading && filtered.length > 0 && (
-          <p className="text-xs text-center pb-4" style={{ color: '#374151' }}>
+          <p className="text-xs text-center pb-4 text-gray-700">
             {filtered.length} من {projects.length} مشروع
           </p>
         )}
@@ -275,35 +247,23 @@ export default function VaultPage() {
 
       {/* Delete Confirm */}
       {deleteConfirm && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.7)' }}
-        >
-          <div
-            className="w-full max-w-sm rounded-2xl p-6 text-center"
-            style={{ background: '#111827', border: '1px solid #1f2937' }}
-          >
-            <p className="text-3xl mb-3">🗑️</p>
-            <h3 className="font-bold text-white text-lg mb-1">حذف المشروع</h3>
-            <p className="text-sm mb-5" style={{ color: '#9ca3af' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+          <div className="w-full max-w-sm rounded-2xl p-6 text-center bg-gray-900 border border-gray-800">
+            <Trash2 className="w-8 h-8 mx-auto mb-3 text-gray-500" />
+            <h3 className="font-bold text-gray-100 text-lg mb-1">حذف المشروع</h3>
+            <p className="text-sm mb-5 text-gray-400">
               هل أنت متأكد؟ لا يمكن التراجع عن هذا الإجراء.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => handleDelete(deleteConfirm)}
-                className="flex-1 py-2.5 rounded-xl font-semibold text-white"
-                style={{ background: '#dc2626' }}
+                className="flex-1 py-2.5 rounded-xl font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors"
               >
                 حذف
               </button>
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="flex-1 py-2.5 rounded-xl font-medium"
-                style={{
-                  background: '#1f2937',
-                  color: '#9ca3af',
-                  border: '1px solid #374151',
-                }}
+                className="flex-1 py-2.5 rounded-xl font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
               >
                 إلغاء
               </button>

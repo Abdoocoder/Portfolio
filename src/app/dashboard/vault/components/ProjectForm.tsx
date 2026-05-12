@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Plus, Trash2, Star } from 'lucide-react';
 import type { VaultProject, ProjectLink, ProjectCredential, ProjectStatus } from '@/lib/vault-data';
 
 const STATUS_OPTIONS: { value: ProjectStatus; label: string }[] = [
@@ -37,19 +37,6 @@ interface ProjectFormProps {
   onClose: () => void;
   onSave: (data: Omit<VaultProject, 'id' | 'createdAt'>) => Promise<void>;
 }
-
-const inputStyle = {
-  background: '#1f2937',
-  border: '1px solid #374151',
-  color: '#f9fafb',
-  borderRadius: '8px',
-  padding: '8px 12px',
-  width: '100%',
-  outline: 'none',
-  fontSize: '14px',
-};
-
-const labelStyle = { color: '#9ca3af', fontSize: '13px', display: 'block', marginBottom: '6px' };
 
 export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps) {
   const [form, setForm] = useState(EMPTY_FORM);
@@ -146,24 +133,19 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-sm"
       onClick={e => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="w-full sm:max-w-2xl max-h-[95vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl"
-        style={{ background: '#111827', border: '1px solid #1f2937' }}
+        className="w-full sm:max-w-2xl max-h-[95vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-800"
         dir="rtl"
       >
         {/* Header */}
-        <div
-          className="sticky top-0 flex items-center justify-between px-5 py-4"
-          style={{ background: '#111827', borderBottom: '1px solid #1f2937', zIndex: 10 }}
-        >
-          <h2 className="font-bold text-white text-lg">
+        <div className="sticky top-0 flex items-center justify-between px-5 py-4 bg-gray-900 border-b border-gray-800 z-10">
+          <h2 className="font-bold text-gray-100 text-lg">
             {project ? 'تعديل المشروع' : 'مشروع جديد'}
           </h2>
-          <button onClick={onClose} style={{ color: '#6b7280' }}>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-400 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -172,21 +154,21 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
           {/* Basic info row */}
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-1">
-              <label style={labelStyle}>الإيموجي</label>
+              <label className="text-gray-400 text-sm block mb-1.5">الإيموجي</label>
               <input
                 value={form.emoji}
                 onChange={e => set('emoji', e.target.value)}
-                placeholder="🚀"
-                style={{ ...inputStyle, textAlign: 'center', fontSize: '20px' }}
+                placeholder="رمز"
+                className="w-full rounded-lg px-3 py-2 text-lg text-center bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
               />
             </div>
             <div className="col-span-2">
-              <label style={labelStyle}>الاسم بالعربية</label>
+              <label className="text-gray-400 text-sm block mb-1.5">الاسم بالعربية</label>
               <input
                 value={form.name}
                 onChange={e => set('name', e.target.value)}
                 placeholder="اسم المشروع"
-                style={inputStyle}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                 required
               />
             </div>
@@ -194,27 +176,25 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>الاسم بالإنجليزية</label>
+              <label className="text-gray-400 text-sm block mb-1.5">الاسم بالإنجليزية</label>
               <input
                 value={form.nameEn}
                 onChange={e => set('nameEn', e.target.value)}
                 placeholder="Project Name"
-                style={inputStyle}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                 dir="ltr"
               />
             </div>
             <div>
-              <label style={labelStyle}>النوع</label>
+              <label className="text-gray-400 text-sm block mb-1.5">النوع</label>
               <select
                 value={form.type}
                 onChange={e => set('type', e.target.value)}
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 cursor-pointer"
                 dir="ltr"
               >
                 {TYPE_OPTIONS.map(t => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
+                  <option key={t} value={t}>{t}</option>
                 ))}
               </select>
             </div>
@@ -223,25 +203,20 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
           {/* Status & Progress */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label style={labelStyle}>الحالة</label>
+              <label className="text-gray-400 text-sm block mb-1.5">الحالة</label>
               <select
                 value={form.status}
                 onChange={e => set('status', e.target.value as ProjectStatus)}
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 cursor-pointer"
               >
                 {STATUS_OPTIONS.map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
+                  <option key={o.value} value={o.value}>{o.label}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label style={labelStyle}>
-                التقدم:{' '}
-                <span dir="ltr" style={{ color: '#60a5fa' }}>
-                  {form.progress}%
-                </span>
+              <label className="text-gray-400 text-sm block mb-1.5">
+                التقدم: <span dir="ltr" className="text-blue-400">{form.progress}%</span>
               </label>
               <input
                 type="range"
@@ -249,8 +224,7 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                 max="100"
                 value={form.progress}
                 onChange={e => set('progress', Number(e.target.value))}
-                className="w-full mt-1"
-                style={{ accentColor: '#3b82f6' }}
+                className="w-full mt-1 accent-blue-500"
                 dir="ltr"
               />
             </div>
@@ -258,25 +232,25 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
 
           {/* Description */}
           <div>
-            <label style={labelStyle}>الوصف</label>
+            <label className="text-gray-400 text-sm block mb-1.5">الوصف</label>
             <textarea
               value={form.description}
               onChange={e => set('description', e.target.value)}
               placeholder="وصف المشروع..."
               rows={2}
-              style={{ ...inputStyle, resize: 'vertical' }}
+              className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 resize-vertical"
             />
           </div>
 
           {/* Featured + Last Updated */}
           <div className="grid grid-cols-2 gap-3 items-end">
             <div>
-              <label style={labelStyle}>آخر تحديث</label>
+              <label className="text-gray-400 text-sm block mb-1.5">آخر تحديث</label>
               <input
                 type="date"
                 value={form.lastUpdated}
                 onChange={e => set('lastUpdated', e.target.value)}
-                style={inputStyle}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                 dir="ltr"
               />
             </div>
@@ -286,17 +260,18 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                 id="featured"
                 checked={form.featured}
                 onChange={e => set('featured', e.target.checked)}
-                style={{ accentColor: '#fbbf24', width: '16px', height: '16px', cursor: 'pointer' }}
+                className="accent-yellow-400 w-4 h-4 cursor-pointer"
               />
-              <label htmlFor="featured" style={{ ...labelStyle, marginBottom: 0, cursor: 'pointer' }}>
-                مشروع مميز ⭐
+               <label htmlFor="featured" className="text-gray-400 text-sm cursor-pointer flex items-center gap-1">
+                مشروع مميز
+                <Star className="w-3.5 h-3.5 text-yellow-400" fill="#fbbf24" />
               </label>
             </div>
           </div>
 
           {/* Tech Stack */}
           <div>
-            <label style={labelStyle}>التقنيات</label>
+            <label className="text-gray-400 text-sm block mb-1.5">التقنيات</label>
             <div className="flex gap-2 mb-2" dir="ltr">
               <input
                 value={techInput}
@@ -308,13 +283,12 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                   }
                 }}
                 placeholder="Next.js"
-                style={{ ...inputStyle, flex: 1 }}
+                className="flex-1 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
               />
               <button
                 type="button"
                 onClick={addTech}
-                className="px-3 rounded-lg transition-colors"
-                style={{ background: '#1f2937', color: '#60a5fa', border: '1px solid #374151' }}
+                className="px-3 rounded-lg bg-gray-800 text-blue-400 border border-gray-700 hover:bg-gray-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -324,14 +298,13 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                 {form.tech.map(t => (
                   <span
                     key={t}
-                    className="flex items-center gap-1 text-sm px-2.5 py-1 rounded-lg"
-                    style={{ background: '#1f2937', color: '#d1d5db', border: '1px solid #374151' }}
+                    className="flex items-center gap-1 text-sm px-2.5 py-1 rounded-lg bg-gray-800 text-gray-300 border border-gray-700"
                   >
                     {t}
                     <button
                       type="button"
                       onClick={() => removeTech(t)}
-                      style={{ color: '#6b7280' }}
+                      className="text-gray-500 hover:text-gray-400 transition-colors"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -344,12 +317,11 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
           {/* Links */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label style={{ ...labelStyle, marginBottom: 0 }}>الروابط</label>
+              <label className="text-gray-400 text-sm">الروابط</label>
               <button
                 type="button"
                 onClick={addLink}
-                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-colors"
-                style={{ color: '#60a5fa', background: 'rgba(59,130,246,0.1)' }}
+                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 transition-colors"
               >
                 <Plus className="w-3 h-3" /> إضافة
               </button>
@@ -361,18 +333,18 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                     value={link.label}
                     onChange={e => updateLink(i, 'label', e.target.value)}
                     placeholder="Label"
-                    style={{ ...inputStyle, width: '100px', flexShrink: 0 }}
+                    className="w-[100px] shrink-0 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                   />
                   <input
                     value={link.url}
                     onChange={e => updateLink(i, 'url', e.target.value)}
                     placeholder="https://"
-                    style={{ ...inputStyle, flex: 1 }}
+                    className="flex-1 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                   />
                   <button
                     type="button"
                     onClick={() => removeLink(i)}
-                    style={{ color: '#f87171', flexShrink: 0 }}
+                    className="text-red-400 hover:text-red-300 shrink-0 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -384,12 +356,11 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
           {/* Credentials */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label style={{ ...labelStyle, marginBottom: 0 }}>بيانات الدخول</label>
+              <label className="text-gray-400 text-sm">بيانات الدخول</label>
               <button
                 type="button"
                 onClick={addCred}
-                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-colors"
-                style={{ color: '#a78bfa', background: 'rgba(167,139,250,0.1)' }}
+                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg text-violet-400 bg-violet-500/10 hover:bg-violet-500/20 transition-colors"
               >
                 <Plus className="w-3 h-3" /> إضافة
               </button>
@@ -401,18 +372,18 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
                     value={cred.label}
                     onChange={e => updateCred(i, 'label', e.target.value)}
                     placeholder="Label"
-                    style={{ ...inputStyle, width: '100px', flexShrink: 0 }}
+                    className="w-[100px] shrink-0 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                   />
                   <input
                     value={cred.value}
                     onChange={e => updateCred(i, 'value', e.target.value)}
                     placeholder="value"
-                    style={{ ...inputStyle, flex: 1 }}
+                    className="flex-1 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                   />
                   <button
                     type="button"
                     onClick={() => removeCred(i)}
-                    style={{ color: '#f87171', flexShrink: 0 }}
+                    className="text-red-400 hover:text-red-300 shrink-0 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -423,13 +394,13 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
 
           {/* Notes */}
           <div>
-            <label style={labelStyle}>ملاحظات</label>
+            <label className="text-gray-400 text-sm block mb-1.5">ملاحظات</label>
             <textarea
               value={form.notes}
               onChange={e => set('notes', e.target.value)}
               placeholder="ملاحظات إضافية..."
               rows={2}
-              style={{ ...inputStyle, resize: 'vertical' }}
+              className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 resize-vertical"
             />
           </div>
 
@@ -438,20 +409,14 @@ export function ProjectForm({ project, open, onClose, onSave }: ProjectFormProps
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-2.5 rounded-xl font-semibold transition-all"
-              style={{
-                background: saving ? '#374151' : 'linear-gradient(135deg, #3b82f6, #6366f1)',
-                color: '#fff',
-                cursor: saving ? 'not-allowed' : 'pointer',
-              }}
+              className="flex-1 py-2.5 rounded-xl font-semibold transition-all disabled:bg-gray-600 disabled:cursor-not-allowed bg-gradient-to-br from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-gray-100"
             >
               {saving ? 'جاري الحفظ...' : project ? 'حفظ التعديلات' : 'إضافة المشروع'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl font-medium transition-colors"
-              style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}
+              className="px-5 py-2.5 rounded-xl font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
             >
               إلغاء
             </button>

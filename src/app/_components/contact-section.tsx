@@ -27,7 +27,7 @@ export function ContactSection() {
   const translations = language === 'ar' ? arTranslations.contact : enTranslations.contact;
 
   return (
-    <section id="contact" className="py-20 sm:py-32 bg-secondary overflow-hidden">
+    <section id="contact" role="region" aria-label="Contact" className="py-20 sm:py-32 bg-secondary overflow-hidden scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.title}</SectionHeading>
         <motion.p
@@ -43,26 +43,26 @@ export function ContactSection() {
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
           <motion.div
-            className="bg-background rounded-lg p-8 shadow-lg"
+            className="bg-background rounded-lg p-8"
             initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h3 className="text-2xl font-bold mb-6">Send me a message</h3>
+            <h3 className="text-2xl font-bold mb-6">{translations.formTitle}</h3>
             <ContactForm />
           </motion.div>
 
           {/* Contact Methods */}
           <div className="space-y-6">
             <motion.div
-              className="bg-background rounded-lg p-8 shadow-lg"
+              className="bg-background rounded-lg p-8"
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             >
-              <h3 className="text-2xl font-bold mb-6">Connect with me</h3>
+              <h3 className="text-2xl font-bold mb-6">{translations.connectTitle}</h3>
               <motion.div
                 className="space-y-4"
                 initial="hidden"

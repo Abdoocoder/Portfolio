@@ -5,8 +5,8 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        // Validate the request body
-        const validatedData = contactFormSchema.parse(body);
+        // Validate the request body (throws on invalid data)
+        contactFormSchema.parse(body);
 
         // TODO: Implement email sending logic here
         // You can use services like:
@@ -29,9 +29,6 @@ export async function POST(request: NextRequest) {
         //     <p>${validatedData.message}</p>
         //   `,
         // });
-
-        // For now, just log the data
-        console.log('Contact form submission:', validatedData);
 
         return NextResponse.json(
             { message: 'Message sent successfully' },

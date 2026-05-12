@@ -13,8 +13,18 @@ export function AboutSection() {
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const aboutImage = placeHolderImages.find(p => p.id === 'about-portrait');
 
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+  };
+
+  const paraVariant = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const } },
+  };
+
   return (
-    <section id="about" className="py-20 sm:py-32 overflow-hidden">
+    <section id="about" role="region" aria-label="About" className="py-20 sm:py-32 overflow-hidden scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
@@ -23,41 +33,37 @@ export function AboutSection() {
             initial={{ opacity: 0, x: -28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
           >
             <SectionHeading>{translations.about.title}</SectionHeading>
-            <div className="space-y-4 text-muted-foreground max-w-[65ch]">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.25, duration: 0.6 }}
-              >
+            <motion.div
+              className="space-y-4 text-muted-foreground max-w-[65ch]"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <motion.p variants={paraVariant}>
                 {translations.about.paragraph1}
               </motion.p>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-              >
+              <motion.p variants={paraVariant}>
                 {translations.about.paragraph2}
               </motion.p>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
             className="flex justify-center"
-            initial={{ opacity: 0, x: 28 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
+            whileInView={{ opacity: 1, clipPath: "inset(0 0 0 0)" }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1], delay: 0.2 }}
           >
             {aboutImage && (
-              <div className="relative">
+              <div className="relative will-change-transform">
                 <motion.div
                   whileHover={{ scale: 1.03, rotate: 1 }}
-                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 >
                   <Image
                     src={aboutImage.imageUrl}

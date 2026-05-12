@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Plus, Pencil, Trash2, RefreshCw, LogOut, Globe, Github,
+  Plus, Pencil, Trash2, RefreshCw, LogOut, Globe, Github, Folder,
   ExternalLink, Star, StarOff, ImageIcon, ChevronRight, Download,
 } from 'lucide-react';
 import {
@@ -26,15 +26,6 @@ const EMPTY: Omit<PortfolioProject, 'id' | 'createdAt'> = {
   nameAr: '', nameEn: '', descriptionAr: '', descriptionEn: '',
   tech: [], liveUrl: '', githubUrl: '', imageUrl: '',
   category: 'web', tags: [], featured: false, order: 0,
-};
-
-const s = {
-  input: {
-    width: '100%', background: '#1f2937', border: '1px solid #374151',
-    borderRadius: '8px', padding: '8px 12px', color: '#f9fafb',
-    outline: 'none', fontSize: '14px',
-  } as React.CSSProperties,
-  label: { color: '#9ca3af', fontSize: '13px', display: 'block', marginBottom: '5px' } as React.CSSProperties,
 };
 
 // ─── form modal ──────────────────────────────────────────────────────────────
@@ -84,46 +75,45 @@ function ProjectFormModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-8"
-      style={{ background: 'rgba(0,0,0,0.75)' }}
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-8 bg-black/75"
       onClick={e => e.target === e.currentTarget && onClose()}
     >
-      <div className="w-full max-w-2xl rounded-2xl" style={{ background: '#111827', border: '1px solid #1f2937' }}>
+      <div className="w-full max-w-2xl rounded-2xl bg-gray-900 border border-gray-800">
         {/* header */}
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #1f2937' }}>
-          <h2 className="font-bold text-white text-lg">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+          <h2 className="font-bold text-gray-100 text-lg">
             {project ? 'تعديل المشروع' : 'مشروع جديد'}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors text-xl">✕</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-300 transition-colors text-xl">✕</button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* names */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label style={s.label}>الاسم عربي *</label>
-              <input style={s.input} required value={form.nameAr} onChange={e => set('nameAr', e.target.value)} placeholder="سوق سيداتي" />
+              <label className="text-gray-400 text-sm block mb-1.5">الاسم عربي *</label>
+              <input className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500" required value={form.nameAr} onChange={e => set('nameAr', e.target.value)} placeholder="سوق سيداتي" />
             </div>
             <div>
-              <label style={s.label}>الاسم إنجليزي *</label>
-              <input style={s.input} dir="ltr" required value={form.nameEn} onChange={e => set('nameEn', e.target.value)} placeholder="Madaba Women Market" />
+              <label className="text-gray-400 text-sm block mb-1.5">الاسم إنجليزي *</label>
+              <input className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500" dir="ltr" required value={form.nameEn} onChange={e => set('nameEn', e.target.value)} placeholder="Madaba Women Market" />
             </div>
           </div>
 
           {/* descriptions */}
           <div>
-            <label style={s.label}>الوصف عربي *</label>
+            <label className="text-gray-400 text-sm block mb-1.5">الوصف عربي *</label>
             <textarea
-              style={{ ...s.input, minHeight: '80px', resize: 'vertical' }}
+              className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 resize-vertical min-h-[80px]"
               required value={form.descriptionAr}
               onChange={e => set('descriptionAr', e.target.value)}
               placeholder="وصف المشروع بالعربية..."
             />
           </div>
           <div>
-            <label style={s.label}>الوصف إنجليزي *</label>
+            <label className="text-gray-400 text-sm block mb-1.5">الوصف إنجليزي *</label>
             <textarea
-              style={{ ...s.input, minHeight: '80px', resize: 'vertical' }}
+              className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 resize-vertical min-h-[80px]"
               dir="ltr" required value={form.descriptionEn}
               onChange={e => set('descriptionEn', e.target.value)}
               placeholder="Project description in English..."
@@ -133,9 +123,9 @@ function ProjectFormModal({
           {/* category + featured */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label style={s.label}>الفئة</label>
+              <label className="text-gray-400 text-sm block mb-1.5">الفئة</label>
               <select
-                style={{ ...s.input, cursor: 'pointer' }}
+                className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 cursor-pointer"
                 value={form.category}
                 onChange={e => set('category', e.target.value)}
               >
@@ -146,15 +136,14 @@ function ProjectFormModal({
               <label className="flex items-center gap-3 cursor-pointer">
                 <div
                   onClick={() => set('featured', !form.featured)}
-                  className="w-11 h-6 rounded-full transition-colors relative"
-                  style={{ background: form.featured ? '#3b82f6' : '#374151' }}
+                  className={`w-11 h-6 rounded-full transition-colors relative ${form.featured ? 'bg-blue-500' : 'bg-gray-700'}`}
                 >
                   <div
-                    className="w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform"
-                    style={{ transform: form.featured ? 'translateX(-5px) translateX(100%)' : 'translateX(2px)' }}
+                    className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${form.featured ? 'left-0.5' : 'left-0.5'}`}
+                    style={{ transform: form.featured ? 'translateX(22px)' : 'translateX(2px)' }}
                   />
                 </div>
-                <span style={{ color: '#d1d5db', fontSize: '14px' }}>مميز (Featured)</span>
+                <span className="text-gray-300 text-sm">مميز (Featured)</span>
               </label>
             </div>
           </div>
@@ -162,25 +151,25 @@ function ProjectFormModal({
           {/* URLs */}
           <div className="grid grid-cols-1 gap-3">
             <div>
-              <label style={s.label}>رابط الموقع</label>
-              <input style={s.input} dir="ltr" type="url" value={form.liveUrl} onChange={e => set('liveUrl', e.target.value)} placeholder="https://..." />
+              <label className="text-gray-400 text-sm block mb-1.5">رابط الموقع</label>
+              <input className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500" dir="ltr" type="url" value={form.liveUrl} onChange={e => set('liveUrl', e.target.value)} placeholder="https://..." />
             </div>
             <div>
-              <label style={s.label}>رابط GitHub</label>
-              <input style={s.input} dir="ltr" type="url" value={form.githubUrl} onChange={e => set('githubUrl', e.target.value)} placeholder="https://github.com/..." />
+              <label className="text-gray-400 text-sm block mb-1.5">رابط GitHub</label>
+              <input className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500" dir="ltr" type="url" value={form.githubUrl} onChange={e => set('githubUrl', e.target.value)} placeholder="https://github.com/..." />
             </div>
             <div>
-              <label style={s.label}>رابط الصورة (Screenshot)</label>
-              <input style={s.input} dir="ltr" type="url" value={form.imageUrl} onChange={e => set('imageUrl', e.target.value)} placeholder="https://..." />
+              <label className="text-gray-400 text-sm block mb-1.5">رابط الصورة (Screenshot)</label>
+              <input className="w-full rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500" dir="ltr" type="url" value={form.imageUrl} onChange={e => set('imageUrl', e.target.value)} placeholder="https://..." />
             </div>
           </div>
 
           {/* tech */}
           <div>
-            <label style={s.label}>التقنيات</label>
+            <label className="text-gray-400 text-sm block mb-1.5">التقنيات</label>
             <div className="flex gap-2 mb-2">
               <input
-                style={{ ...s.input, flex: 1 }}
+                className="flex-1 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                 dir="ltr"
                 value={techInput}
                 onChange={e => setTechInput(e.target.value)}
@@ -189,8 +178,7 @@ function ProjectFormModal({
               />
               <button
                 type="button" onClick={addTech}
-                className="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-                style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
               >
                 إضافة
               </button>
@@ -199,8 +187,7 @@ function ProjectFormModal({
               {form.tech.map(t => (
                 <span
                   key={t}
-                  className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full cursor-pointer"
-                  style={{ background: '#1f2937', color: '#d1d5db', border: '1px solid #374151' }}
+                  className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full cursor-pointer bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700"
                   onClick={() => set('tech', form.tech.filter(x => x !== t))}
                 >
                   {t} <span className="text-red-400">✕</span>
@@ -211,10 +198,10 @@ function ProjectFormModal({
 
           {/* tags */}
           <div>
-            <label style={s.label}>التاقات (Tags)</label>
+            <label className="text-gray-400 text-sm block mb-1.5">التاقات (Tags)</label>
             <div className="flex gap-2 mb-2">
               <input
-                style={{ ...s.input, flex: 1 }}
+                className="flex-1 rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500"
                 dir="ltr"
                 value={tagInput}
                 onChange={e => setTagInput(e.target.value)}
@@ -223,8 +210,7 @@ function ProjectFormModal({
               />
               <button
                 type="button" onClick={addTag}
-                className="px-3 py-2 rounded-lg text-sm font-medium"
-                style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
               >
                 إضافة
               </button>
@@ -233,8 +219,7 @@ function ProjectFormModal({
               {form.tags.map(t => (
                 <span
                   key={t}
-                  className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full cursor-pointer"
-                  style={{ background: '#374151', color: '#9ca3af' }}
+                  className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full cursor-pointer bg-gray-700 text-gray-400 hover:bg-gray-600"
                   onClick={() => set('tags', form.tags.filter(x => x !== t))}
                 >
                   {t} <span className="text-red-400">✕</span>
@@ -245,9 +230,9 @@ function ProjectFormModal({
 
           {/* order */}
           <div>
-            <label style={s.label}>الترتيب</label>
+            <label className="text-gray-400 text-sm block mb-1.5">الترتيب</label>
             <input
-              style={{ ...s.input, width: '100px' }}
+              className="rounded-lg px-3 py-2 bg-gray-800 border border-gray-700 text-gray-100 outline-none focus:border-blue-500 w-[100px]"
               type="number" min={0}
               value={form.order}
               onChange={e => set('order', Number(e.target.value))}
@@ -255,18 +240,16 @@ function ProjectFormModal({
           </div>
 
           {/* actions */}
-          <div className="flex gap-3 pt-2" style={{ borderTop: '1px solid #1f2937' }}>
+          <div className="flex gap-3 pt-2 border-t border-gray-800">
             <button
               type="submit" disabled={saving}
-              className="flex-1 py-2.5 rounded-xl font-semibold text-white transition-all"
-              style={{ background: saving ? '#374151' : 'linear-gradient(135deg, #3b82f6, #6366f1)' }}
+              className="flex-1 py-2.5 rounded-xl font-semibold text-white transition-all disabled:bg-gray-600 bg-gradient-to-br from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
             >
               {saving ? 'جاري الحفظ...' : project ? 'حفظ التعديلات' : 'إضافة المشروع'}
             </button>
             <button
               type="button" onClick={onClose}
-              className="px-6 py-2.5 rounded-xl font-medium transition-colors"
-              style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}
+              className="px-6 py-2.5 rounded-xl font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
             >
               إلغاء
             </button>
@@ -288,50 +271,44 @@ function ProjectCard({
   onToggleFeatured: () => void;
 }) {
   return (
-    <div
-      className="rounded-xl p-4 flex flex-col gap-3 group transition-all"
-      style={{ background: '#111827', border: '1px solid #1f2937' }}
-    >
+    <div className="rounded-xl p-4 flex flex-col gap-3 group transition-all bg-gray-900 border border-gray-800 hover:border-gray-700">
       {/* top row */}
       <div className="flex items-start gap-3">
         {/* thumbnail */}
-        <div
-          className="w-14 h-14 rounded-lg shrink-0 overflow-hidden flex items-center justify-center"
-          style={{ background: '#1f2937' }}
-        >
+        <div className="w-14 h-14 rounded-lg shrink-0 overflow-hidden flex items-center justify-center bg-gray-800">
           {project.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={project.imageUrl} alt={project.nameEn} className="w-full h-full object-cover" />
           ) : (
-            <ImageIcon className="w-6 h-6" style={{ color: '#4b5563' }} />
+            <ImageIcon className="w-6 h-6 text-gray-600" />
           )}
         </div>
         {/* info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-bold text-white text-sm truncate">{project.nameAr}</h3>
+            <h3 className="font-bold text-gray-100 text-sm truncate">{project.nameAr}</h3>
             {project.featured && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0" style={{ background: 'rgba(234,179,8,0.15)', color: '#eab308' }}>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full shrink-0 bg-yellow-400/15 text-yellow-400">
                 ★ مميز
               </span>
             )}
           </div>
-          <p className="text-xs mt-0.5 truncate" style={{ color: '#6b7280' }}>{project.nameEn}</p>
+          <p className="text-xs mt-0.5 truncate text-gray-500">{project.nameEn}</p>
           <div className="flex flex-wrap gap-1 mt-1.5">
             {project.tech.slice(0, 3).map(t => (
-              <span key={t} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}>
+              <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-400 border border-gray-700">
                 {t}
               </span>
             ))}
             {project.tech.length > 3 && (
-              <span className="text-[10px]" style={{ color: '#4b5563' }}>+{project.tech.length - 3}</span>
+              <span className="text-[10px] text-gray-600">+{project.tech.length - 3}</span>
             )}
           </div>
         </div>
       </div>
 
       {/* description */}
-      <p className="text-xs leading-relaxed line-clamp-2" style={{ color: '#6b7280' }}>
+      <p className="text-xs leading-relaxed line-clamp-2 text-gray-500">
         {project.descriptionAr}
       </p>
 
@@ -339,41 +316,36 @@ function ProjectCard({
       <div className="flex gap-3">
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs transition-colors"
-            style={{ color: '#3b82f6' }}>
+            className="flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition-colors">
             <Globe className="w-3 h-3" /> Live
           </a>
         )}
         {project.githubUrl && (
           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs transition-colors"
-            style={{ color: '#6b7280' }}>
+            className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-400 transition-colors">
             <Github className="w-3 h-3" /> GitHub
           </a>
         )}
       </div>
 
       {/* actions */}
-      <div className="flex gap-2 pt-1" style={{ borderTop: '1px solid #1f2937' }}>
+      <div className="flex gap-2 pt-1 border-t border-gray-800">
         <button
           onClick={onToggleFeatured}
-          className="p-1.5 rounded-lg transition-colors"
-          style={{ color: project.featured ? '#eab308' : '#4b5563', background: '#1f2937' }}
+          className={`p-1.5 rounded-lg transition-colors ${project.featured ? 'text-yellow-400 bg-gray-800' : 'text-gray-600 bg-gray-800 hover:text-gray-400'}`}
           title={project.featured ? 'إزالة من المميز' : 'تعيين كمميز'}
         >
           {project.featured ? <Star className="w-3.5 h-3.5" /> : <StarOff className="w-3.5 h-3.5" />}
         </button>
         <button
           onClick={onEdit}
-          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-colors"
-          style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}
+          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors"
         >
           <Pencil className="w-3 h-3" /> تعديل
         </button>
         <button
           onClick={onDelete}
-          className="p-1.5 rounded-lg transition-colors"
-          style={{ background: 'rgba(239,68,68,0.08)', color: '#f87171', border: '1px solid rgba(239,68,68,0.15)' }}
+          className="p-1.5 rounded-lg bg-red-400/10 text-red-400 border border-red-400/20 hover:bg-red-400/20 transition-colors"
         >
           <Trash2 className="w-3.5 h-3.5" />
         </button>
@@ -456,41 +428,35 @@ export default function PortfolioDashboardPage() {
 
   return (
     <div
-      className="min-h-screen"
-      style={{ background: '#070d1a', fontFamily: "'Tajawal', sans-serif" }}
+      className="min-h-screen bg-gray-950"
       dir="rtl"
+      style={{ fontFamily: "'Tajawal', sans-serif" }}
     >
       {/* header */}
-      <header
-        className="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-6 h-14"
-        style={{ background: 'rgba(7,13,26,0.95)', borderBottom: '1px solid #1f2937', backdropFilter: 'blur(8px)' }}
-      >
-        <div className="flex items-center gap-2 text-sm" style={{ color: '#6b7280' }}>
-          <button onClick={() => router.push('/dashboard/vault')} className="hover:text-white transition-colors">
+      <header className="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-6 h-14 bg-gray-950/95 border-b border-gray-800 backdrop-blur-md">
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <button onClick={() => router.push('/dashboard/vault')} className="hover:text-gray-300 transition-colors">
             Project Vault
           </button>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-white font-semibold">إدارة البورتفوليو</span>
+          <span className="text-gray-100 font-semibold">إدارة البورتفوليو</span>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={load}
-            className="p-2 rounded-lg transition-colors hover:text-white"
-            style={{ color: '#6b7280' }}
+            className="p-2 rounded-lg text-gray-500 hover:text-gray-300 transition-colors"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
           <a
             href="/" target="_blank"
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-colors"
-            style={{ color: '#3b82f6', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.15)' }}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg text-blue-400 bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500/20 transition-colors"
           >
             <ExternalLink className="w-3 h-3" /> عرض الموقع
           </a>
           <button
             onClick={() => { sessionStorage.removeItem('vault_auth'); router.push('/dashboard'); }}
-            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg"
-            style={{ color: '#f87171', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}
+            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg text-red-400 bg-red-400/10 border border-red-400/20 hover:bg-red-400/20 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
           </button>
@@ -501,8 +467,8 @@ export default function PortfolioDashboardPage() {
         {/* toolbar */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-white text-xl">مشاريع البورتفوليو</h1>
-            <p className="text-sm mt-0.5" style={{ color: '#6b7280' }}>
+            <h1 className="font-bold text-gray-100 text-xl">مشاريع البورتفوليو</h1>
+            <p className="text-sm mt-0.5 text-gray-500">
               {projects.length} مشروع — {projects.filter(p => p.featured).length} مميز
             </p>
           </div>
@@ -510,17 +476,15 @@ export default function PortfolioDashboardPage() {
             <button
               onClick={handleSeedFromVault}
               disabled={seeding}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all"
-              style={{ background: '#1f2937', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)' }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all bg-gray-800 text-emerald-400 border border-emerald-400/30 hover:bg-gray-700 disabled:opacity-50"
               title="استيراد المشاريع من الـ Vault"
             >
-              <Download className={`w-4 h-4 ${seeding ? 'animate-bounce' : ''}`} />
+              <Download className={`w-4 h-4 ${seeding ? 'animate-pulse' : ''}`} />
               {seeding ? 'جاري الاستيراد...' : 'استيراد من Vault'}
             </button>
             <button
               onClick={() => setFormProject(null)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm text-white"
-              style={{ background: 'linear-gradient(135deg, #3b82f6, #6366f1)' }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-br from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
             >
               <Plus className="w-4 h-4" /> مشروع جديد
             </button>
@@ -529,7 +493,7 @@ export default function PortfolioDashboardPage() {
 
         {/* error */}
         {error && (
-          <div className="rounded-xl p-4 text-sm" style={{ background: 'rgba(239,68,68,0.08)', color: '#f87171', border: '1px solid rgba(239,68,68,0.2)' }}>
+          <div className="rounded-xl p-4 text-sm bg-red-400/10 text-red-400 border border-red-400/20">
             {error}
           </div>
         )}
@@ -538,13 +502,13 @@ export default function PortfolioDashboardPage() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-xl h-52 animate-pulse" style={{ background: '#111827' }} />
+              <div key={i} className="rounded-xl h-52 animate-pulse bg-gray-900" />
             ))}
           </div>
         ) : projects.length === 0 ? (
-          <div className="text-center py-24" style={{ color: '#4b5563' }}>
-            <p className="text-5xl mb-4">📂</p>
-            <p className="text-lg font-medium text-white mb-1">لا توجد مشاريع بعد</p>
+          <div className="text-center py-24 text-gray-600">
+            <Folder className="w-12 h-12 mx-auto mb-4 text-gray-500" />
+            <p className="text-lg font-medium text-gray-100 mb-1">لا توجد مشاريع بعد</p>
             <p className="text-sm">اضغط على &quot;مشروع جديد&quot; للبدء</p>
           </div>
         ) : (
@@ -573,14 +537,14 @@ export default function PortfolioDashboardPage() {
 
       {/* delete confirm */}
       {deleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)' }}>
-          <div className="w-full max-w-sm rounded-2xl p-6 text-center" style={{ background: '#111827', border: '1px solid #1f2937' }}>
-            <p className="text-3xl mb-3">🗑️</p>
-            <h3 className="font-bold text-white text-lg mb-1">حذف المشروع</h3>
-            <p className="text-sm mb-5" style={{ color: '#9ca3af' }}>لا يمكن التراجع عن هذا الإجراء.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+          <div className="w-full max-w-sm rounded-2xl p-6 text-center bg-gray-900 border border-gray-800">
+            <Trash2 className="w-8 h-8 mx-auto mb-3 text-gray-500" />
+            <h3 className="font-bold text-gray-100 text-lg mb-1">حذف المشروع</h3>
+            <p className="text-sm mb-5 text-gray-400">لا يمكن التراجع عن هذا الإجراء.</p>
             <div className="flex gap-3">
-              <button onClick={() => handleDelete(deleteId)} className="flex-1 py-2.5 rounded-xl font-semibold text-white" style={{ background: '#dc2626' }}>حذف</button>
-              <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 rounded-xl font-medium" style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}>إلغاء</button>
+              <button onClick={() => handleDelete(deleteId)} className="flex-1 py-2.5 rounded-xl font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors">حذف</button>
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2.5 rounded-xl font-medium bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 transition-colors">إلغاء</button>
             </div>
           </div>
         </div>

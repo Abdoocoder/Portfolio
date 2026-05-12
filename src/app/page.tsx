@@ -28,7 +28,7 @@ export default function Home() {
     <div className="flex min-h-dvh flex-col bg-background text-foreground">
       <ScrollProgress />
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <HeroSection />
         <AboutSection />
         <SkillsSection />

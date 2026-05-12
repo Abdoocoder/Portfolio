@@ -8,26 +8,26 @@ import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
 
 const skills = [
-  { nameKey: "htmlCssJs",       icon: Code      },
-  { nameKey: "reactNext",       icon: Laptop    },
-  { nameKey: "firebase",        icon: Database  },
-  { nameKey: "supabase",        icon: Database  },
+  { nameKey: "htmlCssJs",       icon: Code },
+  { nameKey: "reactNext",       icon: Laptop },
+  { nameKey: "firebase",        icon: Database },
+  { nameKey: "supabase",        icon: Database },
   { nameKey: "gitGithub",       icon: GitBranch },
-  { nameKey: "vercel",          icon: Cloud     },
-  { nameKey: "systemAnalysis",  icon: Search    },
-  { nameKey: "accessControl",   icon: Lock      },
+  { nameKey: "vercel",          icon: Cloud },
+  { nameKey: "systemAnalysis",  icon: Search },
+  { nameKey: "accessControl",   icon: Lock },
 ];
 
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
+  visible: { transition: { staggerChildren: 0.06 } },
 };
 
-const pill = {
-  hidden: { opacity: 0, scale: 0.88, y: 14 },
+const item = {
+  hidden: { opacity: 0, x: -20 },
   visible: {
-    opacity: 1, scale: 1, y: 0,
-    transition: { type: "spring" as const, stiffness: 260, damping: 20 },
+    opacity: 1, x: 0,
+    transition: { type: "spring" as const, stiffness: 220, damping: 18 },
   },
 };
 
@@ -36,12 +36,12 @@ export function SkillsSection() {
   const translations = language === 'ar' ? arTranslations : enTranslations;
 
   return (
-    <section id="skills" className="py-20 sm:py-32 bg-secondary overflow-hidden">
+    <section id="skills" role="region" aria-label="Skills" className="py-20 sm:py-32 bg-secondary overflow-hidden scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-center">{translations.skills.title}</SectionHeading>
 
         <motion.div
-          className="mt-14 flex flex-wrap justify-center gap-3"
+          className="mt-14 max-w-2xl mx-auto divide-y divide-border"
           variants={container}
           initial="hidden"
           whileInView="visible"
@@ -50,18 +50,14 @@ export function SkillsSection() {
           {skills.map((skill) => (
             <motion.div
               key={skill.nameKey}
-              variants={pill}
-              whileHover={{ y: -4, scale: 1.05 }}
-              whileTap={{ scale: 0.96 }}
-              className="group flex items-center gap-2.5 px-5 py-3 rounded-full bg-background border border-border
-                         text-foreground cursor-default select-none
-                         hover:bg-primary hover:border-primary hover:text-primary-foreground"
+              variants={item}
+              className="group flex items-center gap-4 py-4 cursor-default"
             >
               <skill.icon
-                className="h-5 w-5 flex-shrink-0 text-accent group-hover:text-primary-foreground"
+                className="h-5 w-5 shrink-0 text-accent"
                 aria-hidden="true"
               />
-              <span className="font-medium text-sm sm:text-base whitespace-nowrap">
+              <span className="font-medium text-sm sm:text-base text-foreground group-hover:text-primary transition-colors">
                 {translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}
               </span>
             </motion.div>

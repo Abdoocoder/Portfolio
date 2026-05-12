@@ -221,7 +221,7 @@ function buildSeedProjects(today: string): Omit<VaultProject, 'id' | 'createdAt'
     {
       name: 'FlexJob',
       nameEn: 'FlexJob',
-      emoji: '💼',
+      emoji: '',
       description: 'منصة لتوصيل العمالة الحرة بأصحاب العمل في الأردن',
       status: 'completed',
       type: 'Web App',
