@@ -5,7 +5,7 @@ import { SectionHeading } from "./section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useEffect, useState, useCallback, useRef } from "react";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
@@ -17,23 +17,34 @@ type Translations = typeof arTranslations.projects;
 function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
+  const rectRef = useRef<DOMRect | null>(null);
+  const canHover = useRef(typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
 
   const rotateX = useSpring(useTransform(y, [0, 1], [6, -6]), { stiffness: 200, damping: 20 });
   const rotateY = useSpring(useTransform(x, [0, 1], [-6, 6]), { stiffness: 200, damping: 20 });
 
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!canHover.current) return;
+    rectRef.current = e.currentTarget.getBoundingClientRect();
+  }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+    if (!canHover.current) return;
+    const rect = rectRef.current;
+    if (!rect) return;
     x.set((e.clientX - rect.left) / rect.width);
     y.set((e.clientY - rect.top) / rect.height);
   }, [x, y]);
 
   const handleMouseLeave = useCallback(() => {
+    if (!canHover.current) return;
     x.set(0.5);
     y.set(0.5);
   }, [x, y]);
 
   return (
     <motion.div
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformPerspective: 1000 }}
@@ -49,67 +60,70 @@ function PhoneFrame({ project, isRtl }: { project: PortfolioProject; isRtl: bool
   const url   = project.liveUrl || project.githubUrl || "";
 
   return (
-    <motion.a
-      href={url || undefined}
-      target={url ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      className={cn(
-        "group relative w-[140px] h-[302px] sm:w-[175px] sm:h-[378px] md:w-[195px] md:h-[420px]",
-        "rounded-[28px] sm:rounded-[35px] md:rounded-[42px] overflow-hidden",
-        "border-[5px] sm:border-[6px] md:border-[7px] border-gray-900",
-        "shadow-xl block",
-        url ? "cursor-pointer" : "cursor-default",
-      )}
-      whileHover={{ boxShadow: "0 36px 72px rgba(13,21,52,0.42)" }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[48px] sm:w-[58px] md:w-[68px] h-[16px] sm:h-[19px] md:h-[22px] bg-gray-900 rounded-b-[12px] sm:rounded-b-[15px] md:rounded-b-[18px] z-20" />
-      <div className="absolute right-[-8px] sm:right-[-10px] md:right-[-11px] top-[64px] sm:top-[78px] md:top-[90px] w-[4px] sm:w-[4px] md:w-[5px] h-[26px] sm:h-[31px] md:h-[36px] bg-gray-900 rounded-l-full z-20" />
-      <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[52px] sm:top-[63px] md:top-[72px] w-[4px] sm:w-[4px] md:w-[5px] h-[20px] sm:h-[24px] md:h-[28px] bg-gray-900 rounded-r-full z-20" />
-      <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[78px] sm:top-[94px] md:top-[108px] w-[4px] sm:w-[4px] md:w-[5px] h-[38px] sm:h-[46px] md:h-[52px] bg-gray-900 rounded-r-full z-20" />
-      <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[122px] sm:top-[146px] md:top-[168px] w-[4px] sm:w-[4px] md:w-[5px] h-[38px] sm:h-[46px] md:h-[52px] bg-gray-900 rounded-r-full z-20" />
-
-      <div className="absolute inset-0 bg-gray-900">
-        {project.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={project.imageUrl}
-            alt={title}
-            loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
-            <span className="text-gray-100/20 text-7xl font-black select-none">
-              {title.charAt(0).toUpperCase()}
-            </span>
-          </div>
+    <div className="relative group/phone">
+      <motion.a
+        href={url || undefined}
+        target={url ? "_blank" : undefined}
+        rel="noopener noreferrer"
+        className={cn(
+          "group relative w-[140px] h-[302px] sm:w-[175px] sm:h-[378px] md:w-[195px] md:h-[420px]",
+          "rounded-[28px] sm:rounded-[35px] md:rounded-[42px] overflow-hidden",
+          "border-[5px] sm:border-[6px] md:border-[7px] border-gray-900",
+          "shadow-xl block",
+          url ? "cursor-pointer" : "cursor-default",
         )}
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[48px] sm:w-[58px] md:w-[68px] h-[16px] sm:h-[19px] md:h-[22px] bg-gray-900 rounded-b-[12px] sm:rounded-b-[15px] md:rounded-b-[18px] z-20" />
+        <div className="absolute right-[-8px] sm:right-[-10px] md:right-[-11px] top-[64px] sm:top-[78px] md:top-[90px] w-[4px] sm:w-[4px] md:w-[5px] h-[26px] sm:h-[31px] md:h-[36px] bg-gray-900 rounded-l-full z-20" />
+        <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[52px] sm:top-[63px] md:top-[72px] w-[4px] sm:w-[4px] md:w-[5px] h-[20px] sm:h-[24px] md:h-[28px] bg-gray-900 rounded-r-full z-20" />
+        <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[78px] sm:top-[94px] md:top-[108px] w-[4px] sm:w-[4px] md:w-[5px] h-[38px] sm:h-[46px] md:h-[52px] bg-gray-900 rounded-r-full z-20" />
+        <div className="absolute left-[-8px] sm:left-[-10px] md:left-[-11px] top-[122px] sm:top-[146px] md:top-[168px] w-[4px] sm:w-[4px] md:w-[5px] h-[38px] sm:h-[46px] md:h-[52px] bg-gray-900 rounded-r-full z-20" />
 
-        <div
-          className="absolute bottom-0 inset-x-0 pt-16 pb-5 px-4"
-          style={{ background: "linear-gradient(to top, rgba(13,21,52,0.95) 0%, rgba(13,21,52,0.6) 55%, transparent 100%)" }}
-        >
-          <p className="text-gray-100 font-semibold text-xs sm:text-[13px] leading-tight font-headline line-clamp-1" title={title}>{title}</p>
-          <div className={cn("flex flex-wrap gap-1 mt-1.5", isRtl ? "justify-end" : "justify-start")}>
-            {project.tech.slice(0, 2).map(t => (
-              <span key={t} className="text-[10px] text-gray-100/75 bg-gray-100/10 backdrop-blur-sm px-2 py-1 rounded-full border border-gray-100/10">
-                {t}
+        <div className="absolute inset-0 bg-gray-900">
+          {project.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={project.imageUrl}
+              alt={title}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+              <span className="text-foreground/20 text-7xl font-black select-none">
+                {title.charAt(0).toUpperCase()}
               </span>
-            ))}
+            </div>
+          )}
+
+          <div
+            className="absolute bottom-0 inset-x-0 pt-16 pb-5 px-4"
+            style={{ background: "linear-gradient(to top, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.6) 55%, transparent 100%)" }}
+          >
+            <p className="text-foreground font-semibold text-xs sm:text-[13px] leading-tight font-headline line-clamp-1" title={title}>{title}</p>
+            <div className={cn("flex flex-wrap gap-1 mt-1.5", isRtl ? "justify-end" : "justify-start")}>
+              {project.tech.slice(0, 2).map(t => (
+                <span key={t} className="text-[10px] text-foreground/75 bg-foreground/10 backdrop-blur-sm px-2 py-1 rounded-full border border-foreground/10">
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
+
+          <motion.div
+            className="absolute inset-0 bg-primary/10 z-10"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.25 }}
+          />
         </div>
 
-        <motion.div
-          className="absolute inset-0 bg-primary/10 z-10"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.25 }}
-        />
-      </div>
+        <div className="absolute bottom-[7px] left-1/2 -translate-x-1/2 w-[52px] h-[3px] bg-foreground/20 rounded-full z-20" />
+      </motion.a>
 
-      <div className="absolute bottom-[7px] left-1/2 -translate-x-1/2 w-[52px] h-[3px] bg-gray-100/20 rounded-full z-20" />
-    </motion.a>
+      {/* GPU-composited depth shadow — opacity only, no box-shadow animation */}
+      <div className="absolute inset-0 -z-10 rounded-[28px] sm:rounded-[35px] md:rounded-[42px] blur-2xl bg-black/25 opacity-0 group-hover/phone:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </div>
   );
 }
 
@@ -124,18 +138,9 @@ function CoverflowCarousel({ projects, isRtl, translations }: {
   const goNext = useCallback(() => setActiveIndex(i => (i + 1) % total), [total]);
   const goPrev = useCallback(() => setActiveIndex(i => (i - 1 + total) % total), [total]);
 
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') goPrev();
-      if (e.key === 'ArrowRight') goNext();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [goNext, goPrev]);
-
   const handleDragEnd = useCallback((_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (info.offset.x < -50) goNext();
-    if (info.offset.x > 50) goPrev();
+    if (info.offset.x < -50 || info.velocity.x < -300) goNext();
+    if (info.offset.x > 50 || info.velocity.x > 300) goPrev();
   }, [goNext, goPrev]);
 
   const active = projects[activeIndex];
@@ -143,11 +148,18 @@ function CoverflowCarousel({ projects, isRtl, translations }: {
   const desc  = isRtl ? active.descriptionAr : active.descriptionEn;
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full outline-none"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') goPrev();
+        if (e.key === 'ArrowRight') goNext();
+      }}
+    >
       <div className="relative flex items-center justify-center" style={{ perspective: "1200px" }}>
         <button
           onClick={goPrev}
-          className="absolute left-0 z-30 p-2 rounded-full bg-background/10 backdrop-blur-sm border border-gray-100/20 text-gray-100 hover:bg-background/30 transition-colors cursor-pointer"
+          className="absolute left-0 z-30 p-2 rounded-full bg-background/10 backdrop-blur-sm border border-foreground/20 text-foreground hover:bg-background/30 transition-colors cursor-pointer"
           aria-label="Previous project"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -195,7 +207,7 @@ function CoverflowCarousel({ projects, isRtl, translations }: {
 
         <button
           onClick={goNext}
-          className="absolute right-0 z-30 p-2 rounded-full bg-background/10 backdrop-blur-sm border border-gray-100/20 text-gray-100 hover:bg-background/30 transition-colors cursor-pointer"
+          className="absolute right-0 z-30 p-2 rounded-full bg-background/10 backdrop-blur-sm border border-foreground/20 text-foreground hover:bg-background/30 transition-colors cursor-pointer"
           aria-label="Next project"
         >
           <ChevronRight className="w-5 h-5" />
@@ -208,7 +220,7 @@ function CoverflowCarousel({ projects, isRtl, translations }: {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
           className="mt-6 text-center"
         >
           <h3 className="text-xl font-bold font-headline text-primary">{title}</h3>
@@ -260,6 +272,7 @@ function MoreProjectCard({
 }) {
   const title = isRtl ? project.nameAr : project.nameEn;
   const desc  = isRtl ? project.descriptionAr : project.descriptionEn;
+  const canHover = useRef(typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
 
   return (
     <motion.div
@@ -273,7 +286,7 @@ function MoreProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -6, scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 18 } }}
+      whileHover={canHover.current ? { y: -6, scale: 1.01, transition: { type: "spring", stiffness: 300, damping: 18 } } : {}}
     >
       <h3 className="font-headline font-bold text-sm sm:text-[15px] text-primary leading-snug line-clamp-1" title={title}>{title}</h3>
       {desc && <p className="text-xs sm:text-[13px] text-muted-foreground leading-relaxed line-clamp-2" title={desc}>{desc}</p>}
@@ -362,7 +375,7 @@ export function ProjectsSection() {
             >
               {translations.moreProjects}
             </motion.p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {moreProjects.map((p, i) => (
                 <MoreProjectCard
                   key={p.id} project={p} index={i}
