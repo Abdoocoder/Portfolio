@@ -62,7 +62,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     const exitTimer = setTimeout(() => {
       if (cancelled || !containerRef.current) return;
       gsap.to(containerRef.current, {
-        yPercent: 100,
+        yPercent: -100,
         duration: 0.7,
         ease: 'expo.inOut',
         onComplete,
@@ -86,7 +86,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     >
       <style>{`
         @keyframes loader-char-in {
-          from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+          from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
           to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
         }
         @keyframes loader-particle-float {
@@ -101,6 +101,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           .loader-char     { animation-duration: 0.001ms !important; animation-delay: 0ms !important; }
           .loader-particle { animation: none !important; opacity: 0 !important; }
           .loader-glow     { animation: none !important; }
+          .loader-counter  { display: none !important; }
         }
       `}</style>
 
@@ -114,6 +115,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
             height:     p.h,
             left:       p.left,
             top:        p.top,
+            opacity:    0,
             background: 'hsl(var(--accent))',
             animation:  `loader-particle-float ${p.dur} ${p.delay} ease-in infinite`,
           }}
@@ -205,7 +207,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
 
       {/* Progress counter — bottom-right, monospace */}
       <div
-        className="pointer-events-none absolute bottom-8 right-10 flex items-baseline gap-px font-mono"
+        className="loader-counter pointer-events-none absolute bottom-8 right-10 flex items-baseline gap-px font-mono"
         style={{
           fontSize:      '0.6875rem',
           letterSpacing: '0.08em',
