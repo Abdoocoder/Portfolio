@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDown, Download } from "lucide-react";
-import { useContext, useRef, useCallback, useEffect, useState } from "react";
+import { useContext, useRef, useCallback, useEffect, useState, memo } from "react";
 import { cn } from "@/lib/utils";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
@@ -65,9 +65,10 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
   );
 }
 
-function InteractiveOrb({ config, mouseX, mouseY }: { config: typeof orbConfigs[0]; mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
+const InteractiveOrb = memo(function InteractiveOrb({ config, mouseX, mouseY }: { config: typeof orbConfigs[0]; mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
   const prefersReducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
   const offsetX = useMotionValue(0);
   const offsetY = useMotionValue(0);
 
@@ -75,33 +76,47 @@ function InteractiveOrb({ config, mouseX, mouseY }: { config: typeof orbConfigs[
   const springY = useSpring(offsetY, { stiffness: 40, damping: 12 });
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const updateRect = () => { rectRef.current = el.getBoundingClientRect(); };
+    updateRect();
+
+    const ro = new ResizeObserver(updateRect);
+    ro.observe(el);
+    window.addEventListener('resize', updateRect, { passive: true });
+
     const unsubX = mouseX.on('change', (mx) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
+      const rect = rectRef.current;
+      if (!rect) return;
       const dx = mx - (rect.left + rect.width / 2);
       offsetX.set(Math.max(-80, Math.min(80, dx * 0.06)));
     });
     const unsubY = mouseY.on('change', (my) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
+      const rect = rectRef.current;
+      if (!rect) return;
       const dy = my - (rect.top + rect.height / 2);
       offsetY.set(Math.max(-80, Math.min(80, dy * 0.06)));
     });
-    return () => { unsubX(); unsubY(); };
+
+    return () => {
+      unsubX();
+      unsubY();
+      ro.disconnect();
+      window.removeEventListener('resize', updateRect);
+    };
   }, [mouseX, mouseY, offsetX, offsetY]);
 
   return (
     <motion.div
       ref={ref}
-      className={`absolute rounded-full blur-3xl pointer-events-none ${config.color}`}
+      className={`absolute rounded-full blur-3xl pointer-events-none z-[2] ${config.color}`}
       style={{ width: config.w, height: config.h, left: config.x, top: config.y, x: springX, y: springY }}
       animate={prefersReducedMotion ? {} : { scale: [1, 1.12, 1] }}
-      transition={{ duration: config.dur, delay: config.delay, repeat: Infinity, ease: "easeInOut" }}
+      transition={{ duration: config.dur, delay: config.delay, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
     />
   );
-}
+});
 
 export function HeroSection() {
   const { language } = useContext(LanguageContext);
@@ -121,6 +136,7 @@ export function HeroSection() {
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const canHover = useRef(typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
@@ -128,11 +144,13 @@ export function HeroSection() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!canHover.current) return;
     mouseX.set(e.clientX);
     mouseY.set(e.clientY);
   }, [mouseX, mouseY]);
 
   const handleMouseLeave = useCallback(() => {
+    if (!canHover.current) return;
     mouseX.set(0);
     mouseY.set(0);
   }, [mouseX, mouseY]);
@@ -143,7 +161,7 @@ export function HeroSection() {
       id="hero"
       role="region"
       aria-label="Hero"
-      className="relative min-h-[max(80dvh,500px)] overflow-hidden scroll-mt-16"
+      className="relative min-h-[100dvh] overflow-hidden scroll-mt-16"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -162,26 +180,28 @@ export function HeroSection() {
             muted
             loop
             playsInline
+            poster="/hero-video-poster.jpg"
+            preload="metadata"
             onPlaying={() => setVideoLoaded(true)}
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
               videoLoaded ? "opacity-100" : "opacity-0"
             )}
-            aria-label="Animated background video showcasing Abdullah's work"
+            aria-hidden="true"
           >
             <source src="/Reboot Hero Section.mp4" type="video/mp4" />
           </video>
         )}
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/50 to-transparent z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent z-[1]" />
 
       {orbConfigs.map((config, i) => (
         <InteractiveOrb key={i} config={config} mouseX={mouseX} mouseY={mouseY} />
       ))}
 
       <motion.div
-        className="relative z-10 flex items-center min-h-[max(80dvh,500px)]"
+        className="relative z-10 flex items-center min-h-[100dvh]"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="w-full container mx-auto px-4 sm:px-6 lg:pl-[10vw] lg:pr-8">
@@ -194,13 +214,13 @@ export function HeroSection() {
               visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
             }}
           >
-            <motion.h1 variants={itemAnim} className="text-5xl font-bold font-headline text-gray-50 sm:text-6xl md:text-7xl drop-shadow-md" style={{ letterSpacing: '-0.02em', lineHeight: 1.05 }}>
+            <motion.h1 variants={itemAnim} className="text-5xl font-bold font-headline text-foreground sm:text-6xl md:text-7xl drop-shadow-md" style={{ letterSpacing: '-0.02em', lineHeight: 1.05 }}>
               {translations.hero.name}
             </motion.h1>
             <motion.p variants={itemAnim} className="mt-4 text-xl sm:text-2xl font-semibold text-accent font-headline drop-shadow-sm">
               {translations.hero.title}
             </motion.p>
-            <motion.p variants={itemAnim} className="mt-6 max-w-xl text-lg text-gray-100 drop-shadow-sm">
+            <motion.p variants={itemAnim} className="mt-6 max-w-xl text-lg text-foreground/80 drop-shadow-sm">
               {translations.hero.subtitle}
             </motion.p>
             <motion.div variants={itemAnim} className="mt-10 flex flex-wrap gap-4">
@@ -210,18 +230,10 @@ export function HeroSection() {
                 </Button>
               </MagneticButton>
               <MagneticButton>
-                <Button asChild variant="outline" size="lg" className="bg-background/20 text-gray-100 border-gray-100/30 hover:bg-background/40 backdrop-blur-sm">
+                <Button asChild variant="outline" size="lg" className="bg-background/20 text-foreground border-foreground/30 hover:bg-background/40 backdrop-blur-sm">
                   <Link href="/cv">
                     <Download className="me-2 h-4 w-4" />
                     {translations.header.downloadCvButton}
-                  </Link>
-                </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Button asChild variant="outline" size="lg" className="bg-background/20 text-gray-100 border-gray-100/30 hover:bg-background/40 backdrop-blur-sm">
-                  <Link href="#projects">
-                    {translations.hero.workButton}
-                    <ArrowDown className="ms-2 h-4 w-4" />
                   </Link>
                 </Button>
               </MagneticButton>
@@ -237,12 +249,12 @@ export function HeroSection() {
         transition={{ delay: 2.2, type: "spring", stiffness: 120, damping: 14 }}
       >
         <motion.div
-          className="w-6 h-10 border-2 border-gray-100/50 rounded-full flex justify-center pt-2"
+          className="w-6 h-10 border-2 border-foreground/50 rounded-full flex justify-center pt-2"
           animate={prefersReducedMotion ? { opacity: 0.5 } : { opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
           <motion.div
-            className="w-1.5 h-1.5 bg-gray-100 rounded-full"
+            className="w-1.5 h-1.5 bg-foreground rounded-full"
             animate={prefersReducedMotion ? { y: 7 } : { y: [0, 14, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           />
