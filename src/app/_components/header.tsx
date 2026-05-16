@@ -23,14 +23,22 @@ const navLinks = [
 
 function MagneticNavLink({ href, children, isActive }: { href: string; children: React.ReactNode; isActive: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
+  const canHover = useRef(typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const springX = useSpring(x, { stiffness: 300, damping: 15 });
   const springY = useSpring(y, { stiffness: 300, damping: 15 });
 
+  const handleMouseEnter = useCallback(() => {
+    if (!canHover.current) return;
+    rectRef.current = ref.current?.getBoundingClientRect() ?? null;
+  }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
+    if (!canHover.current) return;
+    const rect = rectRef.current;
     if (!rect) return;
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -45,6 +53,7 @@ function MagneticNavLink({ href, children, isActive }: { href: string; children:
   }, [x, y]);
 
   const handleMouseLeave = useCallback(() => {
+    if (!canHover.current) return;
     x.set(0);
     y.set(0);
   }, [x, y]);
@@ -52,6 +61,7 @@ function MagneticNavLink({ href, children, isActive }: { href: string; children:
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
@@ -89,11 +99,11 @@ export function Header() {
       const navRect = navEl.getBoundingClientRect();
       const linkRect = activeLink.getBoundingClientRect();
       setIndicatorStyle({
-        left: linkRect.left - navRect.left,
+        transform: `translateX(${linkRect.left - navRect.left}px)`,
         width: linkRect.width,
       });
     } else {
-      setIndicatorStyle({ width: 0 });
+      setIndicatorStyle({ width: 0, transform: 'translateX(0px)' });
     }
   }, []);
 
@@ -111,7 +121,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
-          <Code2 className="h-6 w-6 text-primary transition-transform group-hover:scale-105" />
+          <Code2 className="h-6 w-6 text-primary transition-transform duration-200 ease-out group-hover:scale-105" />
           <span className="font-bold font-headline text-lg">{translations.header.name}</span>
         </Link>
         <nav ref={navRef} className="hidden md:flex relative items-center space-x-1 text-sm font-medium">
@@ -125,8 +135,12 @@ export function Header() {
             </MagneticNavLink>
           ))}
           <div
-            className="absolute h-full bg-primary rounded-md transition-all duration-300 ease-in-out"
-            style={indicatorStyle}
+            className="absolute left-0 h-full bg-primary rounded-md"
+            style={{
+              ...indicatorStyle,
+              transition: 'transform 300ms cubic-bezier(0.23, 1, 0.32, 1), width 300ms cubic-bezier(0.23, 1, 0.32, 1)',
+              willChange: 'transform',
+            }}
           />
         </nav>
         <div className="flex items-center gap-2">
