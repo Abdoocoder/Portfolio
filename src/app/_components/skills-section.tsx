@@ -47,7 +47,7 @@ export function SkillsSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
         >
-          {skills.map((skill) => (
+          {skills.map((skill, index) => (
             <motion.div
               key={skill.nameKey}
               variants={item}
@@ -59,7 +59,7 @@ export function SkillsSection() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="font-medium text-sm sm:text-base text-foreground group-hover:text-primary transition-colors">
+                  <span className="font-medium text-sm sm:text-base text-foreground [@media(hover:hover)]:group-hover:text-primary transition-colors duration-200">
                     {translations.skills.items[skill.nameKey as keyof typeof translations.skills.items]}
                   </span>
                   <span className="text-xs tabular-nums text-muted-foreground/60">
@@ -68,11 +68,12 @@ export function SkillsSection() {
                 </div>
                 <div className="mt-1.5 h-1 rounded-full bg-border overflow-hidden">
                   <motion.div
-                    className="h-full rounded-full bg-accent/60"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.proficiency}%` }}
+                    className="h-full w-full rounded-full bg-accent/60"
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: skill.proficiency / 100 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                    style={{ transformOrigin: 'left' }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 + index * 0.06 }}
                   />
                 </div>
               </div>
