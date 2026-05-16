@@ -30,11 +30,16 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let cancelled = false;
 
-    gsap.set(shimmerRef.current, { x: '-110%' });
+    const shimmer   = shimmerRef.current;
+    const role      = roleRef.current;
+    const line      = lineRef.current;
+    const container = containerRef.current;
+
+    gsap.set(shimmer, { x: '-110%' });
 
     if (reduced) {
       const timer = setTimeout(() => {
-        if (cancelled || !containerRef.current) return;
+        if (cancelled || !container) return;
         onComplete();
       }, 800);
       return () => { cancelled = true; clearTimeout(timer); };
@@ -54,14 +59,14 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
 
     const shimmerTimer = setTimeout(() => {
       if (cancelled) return;
-      gsap.to(shimmerRef.current, { x: '200%', duration: 1.0, ease: 'power3.out' });
-      gsap.to(roleRef.current,    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 });
-      gsap.to(lineRef.current,    { scaleX: 1,  duration: 0.5, ease: 'power2.out', delay: 0.4 });
+      gsap.to(shimmer, { x: '200%', duration: 1.0, ease: 'power3.out' });
+      gsap.to(role,    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 });
+      gsap.to(line,    { scaleX: 1,  duration: 0.5, ease: 'power2.out', delay: 0.4 });
     }, 900);
 
     const exitTimer = setTimeout(() => {
-      if (cancelled || !containerRef.current) return;
-      gsap.to(containerRef.current, {
+      if (cancelled || !container) return;
+      gsap.to(container, {
         yPercent: -100,
         duration: 0.7,
         ease: 'expo.inOut',
@@ -74,7 +79,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       counterTween.kill();
       clearTimeout(shimmerTimer);
       clearTimeout(exitTimer);
-      gsap.killTweensOf([shimmerRef.current, roleRef.current, lineRef.current, containerRef.current]);
+      gsap.killTweensOf([shimmer, role, line, container]);
     };
   }, [onComplete]);
 
