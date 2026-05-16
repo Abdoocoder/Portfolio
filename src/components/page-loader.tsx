@@ -23,34 +23,26 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
   const roleColor = isDark ? 'rgba(55,167,180,0.55)' : 'rgba(35,73,154,0.4)';
 
   useEffect(() => {
-    const chars = charRefs.current.filter(Boolean);
+    const chars = charRefs.current.filter((el): el is HTMLSpanElement => el !== null);
+    if (!chars.length) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(chars,              { opacity: 0, y: 10, filter: 'blur(4px)' });
+      // Initial states
+      gsap.set(chars,              { opacity: 0, y: 10 });
       gsap.set(shimmerRef.current, { x: '-110%' });
       gsap.set(roleRef.current,    { opacity: 0, letterSpacing: '0.2em' });
       gsap.set(lineRef.current,    { width: 0 });
 
-      const tl = gsap.timeline({
-        onComplete: () => {
-          gsap.to(containerRef.current, {
-            yPercent: 100,
-            duration: 0.85,
-            ease: 'expo.inOut',
-            onComplete,
-          });
-        },
-      });
-
-      tl
-        // Each character pops in with stagger
+      gsap.timeline()
+        // Characters appear one by one
         .to(chars, {
-          opacity: 1, y: 0, filter: 'blur(0px)',
+          opacity: 1,
+          y: 0,
           duration: 0.35,
           ease: 'power3.out',
           stagger: 0.045,
         })
-        // Shimmer sweeps across once all chars are visible
+        // Shimmer sweeps across
         .to(shimmerRef.current, {
           x: '200%',
           duration: 1.0,
@@ -58,17 +50,25 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         }, '-=0.1')
         // Role fades in
         .to(roleRef.current, {
-          opacity: 0.6, letterSpacing: '0.35em',
-          duration: 0.6, ease: 'power2.out',
-        }, '-=0.6')
+          opacity: 0.6,
+          letterSpacing: '0.35em',
+          duration: 0.6,
+          ease: 'power2.out',
+        }, '-=0.5')
         // Accent line grows
         .to(lineRef.current, {
           width: 40,
-          duration: 0.5, ease: 'power2.out',
-        }, '-=0.4')
-        // Hold
-        .to({}, { duration: 1.4 });
-    }, containerRef);
+          duration: 0.5,
+          ease: 'power2.out',
+        }, '-=0.3')
+        // Hold 1.4s then curtain drops — all inside one timeline
+        .to(containerRef.current, {
+          yPercent: 100,
+          duration: 0.85,
+          ease: 'expo.inOut',
+          onComplete,
+        }, '+=1.4');
+    });
 
     return () => ctx.revert();
   }, [onComplete]);
