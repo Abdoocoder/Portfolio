@@ -36,6 +36,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     const container = containerRef.current;
 
     gsap.set(shimmer, { x: '-110%' });
+    gsap.set(container, { willChange: 'transform' });
 
     if (reduced) {
       const timer = setTimeout(() => {
@@ -59,7 +60,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
 
     const shimmerTimer = setTimeout(() => {
       if (cancelled) return;
-      gsap.to(shimmer, { x: '200%', duration: 1.0, ease: 'power3.out' });
+      gsap.to(shimmer, { x: '200%', duration: 0.6, ease: 'power3.out' });
       gsap.to(role,    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', delay: 0.2 });
       gsap.to(line,    { scaleX: 1,  duration: 0.5, ease: 'power2.out', delay: 0.4 });
     }, 900);
@@ -91,8 +92,8 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     >
       <style>{`
         @keyframes loader-char-in {
-          from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
-          to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0);    }
         }
         @keyframes loader-particle-float {
           0%   { transform: translateY(0)     scale(1);   opacity: 0.35; }
@@ -122,7 +123,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
             top:        p.top,
             opacity:    0,
             background: 'hsl(var(--accent))',
-            animation:  `loader-particle-float ${p.dur} ${p.delay} ease-in infinite`,
+            animation:  `loader-particle-float ${p.dur} ${p.delay} ease-out infinite`,
           }}
         />
       ))}
@@ -158,6 +159,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
               style={{
                 display:        'inline-block',
                 whiteSpace:     'pre',
+                willChange:     'transform, opacity',
                 animation:      'loader-char-in 0.5s cubic-bezier(0.23, 1, 0.32, 1) both',
                 animationDelay: `${i * 0.04}s`,
               }}
@@ -173,7 +175,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-20"
           style={{
-            background:   'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.45) 50%, transparent 80%)',
+            background:   'linear-gradient(105deg, transparent 20%, hsl(var(--foreground) / 0.3) 50%, transparent 80%)',
             mixBlendMode: 'overlay',
           }}
         />
