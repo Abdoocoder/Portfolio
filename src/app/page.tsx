@@ -1,6 +1,5 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { Header } from './_components/header';
 import { HeroSection } from './_components/hero-section';
 import { AboutSection } from './_components/about-section';
@@ -28,11 +27,9 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence>
-        {!loaderDone && (
-          <PageLoader key="loader" onComplete={() => setLoaderDone(true)} />
-        )}
-      </AnimatePresence>
+      {!loaderDone && (
+        <PageLoader onComplete={() => setLoaderDone(true)} />
+      )}
       <div className="flex min-h-dvh flex-col bg-background text-foreground">
         <ScrollProgress />
         <Header />
