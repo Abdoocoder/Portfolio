@@ -12,6 +12,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
   const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const nameRef      = useRef<HTMLHeadingElement>(null);
+  const shimmerRef   = useRef<HTMLSpanElement>(null);
   const roleRef      = useRef<HTMLParagraphElement>(null);
   const lineRef      = useRef<HTMLDivElement>(null);
 
@@ -21,9 +22,10 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(nameRef.current, { opacity: 0, y: 16, filter: 'blur(8px)' });
-      gsap.set(roleRef.current, { opacity: 0, letterSpacing: '0.2em' });
-      gsap.set(lineRef.current, { width: 0 });
+      gsap.set(nameRef.current,    { opacity: 0, y: 16, filter: 'blur(8px)' });
+      gsap.set(shimmerRef.current, { x: '-110%' });
+      gsap.set(roleRef.current,    { opacity: 0, letterSpacing: '0.2em' });
+      gsap.set(lineRef.current,    { width: 0 });
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -36,19 +38,30 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         },
       });
 
-      tl.to(nameRef.current, {
-        opacity: 1, y: 0, filter: 'blur(0px)',
-        duration: 0.8, ease: 'power2.out',
-      })
-      .to(roleRef.current, {
-        opacity: 0.6, letterSpacing: '0.35em',
-        duration: 0.6, ease: 'power2.out',
-      }, '-=0.5')
-      .to(lineRef.current, {
-        width: 40,
-        duration: 0.5, ease: 'power2.out',
-      }, '-=0.4')
-      .to({}, { duration: 1.4 }); // hold
+      tl
+        // Name blurs in
+        .to(nameRef.current, {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 0.8, ease: 'power2.out',
+        })
+        // Shimmer sweeps across
+        .to(shimmerRef.current, {
+          x: '200%',
+          duration: 1.0,
+          ease: 'power2.inOut',
+        }, '-=0.1')
+        // Role fades in
+        .to(roleRef.current, {
+          opacity: 0.6, letterSpacing: '0.35em',
+          duration: 0.6, ease: 'power2.out',
+        }, '-=0.6')
+        // Accent line grows
+        .to(lineRef.current, {
+          width: 40,
+          duration: 0.5, ease: 'power2.out',
+        }, '-=0.4')
+        // Hold
+        .to({}, { duration: 1.4 });
     }, containerRef);
 
     return () => ctx.revert();
@@ -60,21 +73,35 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ backgroundColor: bg }}
     >
-      <h1
-        ref={nameRef}
-        className="font-headline font-bold"
-        style={{
-          fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          background: 'linear-gradient(135deg, #23499A 30%, #37A7B4 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-        }}
-      >
-        Abdullah Abu Sghaira
-      </h1>
+      {/* Name with shimmer overlay */}
+      <div className="relative overflow-hidden">
+        <h1
+          ref={nameRef}
+          className="font-headline font-bold"
+          style={{
+            fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+            letterSpacing: '-0.02em',
+            background: 'linear-gradient(135deg, #23499A 30%, #37A7B4 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          Abdullah Abu Sghaira
+        </h1>
+        {/* Shimmer streak — sweeps L→R over the name */}
+        <span
+          ref={shimmerRef}
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,220,0.7) 50%, transparent 80%)',
+            mixBlendMode: 'screen',
+          }}
+        />
+      </div>
 
+      {/* Role tagline */}
       <p
         ref={roleRef}
         style={{
@@ -87,6 +114,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         Full-Stack Developer
       </p>
 
+      {/* Accent line */}
       <div
         ref={lineRef}
         style={{
