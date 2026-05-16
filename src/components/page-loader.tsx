@@ -13,7 +13,6 @@ interface PageLoaderProps {
 export function PageLoader({ onComplete }: PageLoaderProps) {
   const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
-  const charRefs     = useRef<(HTMLSpanElement | null)[]>([]);
   const shimmerRef   = useRef<HTMLSpanElement>(null);
   const roleRef      = useRef<HTMLParagraphElement>(null);
   const lineRef      = useRef<HTMLDivElement>(null);
@@ -23,51 +22,39 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
   const roleColor = isDark ? 'rgba(55,167,180,0.55)' : 'rgba(35,73,154,0.4)';
 
   useEffect(() => {
-    const chars = charRefs.current.filter((el): el is HTMLSpanElement => el !== null);
-    if (!chars.length) return;
+    // Set shimmer start position
+    gsap.set(shimmerRef.current, { x: '-110%' });
 
-    const ctx = gsap.context(() => {
-      // x position only — visibility is controlled via CSS opacity:0
-      gsap.set(shimmerRef.current, { x: '-110%' });
+    // After chars are mostly visible (~900ms), run shimmer + role + line
+    const shimmerTimer = setTimeout(() => {
+      gsap.to(shimmerRef.current, {
+        x: '200%', duration: 1.0, ease: 'power2.inOut',
+      });
+      gsap.to(roleRef.current, {
+        opacity: 0.6, letterSpacing: '0.35em', duration: 0.6, ease: 'power2.out', delay: 0.2,
+      });
+      gsap.to(lineRef.current, {
+        width: 40, duration: 0.5, ease: 'power2.out', delay: 0.4,
+      });
+    }, 900);
 
-      gsap.timeline()
-        // Characters pop in one by one
-        .to(chars, {
-          opacity: 1,
-          y: 0,
-          duration: 0.35,
-          ease: 'power3.out',
-          stagger: 0.045,
-        })
-        // Shimmer sweeps
-        .to(shimmerRef.current, {
-          x: '200%',
-          duration: 1.0,
-          ease: 'power2.inOut',
-        }, '-=0.1')
-        // Role fades in
-        .to(roleRef.current, {
-          opacity: 0.6,
-          letterSpacing: '0.35em',
-          duration: 0.6,
-          ease: 'power2.out',
-        }, '-=0.5')
-        // Accent line grows
-        .to(lineRef.current, {
-          width: 40,
-          duration: 0.5,
-          ease: 'power2.out',
-        }, '-=0.3')
-        // Hold 1.4s then curtain drops
-        .to(containerRef.current, {
-          yPercent: 100,
-          duration: 0.85,
-          ease: 'expo.inOut',
-          onComplete,
-        }, '+=1.4');
-    });
+    // Curtain drops after hold
+    const exitTimer = setTimeout(() => {
+      gsap.to(containerRef.current, {
+        yPercent: 100, duration: 0.85, ease: 'expo.inOut', onComplete,
+      });
+    }, 2800);
 
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(shimmerTimer);
+      clearTimeout(exitTimer);
+      gsap.killTweensOf([
+        shimmerRef.current,
+        roleRef.current,
+        lineRef.current,
+        containerRef.current,
+      ]);
+    };
   }, [onComplete]);
 
   return (
@@ -76,7 +63,14 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ backgroundColor: bg }}
     >
-      {/* Name — character by character, invisible by default via CSS */}
+      {/* CSS keyframe — immune to React Strict Mode / GSAP cleanup */}
+      <style>{`
+        @keyframes char-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
       <div className="relative overflow-hidden">
         <h1
           className="font-headline font-bold"
@@ -92,12 +86,11 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           {NAME_CHARS.map((char, i) => (
             <span
               key={i}
-              ref={el => { charRefs.current[i] = el; }}
               style={{
                 display: 'inline-block',
                 whiteSpace: 'pre',
-                opacity: 0,              // CSS default — GSAP animates to 1
-                transform: 'translateY(10px)',
+                animation: `char-in 0.4s ease-out both`,
+                animationDelay: `${i * 0.04}s`,
               }}
             >
               {char}
@@ -117,7 +110,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         />
       </div>
 
-      {/* Role tagline — invisible by default */}
+      {/* Role — starts hidden, GSAP fades in */}
       <p
         ref={roleRef}
         style={{
@@ -132,7 +125,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         Full-Stack Developer
       </p>
 
-      {/* Accent line — zero width by default */}
+      {/* Accent line — starts at 0 width */}
       <div
         ref={lineRef}
         style={{
