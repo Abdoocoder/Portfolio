@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useTheme } from '@/app/context/theme-context';
 
+const NAME_CHARS = 'Abdullah Abu Sghaira'.split('');
+
 interface PageLoaderProps {
   onComplete: () => void;
 }
@@ -11,7 +13,7 @@ interface PageLoaderProps {
 export function PageLoader({ onComplete }: PageLoaderProps) {
   const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
-  const nameRef      = useRef<HTMLHeadingElement>(null);
+  const charRefs     = useRef<(HTMLSpanElement | null)[]>([]);
   const shimmerRef   = useRef<HTMLSpanElement>(null);
   const roleRef      = useRef<HTMLParagraphElement>(null);
   const lineRef      = useRef<HTMLDivElement>(null);
@@ -21,8 +23,10 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
   const roleColor = isDark ? 'rgba(55,167,180,0.55)' : 'rgba(35,73,154,0.4)';
 
   useEffect(() => {
+    const chars = charRefs.current.filter(Boolean);
+
     const ctx = gsap.context(() => {
-      gsap.set(nameRef.current,    { opacity: 0, y: 16, filter: 'blur(8px)' });
+      gsap.set(chars,              { opacity: 0, y: 10, filter: 'blur(4px)' });
       gsap.set(shimmerRef.current, { x: '-110%' });
       gsap.set(roleRef.current,    { opacity: 0, letterSpacing: '0.2em' });
       gsap.set(lineRef.current,    { width: 0 });
@@ -39,12 +43,14 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       });
 
       tl
-        // Name blurs in
-        .to(nameRef.current, {
+        // Each character pops in with stagger
+        .to(chars, {
           opacity: 1, y: 0, filter: 'blur(0px)',
-          duration: 0.8, ease: 'power2.out',
+          duration: 0.35,
+          ease: 'power3.out',
+          stagger: 0.045,
         })
-        // Shimmer sweeps across
+        // Shimmer sweeps across once all chars are visible
         .to(shimmerRef.current, {
           x: '200%',
           duration: 1.0,
@@ -73,10 +79,9 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ backgroundColor: bg }}
     >
-      {/* Name with shimmer overlay */}
+      {/* Name — character by character */}
       <div className="relative overflow-hidden">
         <h1
-          ref={nameRef}
           className="font-headline font-bold"
           style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
@@ -87,9 +92,18 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
             backgroundClip: 'text',
           }}
         >
-          Abdullah Abu Sghaira
+          {NAME_CHARS.map((char, i) => (
+            <span
+              key={i}
+              ref={el => { charRefs.current[i] = el; }}
+              style={{ display: 'inline-block', whiteSpace: 'pre' }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
-        {/* Shimmer streak — sweeps L→R over the name */}
+
+        {/* Shimmer streak */}
         <span
           ref={shimmerRef}
           aria-hidden
