@@ -27,14 +27,11 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
     if (!chars.length) return;
 
     const ctx = gsap.context(() => {
-      // Initial states
-      gsap.set(chars,              { opacity: 0, y: 10 });
+      // x position only — visibility is controlled via CSS opacity:0
       gsap.set(shimmerRef.current, { x: '-110%' });
-      gsap.set(roleRef.current,    { opacity: 0, letterSpacing: '0.2em' });
-      gsap.set(lineRef.current,    { width: 0 });
 
       gsap.timeline()
-        // Characters appear one by one
+        // Characters pop in one by one
         .to(chars, {
           opacity: 1,
           y: 0,
@@ -42,7 +39,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           ease: 'power3.out',
           stagger: 0.045,
         })
-        // Shimmer sweeps across
+        // Shimmer sweeps
         .to(shimmerRef.current, {
           x: '200%',
           duration: 1.0,
@@ -61,7 +58,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           duration: 0.5,
           ease: 'power2.out',
         }, '-=0.3')
-        // Hold 1.4s then curtain drops — all inside one timeline
+        // Hold 1.4s then curtain drops
         .to(containerRef.current, {
           yPercent: 100,
           duration: 0.85,
@@ -79,7 +76,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ backgroundColor: bg }}
     >
-      {/* Name — character by character */}
+      {/* Name — character by character, invisible by default via CSS */}
       <div className="relative overflow-hidden">
         <h1
           className="font-headline font-bold"
@@ -96,7 +93,12 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
             <span
               key={i}
               ref={el => { charRefs.current[i] = el; }}
-              style={{ display: 'inline-block', whiteSpace: 'pre' }}
+              style={{
+                display: 'inline-block',
+                whiteSpace: 'pre',
+                opacity: 0,              // CSS default — GSAP animates to 1
+                transform: 'translateY(10px)',
+              }}
             >
               {char}
             </span>
@@ -115,7 +117,7 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
         />
       </div>
 
-      {/* Role tagline */}
+      {/* Role tagline — invisible by default */}
       <p
         ref={roleRef}
         style={{
@@ -123,12 +125,14 @@ export function PageLoader({ onComplete }: PageLoaderProps) {
           color: roleColor,
           textTransform: 'uppercase',
           marginTop: '8px',
+          opacity: 0,
+          letterSpacing: '0.2em',
         }}
       >
         Full-Stack Developer
       </p>
 
-      {/* Accent line */}
+      {/* Accent line — zero width by default */}
       <div
         ref={lineRef}
         style={{
