@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
+import { SITE_URL } from '@/lib/constants';
 
-const baseUrl = 'https://abdoocoder.dev';
+const baseUrl = SITE_URL;
 
 export const defaultMetadata: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -66,8 +67,6 @@ export const defaultMetadata: Metadata = {
     },
     verification: {
         google: 'your-google-verification-code',
-        // yandex: 'your-yandex-verification-code',
-        // bing: 'your-bing-verification-code',
     },
 };
 

@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/constants';
 
 export const dynamic = 'force-static';
 
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://abdullahsghaira.com'; // Update with your actual domain
+    const baseUrl = SITE_URL;
 
     const routes = [
         '',
