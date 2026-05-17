@@ -70,7 +70,6 @@ export function AboutSection() {
                     alt={translations.about.imageAlt}
                     width={400}
                     height={500}
-                    priority
                     placeholder="blur"
                     blurDataURL={aboutImage.blurDataURL}
                     data-ai-hint={aboutImage.imageHint}
