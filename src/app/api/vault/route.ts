@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { VaultProject } from '@/lib/vault-data';
+import { vaultActionSchema } from '@/lib/schemas';
 
 // POST-only (no GET) so Next.js static export skips this route entirely —
 // same pattern as /api/contact. All vault operations go through a single POST
@@ -7,6 +8,7 @@ import type { VaultProject } from '@/lib/vault-data';
 
 const GIST_ID = process.env.NEXT_PUBLIC_GIST_ID;
 const GIST_TOKEN = process.env.GIST_TOKEN;
+const VAULT_API_SECRET = process.env.VAULT_API_SECRET;
 const GIST_FILE = 'vault.json';
 const GIST_API = `https://api.github.com/gists/${GIST_ID}`;
 
@@ -43,15 +45,21 @@ async function writeProjects(projects: VaultProject[]): Promise<void> {
   if (!res.ok) throw new Error(`GitHub write error ${res.status}`);
 }
 
-type VaultAction =
-  | { action: 'get' }
-  | { action: 'add'; data: Omit<VaultProject, 'id' | 'createdAt'> }
-  | { action: 'update'; id: string; data: Partial<Omit<VaultProject, 'id' | 'createdAt'>> }
-  | { action: 'delete'; id: string };
-
 export async function POST(request: Request) {
   try {
-    const body: VaultAction = await request.json();
+    // 1. Protection: Check for X-Vault-Token header
+    const token = request.headers.get('X-Vault-Token');
+    if (!VAULT_API_SECRET || token !== VAULT_API_SECRET) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // 2. Validation: Use Zod to validate the request body
+    const bodyResult = vaultActionSchema.safeParse(await request.json());
+    if (!bodyResult.success) {
+      return NextResponse.json({ error: 'Invalid request body', details: bodyResult.error.format() }, { status: 400 });
+    }
+
+    const body = bodyResult.data;
 
     switch (body.action) {
       case 'get': {

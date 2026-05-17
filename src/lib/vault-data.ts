@@ -1,3 +1,7 @@
+"use server"
+
+import { headers } from 'next/headers';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface ProjectLink {
@@ -39,9 +43,17 @@ export interface VaultProject {
 // ─── API helpers ──────────────────────────────────────────────────────────────
 
 async function vaultPost<T = unknown>(body: Record<string, unknown>): Promise<T> {
-  const res = await fetch('/api/vault', {
+  const headersList = await headers();
+  const host = headersList.get('host');
+  const protocol = host?.includes('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/vault`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Vault-Token': process.env.VAULT_API_SECRET || '',
+    },
     body: JSON.stringify(body),
     cache: 'no-store',
   });
