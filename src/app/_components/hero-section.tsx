@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, useReducedM
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { useContext, useRef, useCallback, useEffect, useState, memo } from "react";
 import { cn } from "@/lib/utils";
 import { LanguageContext } from "../context/language-context";

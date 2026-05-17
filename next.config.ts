@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   assetPrefix: isGithubActions ? '/Portfolio/' : '',
 
   /* config options here */
+  async redirects() { return [ { source: "/dashbord", destination: "/dashboard", permanent: true }, ]; },
   images: {
 
     unoptimized: true,
