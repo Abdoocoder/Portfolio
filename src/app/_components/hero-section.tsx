@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDown, Download } from "lucide-react";
-import { useContext, useRef, useCallback, useEffect } from "react";
+import { useContext, useRef, useCallback, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { LanguageContext } from "../context/language-context";
 import arTranslations from '../../translations/ar.json';
 import enTranslations from '../../translations/en.json';
@@ -107,6 +108,16 @@ export function HeroSection() {
   const translations = language === 'ar' ? arTranslations : enTranslations;
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 768px)');
+    const onChange = () => setIsDesktop(mql.matches);
+    setIsDesktop(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -137,14 +148,30 @@ export function HeroSection() {
       onMouseLeave={handleMouseLeave}
     >
       <motion.div className="absolute inset-0" style={{ scale: videoScale }}>
-        <video
-          autoPlay muted loop playsInline poster="/hero-video-poster.jpg" preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
-          aria-label="Animated background video showcasing Abdullah's work"
-        >
-          <source src="/Reboot Hero Section.mp4" type="video/mp4" />
-        </video>
-        <Image src="/hero-bg-fallback.webp" alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image
+          src="/hero-bg-fallback.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {isDesktop && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            onPlaying={() => setVideoLoaded(true)}
+            className={cn(
+              "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
+              videoLoaded ? "opacity-100" : "opacity-0"
+            )}
+            aria-label="Animated background video showcasing Abdullah's work"
+          >
+            <source src="/Reboot Hero Section.mp4" type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/50 to-transparent z-[1]" />
