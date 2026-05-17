@@ -24,3 +24,6 @@ You can [35mclaim your keys[0m by visiting https://dashboard.clerk.com/apps/cl
  GET /sign-in/SignIn_clerk_catchall_check_1779031789601 200 in 804ms
  GET /sign-in 200 in 193ms
  GET /sign-in 200 in 176ms
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 839ms
+ ✓ Compiled in 13.1s
