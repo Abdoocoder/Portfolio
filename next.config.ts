@@ -9,20 +9,6 @@ const nextConfig: NextConfig = {
   basePath: isGithubActions ? '/Portfolio' : '',
   assetPrefix: isGithubActions ? '/Portfolio/' : '',
 
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          // Proxy all clerk.abdoocoder.dev requests to Clerk's actual FAPI.
-          // The custom domain was never verified in the Clerk dashboard, so this
-          // acts as the proxy that clerk.abdoocoder.dev was supposed to be.
-          source: '/:path*',
-          has: [{ type: 'host', value: 'clerk.abdoocoder.dev' }],
-          destination: 'https://frontend-api.clerk.dev/:path*',
-        },
-      ],
-    };
-  },
   async redirects() { return [ { source: "/dashbord", destination: "/dashboard", permanent: true }, ]; },
   images: {
 
