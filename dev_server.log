@@ -2,28 +2,45 @@
 > nextn@0.1.0 dev
 > next dev --turbopack -p 9002 --port 9002 --hostname 0.0.0.0
 
- ⨯ Failed to start server
-Error: listen EADDRINUSE: address already in use 0.0.0.0:9002
-    at <unknown> (Error: listen EADDRINUSE: address already in use 0.0.0.0:9002) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  sysc ⨯ [Error: @clerk/backend: Missing publishableKey. You can get your key at https://dashboard.clerk.com/last-active?path=api-keys.]
- ○ Compiling /_error ...
- ✓ Compiled /_error in 3.8s
- GET /dashboard 404 in 37ms
- ○ Compiling /_not-found/page ...
- ✓ Compiled /_not-found/page in 12.2s
+   ▲ Next.js 15.5.9 (Turbopack)
+   - Local:        http://localhost:9002
+   - Network:      http://0.0.0.0:9002
+
+ ✓ Starting...
+ ○ Compiling middleware ...
+ ✓ Compiled middleware in 803ms
+ ✓ Ready in 2.2s
+ ○ Compiling / ...
+ ✓ Compiled / in 12.7s
 
 [35m
 [Clerk]:[0m You are running in keyless mode.
 You can [35mclaim your keys[0m by visiting https://dashboard.clerk.com/apps/claim?framework=nextjs&token=hen4kudhdn3us91fbmk8k8cnfcs4p9fho4bx35e7&return_url=http%3A%2F%2Flocalhost%3A9002%2F
 
- GET /sign-in 200 in 10746ms
- GET /sign-in 200 in 671ms
- POST /sign-in 303 in 1649ms
- GET /sign-in/SignIn_clerk_catchall_check_1779031789601 200 in 804ms
- GET /sign-in 200 in 193ms
- GET /sign-in 200 in 176ms
- ○ Compiling middleware ...
- ✓ Compiled middleware in 839ms
- ✓ Compiled in 13.1s
+ GET / 200 in 14936ms
+ GET / 200 in 461ms
+ POST / 303 in 975ms
+ ○ Compiling /api/portfolio ...
+ GET / 200 in 456ms
+ ✓ Compiled /api/portfolio in 1259ms
+ GET /api/portfolio 500 in 1732ms
+ GET / 200 in 267ms
+ GET / 200 in 882ms
+ GET / 200 in 171ms
+ POST / 303 in 329ms
+ GET / 200 in 144ms
+ GET /api/portfolio 500 in 291ms
+ GET / 200 in 271ms
+ GET / 200 in 839ms
+ GET / 200 in 179ms
+ POST / 303 in 302ms
+ GET / 200 in 133ms
+ GET /api/portfolio 500 in 269ms
+ GET / 200 in 269ms
+ GET / 200 in 857ms
+ GET / 200 in 178ms
+ POST / 303 in 358ms
+ GET / 200 in 141ms
+ GET /api/portfolio 500 in 282ms
+ GET / 200 in 233ms
+[?25h

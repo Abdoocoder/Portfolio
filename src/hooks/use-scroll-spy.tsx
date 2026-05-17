@@ -1,35 +1,41 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * useScrollSpy: Monitors which section is currently active in the viewport.
+ * Optimized with IntersectionObserver to avoid layout thrashing and reduce CPU usage.
+ */
 export function useScrollSpy(ids: string[], offset: number = 0) {
   const [activeId, setActiveId] = useState('');
 
   useEffect(() => {
-    const listener = () => {
-      const scroll = window.scrollY;
+    if (ids.length === 0) return;
 
-      const position = ids
-        .map((id) => {
-          const element = document.getElementById(id);
-          if (!element) return { id, top: -1, bottom: -1 };
-
-          const rect = element.getBoundingClientRect();
-          const top = Math.floor(rect.top + window.scrollY - offset);
-          const bottom = Math.floor(rect.bottom + window.scrollY - offset);
-
-          return { id, top, bottom };
-        })
-        .find(({ top, bottom }) => scroll >= top && scroll < bottom);
-
-      setActiveId(position?.id || '');
+    const observerOptions: IntersectionObserverInit = {
+      // The rootMargin defines the "active" area of the viewport.
+      // We monitor the top half of the screen (minus the header offset).
+      rootMargin: `-${offset}px 0px -50% 0px`,
+      threshold: 0,
     };
 
-    listener();
-    window.addEventListener('resize', listener);
-    window.addEventListener('scroll', listener);
+    const callback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveId(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, observerOptions);
+
+    ids.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
 
     return () => {
-      window.removeEventListener('resize', listener);
-      window.removeEventListener('scroll', listener);
+      observer.disconnect();
     };
   }, [ids, offset]);
 
