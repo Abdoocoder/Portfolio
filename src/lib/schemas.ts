@@ -16,3 +16,58 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormSchema = z.infer<typeof contactFormSchema>;
+
+// Vault project validation schemas
+export const projectLinkSchema = z.object({
+  label: z.string().min(1),
+  url: z.string().url(),
+});
+
+export const projectCredentialSchema = z.object({
+  label: z.string().min(1),
+  value: z.string().min(1),
+});
+
+export const projectStatusSchema = z.enum([
+  'idea',
+  'active',
+  'testing',
+  'production',
+  'paused',
+  'completed',
+]);
+
+export const vaultProjectSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1),
+  nameEn: z.string().min(1),
+  emoji: z.string(),
+  description: z.string(),
+  status: projectStatusSchema,
+  type: z.string(),
+  tech: z.array(z.string()),
+  progress: z.number().min(0).max(100),
+  featured: z.boolean(),
+  lastUpdated: z.string(),
+  notes: z.string(),
+  links: z.array(projectLinkSchema),
+  credentials: z.array(projectCredentialSchema),
+  createdAt: z.string().nullish(),
+});
+
+export const vaultActionSchema = z.discriminatedUnion('action', [
+  z.object({ action: z.literal('get') }),
+  z.object({
+    action: z.literal('add'),
+    data: vaultProjectSchema.omit({ id: true, createdAt: true }),
+  }),
+  z.object({
+    action: z.literal('update'),
+    id: z.string(),
+    data: vaultProjectSchema.omit({ id: true, createdAt: true }).partial(),
+  }),
+  z.object({
+    action: z.literal('delete'),
+    id: z.string(),
+  }),
+]);
